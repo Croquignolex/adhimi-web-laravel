@@ -15,6 +15,7 @@ trait MorphOneFlagTrait
      */
     public function flag(): MorphOne
     {
-        return $this->morphOne(Media::class, 'mediatable')->whereType(MediaTypeEnum::Image);
+        return $this->morphOne(Media::class, 'mediatable')
+            ->whereType(MediaTypeEnum::Image);
     }
 }

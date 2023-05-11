@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\BelongsToShopTrait;
 use App\Traits\MorphManyLogsTrait;
 use App\Traits\TimezoneDateTrait;
 use App\Enums\UserStatusEnum;
@@ -31,7 +33,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         SoftDeletes,
         TimezoneDateTrait,
         MorphManyLogsTrait,
-        BelongsToCreatorTrait;
+        BelongsToShopTrait,
+        BelongsToCreatorTrait,
+        BelongsToOrganisationTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -51,7 +55,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'description',
         'first_purchase',
 
+        'shop_id',
         'creator_id',
+        'organisation_id'
     ];
 
     /**
@@ -206,7 +212,28 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     public function avatar(): MorphOne
     {
-        return $this->morphOne(Media::class, 'mediatable')->whereType(MediaTypeEnum::Image);
+        return $this->morphOne(Media::class, 'mediatable')
+            ->whereType(MediaTypeEnum::Image);
+    }
+
+    /**
+     * Get created organisations associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdOrganisations(): HasMany
+    {
+        return $this->hasMany(Organisation::class);
+    }
+
+    /**
+     * Get created shops associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdShops(): HasMany
+    {
+        return $this->hasMany(Shop::class);
     }
 
     /**

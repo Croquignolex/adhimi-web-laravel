@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enums\UserStatusEnum;
+use App\Models\Organisation;
 use App\Enums\GenderEnum;
 
 return new class extends Migration
@@ -19,10 +20,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->foreignUuid('creator_id')->nullable();
+            $table->foreignUuid('shop_id')->nullable();
+            $table->foreignIdFor(Organisation::class)->constrained()->cascadeOnDelete();
 
             $table->string('name');
-            $table->string('username')->unique();
+            $table->string('slug')->unique();
             $table->string('email')->unique();
+            $table->string('phone');
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('first_purchase')->default(false);
@@ -32,6 +36,8 @@ return new class extends Migration
             $table->date('birthdate')->nullable();
             $table->text('description')->nullable();
             $table->string('status')->default(UserStatusEnum::Active->value);
+
+            $table->unique(['organisation_id', 'name']);
 
             $table->softDeletes();
 
