@@ -9,6 +9,5 @@ enum UserStatusEnum: string
     use EnumToolsTrait;
 
     case Active = 'Active';
-    case Pending = 'Pending';
     case Blocked = 'Blocked';
 }

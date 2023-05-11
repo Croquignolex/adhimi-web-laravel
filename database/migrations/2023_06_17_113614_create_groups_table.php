@@ -19,8 +19,8 @@ return new class extends Migration
 
             $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
 
-            $table->string('name');
-            $table->string('status')->default(GeneralStatusEnum::Enable->value);
+            $table->string('name')->unique();
+            $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
 
             $table->softDeletes();

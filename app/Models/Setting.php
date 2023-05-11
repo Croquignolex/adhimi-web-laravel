@@ -21,6 +21,27 @@ class Setting extends Model
         'language',
         'timezone',
 
+        'enable_action_on_super_admin_notification',
+        'enable_action_on_admin_notification',
+        'enable_action_on_manager_notification',
+        'enable_action_on_merchant_notification',
+        'enable_action_on_saler_notification',
+        'enable_action_on_user_notification',
+
         'user_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'enable_action_on_super_admin_notification' => 'boolean',
+        'enable_action_on_admin_notification' => 'boolean',
+        'enable_action_on_manager_notification' => 'boolean',
+        'enable_action_on_merchant_notification' => 'boolean',
+        'enable_action_on_saler_notification' => 'boolean',
+        'enable_action_on_user_notification' => 'boolean',
     ];
 }

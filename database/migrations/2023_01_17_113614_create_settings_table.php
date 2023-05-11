@@ -23,6 +23,13 @@ return new class extends Migration
             $table->string('language')->default(LanguageEnum::Fr->value);
             $table->string('timezone')->default('UTC');
 
+            $table->boolean('enable_action_on_super_admin_notification')->default(false);
+            $table->boolean('enable_action_on_admin_notification')->default(false);
+            $table->boolean('enable_action_on_manager_notification')->default(false);
+            $table->boolean('enable_action_on_merchant_notification')->default(false);
+            $table->boolean('enable_action_on_saler_notification')->default(false);
+            $table->boolean('enable_action_on_user_notification')->default(false);
+
             $table->softDeletes();
 
             $table->timestamps();

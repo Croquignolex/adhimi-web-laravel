@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use App\Enums\GeneralStatusEnum;
 use App\Traits\MorphToManyTags;
 use App\Enums\MediaTypeEnum;
 
-class Group extends Model
+class Category extends Model
 {
     use HasFactory, SoftDeletes, BelongsToCreatorTrait, HasUuids, MorphToManyTags;
 
@@ -27,6 +28,7 @@ class Group extends Model
         'description',
 
         'creator_id',
+        'group_id',
     ];
 
     /**
@@ -46,5 +48,15 @@ class Group extends Model
     public function banner(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediatable')->whereType(MediaTypeEnum::Image);
+    }
+
+    /**
+     * Get the group that owns the current model.
+     *
+     * @return BelongsTo
+     */
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
     }
 }

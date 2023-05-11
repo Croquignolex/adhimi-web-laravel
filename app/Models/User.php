@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\MediaTypeEnum;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +18,7 @@ use App\Traits\BelongsToCreatorTrait;
 use App\Traits\MorphManyLogsTrait;
 use App\Traits\TimezoneDateTrait;
 use App\Enums\UserStatusEnum;
+use App\Enums\MediaTypeEnum;
 use App\Enums\UserRoleEnum;
 use App\Enums\GenderEnum;
 
@@ -181,10 +181,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                     'value' => UserStatusEnum::Active->value,
                     'color' => 'success',
                 ],
-                UserStatusEnum::Pending => [
-                    'value' => UserStatusEnum::Pending->value,
-                    'color' => 'warning',
-                ],
                 UserStatusEnum::Blocked => [
                     'value' => UserStatusEnum::Blocked->value,
                     'color' => 'danger',
@@ -210,8 +206,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     public function avatar(): MorphOne
     {
-        return $this->morphOne(Media::class, 'mediatable')
-            ->where('type', MediaTypeEnum::Image);
+        return $this->morphOne(Media::class, 'mediatable')->whereType(MediaTypeEnum::Image);
     }
 
     /**
@@ -219,9 +214,49 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      *
      * @return HasMany
      */
-    public function created_users(): HasMany
+    public function createdUsers(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Get created logs associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdLogs(): HasMany
+    {
+        return $this->hasMany(Log::class);
+    }
+
+    /**
+     * Get created countries associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdLCountries(): HasMany
+    {
+        return $this->hasMany(Country::class);
+    }
+
+    /**
+     * Get created states associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdLStates(): HasMany
+    {
+        return $this->hasMany(State::class);
+    }
+
+    /**
+     * Get created medias associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdMedias(): HasMany
+    {
+        return $this->hasMany(Media::class);
     }
 
     /**
@@ -229,7 +264,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      *
      * @return HasMany
      */
-    public function created_groups(): HasMany
+    public function createdGroups(): HasMany
     {
         return $this->hasMany(Group::class);
     }

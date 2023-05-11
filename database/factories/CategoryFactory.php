@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\MediaTypeEnum;
-use App\Models\Media;
+use App\Enums\GeneralStatusEnum;
+use App\Models\Category;
 
 /**
- * @extends Factory<Media>
+ * @extends Factory<Category>
  */
-class MediaFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,8 @@ class MediaFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => MediaTypeEnum::randomValue(),
+            'status' => GeneralStatusEnum::randomValue(),
             'name' => $this->faker->name(),
-            'url' => $this->faker->url(),
             'description' => $this->faker->text(),
         ];
     }

@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('gender')->default(GenderEnum::Unknown->value);
             $table->date('birthdate')->nullable();
             $table->text('description')->nullable();
-            $table->string('status')->default(UserStatusEnum::Pending->value);
+            $table->string('status')->default(UserStatusEnum::Active->value);
 
             $table->softDeletes();
 

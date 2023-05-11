@@ -14,15 +14,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('medias', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
 
-            $table->nullableMorphs('loggable');
+            $table->morphs('viewable');
 
-            $table->string('action');
-            $table->text('description')->nullable();
+            $table->unique(['user_id', 'viewable_type', 'viewable_id']);
 
             $table->softDeletes();
 
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('medias');
     }
 };

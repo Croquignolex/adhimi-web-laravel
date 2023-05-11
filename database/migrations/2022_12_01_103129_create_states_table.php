@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\MediaTypeEnum;
+use App\Enums\GeneralStatusEnum;
+use App\Models\Country;
 
 return new class extends Migration
 {
@@ -14,15 +15,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medias', function (Blueprint $table) {
+        Schema::create('states', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->nullableMorphs('mediatable');
+            $table->foreignIdFor(Country::class)->constrained()->cascadeOnDelete();
+            $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
 
-            $table->string('type')->default(MediaTypeEnum::Image);
+            $table->string('code')->unique();
             $table->string('name');
-            $table->string('url');
-            $table->text('description')->nullable();
+            $table->string('status')->default(GeneralStatusEnum::StandBy->value);
 
             $table->softDeletes();
 
@@ -37,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('medias');
+        Schema::dropIfExists('states');
     }
 };

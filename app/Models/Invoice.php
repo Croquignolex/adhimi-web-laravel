@@ -8,19 +8,23 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\MorphOneHardCopyTrait;
 use App\Traits\MorphManyLogsTrait;
 use App\Traits\BelongsToUserTrait;
 use App\Traits\TimezoneDateTrait;
 use App\Enums\InvoiceStatusEnum;
+use App\Traits\MorphToManyTags;
 
 class Invoice extends Model
 {
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        MorphToManyTags,
         TimezoneDateTrait,
         BelongsToUserTrait,
-        MorphManyLogsTrait;
+        MorphManyLogsTrait,
+        MorphOneHardCopyTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -10,6 +10,6 @@ enum MediaTypeEnum: string
 
     case Image = 'image';
     case Video = 'video';
-    case File = 'file';
-    case TBD = 'TBD';
+    case Txt = 'Txt';
+    case PDF = 'PDF';
 }

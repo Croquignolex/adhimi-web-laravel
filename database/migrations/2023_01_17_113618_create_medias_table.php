@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
+use App\Enums\MediaTypeEnum;
 
 return new class extends Migration
 {
@@ -14,14 +14,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('medias', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
 
-            $table->nullableMorphs('loggable');
+            $table->nullableMorphs('mediatable');
 
-            $table->string('action');
+            $table->string('type')->default(MediaTypeEnum::Image);
+            $table->string('name');
+            $table->string('url');
             $table->text('description')->nullable();
 
             $table->softDeletes();
@@ -37,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('medias');
     }
 };

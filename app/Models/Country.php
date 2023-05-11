@@ -3,18 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\MorphOneFlagTrait;
 use App\Enums\GeneralStatusEnum;
-use App\Traits\MorphToManyTags;
-use App\Enums\MediaTypeEnum;
 
-class Group extends Model
+class Country extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToCreatorTrait, HasUuids, MorphToManyTags;
+    use HasFactory, SoftDeletes, BelongsToCreatorTrait, HasUuids, MorphOneFlagTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -22,9 +21,10 @@ class Group extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'phone_extension',
+        'code',
         'name',
         'status',
-        'description',
 
         'creator_id',
     ];
@@ -39,12 +39,12 @@ class Group extends Model
     ];
 
     /**
-     * Get group banner.
+     * Get the states for the country.
      *
-     * @return MorphOne
+     * @return HasMany
      */
-    public function banner(): MorphOne
+    public function states(): HasMany
     {
-        return $this->morphOne(Media::class, 'mediatable')->whereType(MediaTypeEnum::Image);
+        return $this->hasMany(State::class);
     }
 }
