@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Mail\EmailVerificationMail;
+use App\Mail\PasswordResetMail;
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        VerifyEmail::toMailUsing(fn (User $user, string $url) => (new EmailVerificationMail($user, $url))->to($user->email));
+        ResetPassword::toMailUsing(fn (User $user, string $token) => (new PasswordResetMail($user, $token))->to($user->email));
     }
 }
