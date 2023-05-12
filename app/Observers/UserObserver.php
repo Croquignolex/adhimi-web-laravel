@@ -21,9 +21,9 @@ class UserObserver
      */
     public function creating(User $user): void
     {
-        $user->password = Hash::make($user->password ?? config('app.default_password'));
+        $user->password = Hash::make($user->password ?: config('app.default_password'));
         $user->remember_token = Str::random(60);
-        $user->username = Str::slug($user->name);
+        $user->slug = Str::slug($user->name);
     }
 
     /**
@@ -34,7 +34,7 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $user->syncRoles([Role::findOrCreate(UserRoleEnum::User->value, 'web')]);
+        $user->assignRole(Role::findOrCreate(UserRoleEnum::User->value));
 
         $user->setting()->create();
     }

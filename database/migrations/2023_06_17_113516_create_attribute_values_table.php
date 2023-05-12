@@ -26,8 +26,6 @@ return new class extends Migration
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
 
-            $table->unique(['organisation_id', 'name']);
-
             $table->softDeletes();
 
             $table->timestamps();

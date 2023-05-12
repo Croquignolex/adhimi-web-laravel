@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('discount');
             $table->dateTime('promotion_started_at')->nullable();
             $table->dateTime('promotion_ended_at')->nullable();
-            $table->string('status')->default(GeneralStatusEnum::Enable);
+            $table->string('status')->default(GeneralStatusEnum::Enable->value);
             $table->text('description')->nullable();
 
             $table->softDeletes();

@@ -20,8 +20,8 @@ class CountryFactory extends Factory
     {
         return [
             'phone_extension' => $this->faker->randomNumber(),
-            'code' => $this->faker->unique()->countryCode(),
-            'name' => $this->faker->unique()->country(),
+            'code' => $this->faker->countryCode(),
+            'name' => $this->faker->country(),
             'status' => GeneralStatusEnum::randomValue(),
         ];
     }

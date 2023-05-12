@@ -23,10 +23,10 @@ class UserSeeder extends Seeder
         $merchant = User::factory()->for($super_admin, 'creator')->create(['email' => 'merchant@adhimi.com']);
         $shop_manager = User::factory()->for($super_admin, 'creator')->create(['email' => 'shop_manager@adhimi.com']);
 
-        $admin->syncRoles([Role::findOrCreate(UserRoleEnum::Admin->value, 'web')]);
-        $saler->syncRoles([Role::findOrCreate(UserRoleEnum::Saler->value, 'web')]);
-        $merchant->syncRoles([Role::findOrCreate(UserRoleEnum::Merchant->value, 'web')]);
-        $super_admin->syncRoles([Role::findOrCreate(UserRoleEnum::SuperAdmin->value, 'web')]);
-        $shop_manager->syncRoles([Role::findOrCreate(UserRoleEnum::ShopManager->value, 'web')]);
+        $admin->assignRole(Role::findOrCreate(UserRoleEnum::Admin->value));
+        $saler->assignRole(Role::findOrCreate(UserRoleEnum::Saler->value));
+        $merchant->assignRole(Role::findOrCreate(UserRoleEnum::Merchant->value));
+        $super_admin->assignRole(Role::findOrCreate(UserRoleEnum::SuperAdmin->value));
+        $shop_manager->assignRole(Role::findOrCreate(UserRoleEnum::ShopManager->value));
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->nullableMorphs('mediatable');
 
-            $table->string('type')->default(MediaTypeEnum::Image);
+            $table->string('type')->default(MediaTypeEnum::Image->value);
             $table->string('name');
             $table->string('url');
             $table->text('description')->nullable();

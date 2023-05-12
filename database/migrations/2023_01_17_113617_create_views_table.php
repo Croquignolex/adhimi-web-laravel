@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medias', function (Blueprint $table) {
+        Schema::create('views', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('medias');
+        Schema::dropIfExists('views');
     }
 };

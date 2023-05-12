@@ -19,11 +19,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->foreignIdFor(Country::class)->constrained()->cascadeOnDelete();
-            $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('creator_id')->nullable();
 
-            $table->string('code')->unique();
+            $table->string('code');
             $table->string('name');
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
+
+            $table->unique(['country_id', 'code', 'name']);
 
             $table->softDeletes();
 

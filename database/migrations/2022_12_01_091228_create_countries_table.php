@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('creator_id')->nullable();
 
             $table->string('code')->unique();
             $table->string('name')->unique();

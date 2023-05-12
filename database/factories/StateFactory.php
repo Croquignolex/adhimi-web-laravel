@@ -19,7 +19,7 @@ class StateFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => $this->faker->unique()->lexify('???'),
+            'code' => $this->faker->lexify('???'),
             'name' => $this->faker->city(),
             'status' => GeneralStatusEnum::randomValue(),
         ];
