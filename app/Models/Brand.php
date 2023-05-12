@@ -5,26 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\HasManyProductsTrait;
 use App\Traits\TimezoneDateTrait;
-use App\Traits\HasManyUsersTrait;
 use App\Traits\MorphOneLogoTrait;
 use App\Enums\GeneralStatusEnum;
-use App\Traits\MorphToManyTags;
 
-class Shop extends Model
+class Brand extends Model
 {
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphToManyTags,
         MorphOneLogoTrait,
-        HasManyUsersTrait,
         TimezoneDateTrait,
-        BelongsToCreatorTrait,
-        BelongsToOrganisationTrait;
+        HasManyProductsTrait,
+        BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -33,15 +29,10 @@ class Shop extends Model
      */
     protected $fillable = [
         'name',
-        'slug',
         'status',
-        'email',
-        'address',
-        'phone',
         'description',
 
         'creator_id',
-        'organisation_id',
     ];
 
     /**

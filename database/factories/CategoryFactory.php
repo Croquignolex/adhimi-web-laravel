@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
         return [
             'status' => GeneralStatusEnum::randomValue(),
             'name' => $this->faker->name(),
+            'slug' => $this->faker->unique()->slug,
             'description' => $this->faker->text(),
         ];
     }

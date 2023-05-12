@@ -4,12 +4,12 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\GeneralStatusEnum;
-use App\Models\Group;
+use App\Models\Vendor;
 
 /**
- * @extends Factory<Group>
+ * @extends Factory<Vendor>
  */
-class GroupFactory extends Factory
+class VendorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,10 +19,13 @@ class GroupFactory extends Factory
     public function definition(): array
     {
         return [
-            'status' => GeneralStatusEnum::randomValue(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->unique()->name(),
+            'email' => $this->faker->safeEmail(),
+            'address' => $this->faker->word,
             'slug' => $this->faker->unique()->slug,
+            'phone' => $this->faker->phoneNumber,
             'description' => $this->faker->text(),
+            'status' => GeneralStatusEnum::randomValue(),
         ];
     }
 }

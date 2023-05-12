@@ -8,12 +8,18 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\TimezoneDateTrait;
 use App\Traits\MorphOneFlagTrait;
 use App\Enums\GeneralStatusEnum;
 
 class State extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToCreatorTrait, HasUuids, MorphOneFlagTrait;
+    use HasUuids,
+        HasFactory,
+        SoftDeletes,
+        MorphOneFlagTrait,
+        TimezoneDateTrait,
+        BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.

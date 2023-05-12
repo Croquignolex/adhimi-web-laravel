@@ -89,10 +89,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     protected function TzBirthdate(): Attribute
     {
+        $field = $this->birthdate;
         return new Attribute(
-            get: fn () => is_null($this->birthdate)
-                ? $this->birthdate
-                : $this->timezoneDate($this->birthdate)
+            get: fn () => is_null($field) ? $field : $this->timezoneDate($field)
         );
     }
 
@@ -234,6 +233,16 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function createdShops(): HasMany
     {
         return $this->hasMany(Shop::class);
+    }
+
+    /**
+     * Get created vendors associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdVendors(): HasMany
+    {
+        return $this->hasMany(Vendor::class);
     }
 
     /**

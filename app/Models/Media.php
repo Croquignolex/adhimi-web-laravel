@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\TimezoneDateTrait;
 use App\Enums\MediaTypeEnum;
 
 class Media extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait;
+    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, TimezoneDateTrait;
 
     /**
      * The table associated with the model.

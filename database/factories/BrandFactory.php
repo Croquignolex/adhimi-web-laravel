@@ -4,12 +4,12 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\GeneralStatusEnum;
-use App\Models\Group;
+use App\Models\Brand;
 
 /**
- * @extends Factory<Group>
+ * @extends Factory<Brand>
  */
-class GroupFactory extends Factory
+class BrandFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,7 +21,6 @@ class GroupFactory extends Factory
         return [
             'status' => GeneralStatusEnum::randomValue(),
             'name' => $this->faker->name(),
-            'slug' => $this->faker->unique()->slug,
             'description' => $this->faker->text(),
         ];
     }

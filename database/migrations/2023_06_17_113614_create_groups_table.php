@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
 
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
 

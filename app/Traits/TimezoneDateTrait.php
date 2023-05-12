@@ -39,8 +39,9 @@ trait TimezoneDateTrait
      */
     public function tzDeletedAt(): Attribute
     {
+        $field = $this->deleted_at;
         return new Attribute(
-            get: fn () => !is_null($this->deleted_at) ?: $this->timezoneDate($this->deleted_at)
+            get: fn () => is_null($field) ? $field : $this->timezoneDate($field)
         );
     }
 

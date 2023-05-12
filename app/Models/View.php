@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToUserTrait;
+use App\Traits\TimezoneDateTrait;
 
 class View extends Model
 {
-    use HasFactory, BelongsToUserTrait, SoftDeletes, HasUuids;
+    use HasFactory, BelongsToUserTrait, SoftDeletes, HasUuids, TimezoneDateTrait;
 
     /**
      * The attributes that are mass assignable.

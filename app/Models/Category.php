@@ -4,18 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\MorphOneBannerTrait;
+use App\Traits\TimezoneDateTrait;
 use App\Enums\GeneralStatusEnum;
 use App\Traits\MorphToManyTags;
-use App\Enums\MediaTypeEnum;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToCreatorTrait, HasUuids, MorphToManyTags;
+    use HasUuids,
+        HasFactory,
+        SoftDeletes,
+        MorphToManyTags,
+        TimezoneDateTrait,
+        MorphOneBannerTrait,
+        BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +31,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'status',
+        'slug',
         'description',
 
         'creator_id',
@@ -39,16 +46,6 @@ class Category extends Model
     protected $casts = [
         'status' => GeneralStatusEnum::class,
     ];
-
-    /**
-     * Get group banner.
-     *
-     * @return MorphOne
-     */
-    public function banner(): MorphOne
-    {
-        return $this->morphOne(Media::class, 'mediatable')->whereType(MediaTypeEnum::Image);
-    }
 
     /**
      * Get the group that owns the current model.

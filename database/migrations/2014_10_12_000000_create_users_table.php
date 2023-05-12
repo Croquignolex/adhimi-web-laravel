@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->foreignUuid('creator_id')->nullable();
             $table->foreignUuid('shop_id')->nullable();
-            $table->foreignIdFor(Organisation::class)->constrained()->cascadeOnDelete();
+            $table->foreignUuid('organisation_id')->nullable();
 
             $table->string('name');
             $table->string('slug')->unique();

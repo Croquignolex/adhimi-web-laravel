@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\TimezoneDateTrait;
 use App\Traits\HasManyUsersTrait;
 use App\Traits\MorphOneLogoTrait;
 use App\Enums\GeneralStatusEnum;
@@ -20,6 +21,7 @@ class Organisation extends Model
         SoftDeletes,
         MorphToManyTags,
         HasManyUsersTrait,
+        TimezoneDateTrait,
         MorphOneLogoTrait,
         BelongsToCreatorTrait;
 
@@ -58,5 +60,15 @@ class Organisation extends Model
     public function shops(): HasMany
     {
         return $this->hasMany(Shop::class);
+    }
+
+    /**
+     * Get vendors associated with the organisations.
+     *
+     * @return HasMany
+     */
+    public function vendors(): HasMany
+    {
+        return $this->hasMany(Vendor::class);
     }
 }

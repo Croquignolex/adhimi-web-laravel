@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\TimezoneDateTrait;
 use App\Enums\GeneralStatusEnum;
 
 class Tag extends Model
 {
-    use HasFactory, BelongsToCreatorTrait, HasUuids;
+    use HasFactory, BelongsToCreatorTrait, HasUuids, TimezoneDateTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

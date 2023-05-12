@@ -8,21 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\HasManyProductsTrait;
 use App\Traits\TimezoneDateTrait;
-use App\Traits\HasManyUsersTrait;
 use App\Traits\MorphOneLogoTrait;
 use App\Enums\GeneralStatusEnum;
-use App\Traits\MorphToManyTags;
 
-class Shop extends Model
+class Vendor extends Model
 {
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphToManyTags,
         MorphOneLogoTrait,
-        HasManyUsersTrait,
         TimezoneDateTrait,
+        HasManyProductsTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait;
 
@@ -36,8 +34,8 @@ class Shop extends Model
         'slug',
         'status',
         'email',
-        'address',
         'phone',
+        'address',
         'description',
 
         'creator_id',
