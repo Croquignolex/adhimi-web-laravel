@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\BelongsToOrganisationTrait;
+use App\Traits\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
 use App\Traits\BelongsToShopTrait;
@@ -27,6 +27,7 @@ class Product extends Model
         TimezoneDateTrait,
         BelongsToShopTrait,
         BelongsToCreatorTrait,
+        TimezonePromotionDateTrait,
         BelongsToOrganisationTrait;
 
     /**
@@ -38,6 +39,7 @@ class Product extends Model
         'name',
         'status',
         'quantity',
+        'alert_quantity',
         'description',
         'delivery_price',
         'price',
@@ -62,32 +64,6 @@ class Product extends Model
         'promotion_started_at' => 'datetime',
         'promotion_ended_at' => 'datetime',
     ];
-
-    /**
-     * Determine timezone promotion stared at, magic attribute $this->tz_promotion_started_at.
-     *
-     * @return Attribute
-     */
-    protected function TzPromotionStartedAt(): Attribute
-    {
-        $field = $this->promotion_started_at;
-        return new Attribute(
-            get: fn () => is_null($field) ? $field : $this->timezoneDate($field)
-        );
-    }
-
-    /**
-     * Determine timezone promotion ended at, magic attribute $this->tz_promotion_ended_at.
-     *
-     * @return Attribute
-     */
-    protected function TzPromotionEndedAt(): Attribute
-    {
-        $field = $this->promotion_ended_at;
-        return new Attribute(
-            get: fn () => is_null($field) ? $field : $this->timezoneDate($field)
-        );
-    }
 
     /**
      * Get product gallery images.

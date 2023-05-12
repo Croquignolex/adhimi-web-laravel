@@ -5,28 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\TimezonePromotionDateTrait;
 use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
-use App\Traits\MorphOneBannerTrait;
 use App\Traits\TimezoneDateTrait;
-use App\Traits\HasManyUsersTrait;
-use App\Traits\MorphOneLogoTrait;
 use App\Enums\GeneralStatusEnum;
-use App\Traits\MorphToManyTags;
 
-class Shop extends Model
+class Coupon extends Model
 {
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphToManyTags,
-        MorphOneLogoTrait,
-        HasManyUsersTrait,
         TimezoneDateTrait,
-        MorphOneBannerTrait,
         BelongsToCreatorTrait,
-        BelongsToOrganisationTrait;
+        BelongsToOrganisationTrait,
+        TimezonePromotionDateTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -34,13 +28,12 @@ class Shop extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'slug',
+        'code',
         'status',
-        'email',
-        'address',
-        'phone',
+        'discount',
         'description',
+        'promotion_started_at',
+        'promotion_ended_at',
 
         'creator_id',
         'organisation_id',
@@ -53,5 +46,7 @@ class Shop extends Model
      */
     protected $casts = [
         'status' => GeneralStatusEnum::class,
+        'promotion_started_at' => 'datetime',
+        'promotion_ended_at' => 'datetime',
     ];
 }

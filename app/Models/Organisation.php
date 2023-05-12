@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\MorphOneBannerTrait;
 use App\Traits\TimezoneDateTrait;
 use App\Traits\HasManyUsersTrait;
 use App\Traits\MorphOneLogoTrait;
@@ -23,6 +24,7 @@ class Organisation extends Model
         HasManyUsersTrait,
         TimezoneDateTrait,
         MorphOneLogoTrait,
+        MorphOneBannerTrait,
         BelongsToCreatorTrait;
 
     /**

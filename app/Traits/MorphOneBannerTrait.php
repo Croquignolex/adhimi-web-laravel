@@ -16,6 +16,6 @@ trait MorphOneBannerTrait
     public function banner(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediatable')
-            ->whereType(MediaTypeEnum::Image);
+            ->whereType(MediaTypeEnum::Banner);
     }
 }

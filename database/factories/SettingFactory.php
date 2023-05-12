@@ -29,6 +29,10 @@ class SettingFactory extends Factory
             'enable_action_on_merchant_notification' => $this->faker->boolean,
             'enable_action_on_saler_notification' => $this->faker->boolean,
             'enable_action_on_user_notification' => $this->faker->boolean,
+
+            'enable_product_notification' => $this->faker->boolean,
+            'enable_purchase_notification' => $this->faker->boolean,
+            'enable_payment_notification' => $this->faker->boolean,
         ];
     }
 }

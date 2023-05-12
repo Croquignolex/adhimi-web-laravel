@@ -4,12 +4,12 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\GeneralStatusEnum;
-use App\Models\Product;
+use App\Models\Coupon;
 
 /**
- * @extends Factory<Product>
+ * @extends Factory<Coupon>
  */
-class ProductFactory extends Factory
+class CouponFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,13 +20,9 @@ class ProductFactory extends Factory
     {
         return [
             'status' => GeneralStatusEnum::randomValue(),
-            'name' => $this->faker->name(),
+            'code' => $this->faker->word(),
             'description' => $this->faker->text(),
-            'quantity' => $this->faker->randomNumber(1),
-            'alert_quantity' => $this->faker->randomNumber(1),
-            'delivery_price' => $this->faker->randomNumber(3),
-            'price' => $this->faker->randomNumber(4),
-            'promotion_price' => $this->faker->randomNumber(3),
+            'discount' => $this->faker->randomNumber(2),
             'promotion_started_at' => now(),
             'promotion_ended_at' => now()->addMonths(),
         ];

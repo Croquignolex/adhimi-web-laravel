@@ -28,6 +28,10 @@ class Setting extends Model
         'enable_action_on_saler_notification',
         'enable_action_on_user_notification',
 
+        'enable_product_notification',
+        'enable_purchase_notification',
+        'enable_payment_notification',
+
         'user_id',
     ];
 
@@ -43,5 +47,9 @@ class Setting extends Model
         'enable_action_on_merchant_notification' => 'boolean',
         'enable_action_on_saler_notification' => 'boolean',
         'enable_action_on_user_notification' => 'boolean',
+
+        'enable_payment_notification' => 'boolean',
+        'enable_purchase_notification' => 'boolean',
+        'enable_product_notification' => 'boolean',
     ];
 }

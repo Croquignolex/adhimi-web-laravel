@@ -16,6 +16,6 @@ trait MorphOneLogoTrait
     public function logo(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediatable')
-            ->whereType(MediaTypeEnum::Image);
+            ->whereType(MediaTypeEnum::Logo);
     }
 }
