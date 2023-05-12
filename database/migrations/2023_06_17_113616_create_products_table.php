@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Enums\GeneralStatusEnum;
 use App\Models\Organisation;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Brand;
 
 return new class extends Migration
@@ -26,12 +27,15 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Brand::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Organisation::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Country::class)->constrained()->cascadeOnDelete();
 
             $table->string('name');
             $table->integer('quantity')->default(0);
+            $table->double('weight')->nullable();
             $table->integer('alert_quantity')->default(0);
             $table->integer('delivery_price')->default(0);
-            $table->integer('price')->default(0);
+            $table->integer('purchase_price')->default(0);
+            $table->integer('sale_price')->default(0);
             $table->integer('promotion_price')->default(0);
             $table->dateTime('promotion_started_at')->nullable();
             $table->dateTime('promotion_ended_at')->nullable();

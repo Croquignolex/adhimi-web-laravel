@@ -6,20 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCountryTrait;
 use App\Traits\BelongsToCreatorTrait;
 use App\Traits\TimezoneDateTrait;
-use App\Traits\MorphOneFlagTrait;
 use App\Enums\GeneralStatusEnum;
 
-class State extends Model
+class AttributeValue extends Model
 {
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphOneFlagTrait,
         TimezoneDateTrait,
-        BelongsToCountryTrait,
         BelongsToCreatorTrait;
 
     /**
@@ -28,11 +24,11 @@ class State extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'code',
         'name',
+        'value',
         'status',
+        'description',
 
-        'country_id',
         'creator_id',
     ];
 

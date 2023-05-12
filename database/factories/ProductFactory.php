@@ -25,8 +25,10 @@ class ProductFactory extends Factory
             'quantity' => $this->faker->randomNumber(1),
             'alert_quantity' => $this->faker->randomNumber(1),
             'delivery_price' => $this->faker->randomNumber(3),
-            'price' => $this->faker->randomNumber(4),
+            'sale_price' => $this->faker->randomNumber(4),
+            'purchase_price' => $this->faker->randomNumber(4),
             'promotion_price' => $this->faker->randomNumber(3),
+            'weight' => $this->faker->randomFloat(),
             'promotion_started_at' => now(),
             'promotion_ended_at' => now()->addMonths(),
         ];

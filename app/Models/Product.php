@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\BelongsToOrganisationTrait;
 use App\Traits\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\BelongsToCountryTrait;
 use App\Traits\BelongsToShopTrait;
 use App\Traits\TimezoneDateTrait;
 use App\Enums\GeneralStatusEnum;
@@ -26,6 +28,7 @@ class Product extends Model
         MorphToManyTags,
         TimezoneDateTrait,
         BelongsToShopTrait,
+        BelongsToCountryTrait,
         BelongsToCreatorTrait,
         TimezonePromotionDateTrait,
         BelongsToOrganisationTrait;
@@ -42,7 +45,9 @@ class Product extends Model
         'alert_quantity',
         'description',
         'delivery_price',
-        'price',
+        'purchase_price',
+        'sale_price',
+        'weight',
         'promotion_price',
         'promotion_started_at',
         'promotion_ended_at',
@@ -52,6 +57,7 @@ class Product extends Model
         'category_id',
         'brand_id',
         'organisation_id',
+        'country_id',
     ];
 
     /**
@@ -63,7 +69,30 @@ class Product extends Model
         'status' => GeneralStatusEnum::class,
         'promotion_started_at' => 'datetime',
         'promotion_ended_at' => 'datetime',
+        'weight' => 'float',
     ];
+
+    /**
+     * Determine note, magic attribute $this->note.
+     *
+     * @return Attribute
+     */
+    protected function note(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->rates()->avg('note')
+        );
+    }
+
+    /**
+     * Get product ratings.
+     *
+     * @return MorphMany
+     */
+    public function rates(): MorphMany
+    {
+        return $this->morphMany(Rating::class, 'ratable');
+    }
 
     /**
      * Get product gallery images.

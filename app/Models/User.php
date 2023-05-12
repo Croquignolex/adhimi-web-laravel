@@ -16,6 +16,7 @@ use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\BelongsToCreatorTrait;
+use App\Traits\UserCreationsTrait;
 use App\Traits\BelongsToShopTrait;
 use App\Traits\MorphManyLogsTrait;
 use App\Traits\TimezoneDateTrait;
@@ -34,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         TimezoneDateTrait,
         MorphManyLogsTrait,
         BelongsToShopTrait,
+        UserCreationsTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait;
 
@@ -216,96 +218,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
-     * Get created organisations associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdOrganisations(): HasMany
-    {
-        return $this->hasMany(Organisation::class);
-    }
-
-    /**
-     * Get created shops associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdShops(): HasMany
-    {
-        return $this->hasMany(Shop::class);
-    }
-
-    /**
-     * Get created vendors associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdVendors(): HasMany
-    {
-        return $this->hasMany(Vendor::class);
-    }
-
-    /**
-     * Get created users associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdUsers(): HasMany
-    {
-        return $this->hasMany(User::class);
-    }
-
-    /**
-     * Get created logs associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdLogs(): HasMany
-    {
-        return $this->hasMany(Log::class);
-    }
-
-    /**
-     * Get created countries associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdLCountries(): HasMany
-    {
-        return $this->hasMany(Country::class);
-    }
-
-    /**
-     * Get created states associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdLStates(): HasMany
-    {
-        return $this->hasMany(State::class);
-    }
-
-    /**
-     * Get created medias associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdMedias(): HasMany
-    {
-        return $this->hasMany(Media::class);
-    }
-
-    /**
-     * Get created groups associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdGroups(): HasMany
-    {
-        return $this->hasMany(Group::class);
-    }
-
-    /**
      * Get logs associated with the user.
      *
      * @return HasMany
@@ -313,6 +225,16 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function logs(): HasMany
     {
         return $this->hasMany(Log::class);
+    }
+
+    /**
+     * Get ratings associated with the user.
+     *
+     * @return HasMany
+     */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
     }
 
     /**

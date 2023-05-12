@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasManyProductsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +20,7 @@ class Country extends Model
         SoftDeletes,
         MorphOneFlagTrait,
         TimezoneDateTrait,
+        HasManyProductsTrait,
         BelongsToCreatorTrait;
 
     /**
