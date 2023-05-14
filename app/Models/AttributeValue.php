@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\BelongsToManyAttributesTrait;
+use App\Traits\BelongsToManyProductsTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
 use App\Traits\TimezoneDateTrait;
@@ -16,7 +19,9 @@ class AttributeValue extends Model
         HasFactory,
         SoftDeletes,
         TimezoneDateTrait,
-        BelongsToCreatorTrait;
+        BelongsToCreatorTrait,
+        BelongsToManyProductsTrait,
+        BelongsToManyAttributesTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -40,4 +45,14 @@ class AttributeValue extends Model
     protected $casts = [
         'status' => GeneralStatusEnum::class,
     ];
+
+    /**
+     * Get the attribute that owns the current model.
+     *
+     * @return BelongsTo
+     */
+    public function attribute(): BelongsTo
+    {
+        return $this->belongsTo(Attribute::class);
+    }
 }

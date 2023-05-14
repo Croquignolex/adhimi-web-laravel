@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->foreignUuid('creator_id')->nullable();
 
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('type')->default(AttributeTypeEnum::Text->value);
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();

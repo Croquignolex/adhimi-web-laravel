@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\BelongsToManyAttributeValuesTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\BelongsToManyProductsTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
 use App\Traits\TimezoneDateTrait;
@@ -17,7 +20,9 @@ class Attribute extends Model
         HasFactory,
         SoftDeletes,
         TimezoneDateTrait,
-        BelongsToCreatorTrait;
+        BelongsToCreatorTrait,
+        BelongsToManyProductsTrait,
+        BelongsToManyAttributeValuesTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +47,14 @@ class Attribute extends Model
         'status' => GeneralStatusEnum::class,
         'type' => AttributeTypeEnum::class,
     ];
+
+    /**
+     * Get attribute values associated with the attribute.
+     *
+     * @return HasMany
+     */
+    public function attributesValues(): HasMany
+    {
+        return $this->hasMany(AttributeValue::class);
+    }
 }

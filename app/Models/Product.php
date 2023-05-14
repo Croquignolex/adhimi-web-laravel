@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\BelongsToManyAttributeValuesTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\BelongsToManyAttributesTrait;
 use App\Traits\BelongsToOrganisationTrait;
 use App\Traits\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +33,9 @@ class Product extends Model
         BelongsToCountryTrait,
         BelongsToCreatorTrait,
         TimezonePromotionDateTrait,
-        BelongsToOrganisationTrait;
+        BelongsToOrganisationTrait,
+        BelongsToManyAttributesTrait,
+        BelongsToManyAttributeValuesTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -10,6 +10,5 @@ enum AttributeTypeEnum: string
 
     case Text = 'Text';
     case Select = 'Select';
-    case Radio = 'Radio';
     case Color = 'Color';
 }

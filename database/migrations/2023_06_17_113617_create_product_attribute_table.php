@@ -16,10 +16,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attribute_product', function (Blueprint $table) {
+        Schema::create('product_attribute', function (Blueprint $table) {
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Attribute::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(AttributeValue::class)->constrained()->cascadeOnDelete();
+
+            $table->unique(['product_id', 'attribute_id', 'attribute_value_id']);
         });
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attribute_product');
+        Schema::dropIfExists('product_attribute');
     }
 };
