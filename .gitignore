@@ -21,7 +21,7 @@ yarn-error.log
 # Node artifact files
 node_modules/
 dist/
-vendor/
+/vendor
 .env
 .env.backup
 .env.production
