@@ -4,10 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enums\GeneralStatusEnum;
+use App\Traits\MigrationTrait;
 use App\Models\Group;
 
 return new class extends Migration
 {
+    use MigrationTrait;
+
     /**
      * Run the migrations.
      *
@@ -16,19 +19,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $this->addCommonFields($table);
 
-            $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(Group::class)->constrained()->cascadeOnDelete();
+            $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
+            $this->addForeignKey(table: $table, foreignModelFqn: Group::class);
 
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
 
-            $table->softDeletes();
-
-            $table->timestamps();
+            $this->addSeoFields($table);
         });
     }
 

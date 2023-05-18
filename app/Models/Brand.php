@@ -31,6 +31,8 @@ class Brand extends Model
         'name',
         'status',
         'description',
+        'seo_title',
+        'seo_description',
 
         'creator_id',
     ];

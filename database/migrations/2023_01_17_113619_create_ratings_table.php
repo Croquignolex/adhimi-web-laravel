@@ -1,12 +1,16 @@
 <?php
 
+use App\Enums\GeneralStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\MigrationTrait;
 use App\Models\User;
 
 return new class extends Migration
 {
+    use MigrationTrait;
+
     /**
      * Run the migrations.
      *
@@ -15,17 +19,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $this->addCommonFields($table);
 
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $this->addForeignKey(table: $table, foreignModelFqn: User::class);
 
             $table->morphs('ratable');
+
             $table->tinyInteger('note');
             $table->string('comment');
-
-            $table->softDeletes();
-
-            $table->timestamps();
+            $table->string('status')->default(GeneralStatusEnum::Enable->value);
         });
     }
 

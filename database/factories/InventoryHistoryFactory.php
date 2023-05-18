@@ -3,13 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\GeneralStatusEnum;
-use App\Models\Rating;
+use App\Models\Media;
 
 /**
- * @extends Factory<Rating>
+ * @extends Factory<Media>
  */
-class RatingFactory extends Factory
+class InventoryHistoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +18,9 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            'comment' => $this->faker->text(),
-            'note' => $this->faker->randomNumber(1),
-            'status' => GeneralStatusEnum::randomValue(),
+            'quantity' => $this->faker->randomNumber(),
+            'old_quantity' => $this->faker->randomNumber(),
+            'description' => $this->faker->text(),
         ];
     }
 }

@@ -22,6 +22,8 @@ class BrandFactory extends Factory
             'status' => GeneralStatusEnum::randomValue(),
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
+            'seo_title' => $this->faker->title(),
+            'seo_description' => $this->faker->sentence,
         ];
     }
 }

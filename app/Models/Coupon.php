@@ -31,6 +31,7 @@ class Coupon extends Model
         'code',
         'status',
         'discount',
+        'total_use',
         'description',
         'promotion_started_at',
         'promotion_ended_at',

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\InventoryHistory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Organisation;
 use App\Models\Attribute;
@@ -114,5 +115,15 @@ trait UserCreationsTrait
     public function createdGroups(): HasMany
     {
         return $this->hasMany(Group::class);
+    }
+
+    /**
+     * Get created inventory histories associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdInventoryHistories(): HasMany
+    {
+        return $this->hasMany(InventoryHistory::class);
     }
 }

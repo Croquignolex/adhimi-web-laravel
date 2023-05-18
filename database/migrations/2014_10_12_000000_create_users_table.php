@@ -3,12 +3,14 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\MigrationTrait;
 use App\Enums\UserStatusEnum;
-use App\Models\Organisation;
 use App\Enums\GenderEnum;
 
 return new class extends Migration
 {
+    use MigrationTrait;
+
     /**
      * Run the migrations.
      *
@@ -17,30 +19,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $this->addCommonFields($table);
 
-            $table->foreignUuid('creator_id')->nullable();
-            $table->foreignUuid('shop_id')->nullable();
-            $table->foreignUuid('organisation_id')->nullable();
+            $this->addForeignKey(table: $table, nullable: true, foreignKey: 'creator_id');
+            $this->addForeignKey(table: $table, nullable: true, foreignKey: 'organisation_id');
+            $this->addForeignKey(table: $table, nullable: true, foreignKey: 'shop_id');
 
-            $table->string('name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name');
             $table->string('slug')->unique();
             $table->string('email')->unique();
-            $table->string('phone');
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('first_purchase')->default(false);
             $table->string('profession')->nullable();
-            $table->string('address')->nullable();
             $table->string('gender')->default(GenderEnum::Unknown->value);
             $table->date('birthdate')->nullable();
             $table->text('description')->nullable();
             $table->string('status')->default(UserStatusEnum::Active->value);
 
-            $table->softDeletes();
+            $table->unique(['organisation_id', 'first_name', 'last_name']);
 
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 

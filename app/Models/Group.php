@@ -32,6 +32,8 @@ class Group extends Model
         'status',
         'slug',
         'description',
+        'seo_title',
+        'seo_description',
 
         'creator_id',
     ];

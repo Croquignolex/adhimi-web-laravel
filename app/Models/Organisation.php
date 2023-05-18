@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\HasManyInventoryHistoriesTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MorphOneDefaultAddressTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
 use App\Traits\MorphOneBannerTrait;
@@ -25,7 +27,9 @@ class Organisation extends Model
         TimezoneDateTrait,
         MorphOneLogoTrait,
         MorphOneBannerTrait,
-        BelongsToCreatorTrait;
+        BelongsToCreatorTrait,
+        MorphOneDefaultAddressTrait,
+        HasManyInventoryHistoriesTrait;
 
     /**
      * The attributes that are mass assignable.

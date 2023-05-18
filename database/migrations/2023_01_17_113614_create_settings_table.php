@@ -3,11 +3,14 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\MigrationTrait;
 use App\Enums\LanguageEnum;
 use App\Models\User;
 
 return new class extends Migration
 {
+    use MigrationTrait;
+
     /**
      * Run the migrations.
      *
@@ -16,9 +19,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $this->addCommonFields($table);
 
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $this->addForeignKey(table: $table, foreignModelFqn: User::class);
 
             $table->string('language')->default(LanguageEnum::Fr->value);
             $table->string('timezone')->default('UTC');
@@ -33,10 +36,6 @@ return new class extends Migration
             $table->boolean('enable_product_notification')->default(false);
             $table->boolean('enable_purchase_notification')->default(false);
             $table->boolean('enable_payment_notification')->default(false);
-
-            $table->softDeletes();
-
-            $table->timestamps();
         });
     }
 

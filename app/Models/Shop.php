@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MorphOneDefaultAddressTrait;
 use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
@@ -26,7 +27,8 @@ class Shop extends Model
         TimezoneDateTrait,
         MorphOneBannerTrait,
         BelongsToCreatorTrait,
-        BelongsToOrganisationTrait;
+        BelongsToOrganisationTrait,
+        MorphOneDefaultAddressTrait;
 
     /**
      * The attributes that are mass assignable.

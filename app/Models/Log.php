@@ -23,6 +23,7 @@ class Log extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'ip',
         'action',
         'description',
 

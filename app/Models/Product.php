@@ -18,7 +18,10 @@ use App\Traits\BelongsToCreatorTrait;
 use App\Traits\BelongsToCountryTrait;
 use App\Traits\BelongsToShopTrait;
 use App\Traits\TimezoneDateTrait;
+use App\Enums\DistanceValueEnum;
+use App\Enums\QuantityValueEnum;
 use App\Enums\GeneralStatusEnum;
+use App\Enums\WeightValueEnum;
 use App\Traits\MorphToManyTags;
 use App\Enums\MediaTypeEnum;
 
@@ -44,6 +47,9 @@ class Product extends Model
      */
     protected $fillable = [
         'name',
+        'slug',
+        'sku',
+        'barcode',
         'status',
         'quantity',
         'alert_quantity',
@@ -51,10 +57,21 @@ class Product extends Model
         'delivery_price',
         'purchase_price',
         'sale_price',
-        'weight',
         'promotion_price',
         'promotion_started_at',
         'promotion_ended_at',
+        'weight_value',
+        'weight_unit',
+        'height_value',
+        'height_unit',
+        'width_value',
+        'width_unit',
+        'depth_value',
+        'depth_unit',
+        'volume_value',
+        'volume_unit',
+        'seo_title',
+        'seo_description',
 
         'creator_id',
         'vendor_id',
@@ -73,7 +90,11 @@ class Product extends Model
         'status' => GeneralStatusEnum::class,
         'promotion_started_at' => 'datetime',
         'promotion_ended_at' => 'datetime',
-        'weight' => 'float',
+        'weight_unit' => WeightValueEnum::class,
+        'height_unit' => DistanceValueEnum::class,
+        'width_unit' => DistanceValueEnum::class,
+        'depth_unit' => DistanceValueEnum::class,
+        'volume_unit' => QuantityValueEnum::class,
     ];
 
     /**

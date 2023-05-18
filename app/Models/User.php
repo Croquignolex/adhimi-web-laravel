@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MorphOneDefaultAddressTrait;
 use App\Traits\BelongsToOrganisationTrait;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -20,6 +21,7 @@ use App\Traits\UserCreationsTrait;
 use App\Traits\BelongsToShopTrait;
 use App\Traits\MorphManyLogsTrait;
 use App\Traits\TimezoneDateTrait;
+use App\Enums\AddressTypeEnum;
 use App\Enums\UserStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Enums\UserRoleEnum;
@@ -37,7 +39,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         BelongsToShopTrait,
         UserCreationsTrait,
         BelongsToCreatorTrait,
-        BelongsToOrganisationTrait;
+        BelongsToOrganisationTrait,
+        MorphOneDefaultAddressTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -45,7 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'username',
         'email',
         'avatar',
@@ -156,6 +160,24 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             get: fn () => $this->hasRole([UserRoleEnum::Saler->value])
         );
     }
+
+    /**
+     * Determine user full name, magic attribute $this->full_name.
+     *
+     * @return Attribute
+     */
+    protected function fullName(): Attribute
+    {
+        $formatFirstName = ucfirst($this->first_name);
+
+        return new Attribute(
+            get: fn () => (is_null($this->last_name))
+                ? $formatFirstName
+                : $formatFirstName . " " . strtoupper($this->first_name)
+        );
+    }
+
+
     /**
      * Determine user initials, magic attribute $this->initials.
      *
@@ -165,8 +187,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return new Attribute(
             get: function () {
-                $name = strtoupper($this->name);
-                $nameArray = explode(' ', $name);
+                if(is_null($this->first_name)) {
+                    return mb_substr(strtoupper($this->last_name), 0, 2);
+                }
+
+                $nameArray = explode(' ', $this->full_name);
                 if(count($nameArray) > 1) {
                     return mb_substr($nameArray[0], 0, 1) . mb_substr($nameArray[1], 0, 1);
                 }
@@ -215,6 +240,28 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->morphOne(Media::class, 'mediatable')
             ->whereType(MediaTypeEnum::Image);
+    }
+
+    /**
+     * Get user billing address.
+     *
+     * @return MorphOne
+     */
+    public function billingAddress(): MorphOne
+    {
+        return $this->morphOne(Media::class, 'addressable')
+            ->whereType(AddressTypeEnum::Billing);
+    }
+
+    /**
+     * Get user shipping address.
+     *
+     * @return MorphOne
+     */
+    public function shippingAddress(): MorphOne
+    {
+        return $this->morphOne(Media::class, 'addressable')
+            ->whereType(AddressTypeEnum::Shipping);
     }
 
     /**

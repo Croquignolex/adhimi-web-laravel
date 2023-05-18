@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
 use App\Traits\TimezoneDateTrait;
-use App\Enums\MediaTypeEnum;
+use App\Enums\AddressTypeEnum;
 
-class Media extends Model
+class Address extends Model
 {
     use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, TimezoneDateTrait;
 
@@ -20,7 +20,7 @@ class Media extends Model
      *
      * @var string
      */
-    protected $table = 'medias';
+    protected $table = 'addresses';
 
     /**
      * The attributes that are mass assignable.
@@ -30,13 +30,18 @@ class Media extends Model
     protected $fillable = [
         'type',
         'name',
-        'url',
+        'street_address',
+        'street_address_plus',
+        'zipcode',
+        'phone_number',
         'description',
 
-        'mediatable_type',
-        'mediatable_id',
+        'addressable_type',
+        'addressable_id',
 
         'creator_id',
+        'country_id',
+        'state_id',
     ];
 
     /**
@@ -45,15 +50,15 @@ class Media extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'type' => MediaTypeEnum::class,
+        'type' => AddressTypeEnum::class,
     ];
 
     /**
-     * Get the parent mediatable models.
+     * Get the parent addressable models.
      *
      * @return MorphTo
      */
-    public function mediatable(): MorphTo
+    public function addressable(): MorphTo
     {
         return $this->morphTo();
     }

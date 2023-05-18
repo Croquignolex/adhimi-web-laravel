@@ -23,6 +23,8 @@ class CategoryFactory extends Factory
             'name' => $this->faker->name(),
             'slug' => $this->faker->unique()->slug,
             'description' => $this->faker->text(),
+            'seo_title' => $this->faker->title(),
+            'seo_description' => $this->faker->sentence,
         ];
     }
 }

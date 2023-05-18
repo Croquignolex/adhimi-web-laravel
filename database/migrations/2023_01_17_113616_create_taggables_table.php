@@ -3,10 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\MigrationTrait;
 use App\Models\Tag;
 
 return new class extends Migration
 {
+    use MigrationTrait;
+
     /**
      * Run the migrations.
      *
@@ -15,7 +18,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('taggables', function (Blueprint $table) {
-            $table->foreignIdFor(Tag::class)->constrained()->onDelete('cascade');
+            $this->addForeignKey(table: $table, foreignModelFqn: Tag::class);
 
             $table->morphs('taggable');
         });

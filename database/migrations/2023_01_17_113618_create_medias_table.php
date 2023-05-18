@@ -3,10 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\MigrationTrait;
 use App\Enums\MediaTypeEnum;
 
 return new class extends Migration
 {
+    use MigrationTrait;
+
     /**
      * Run the migrations.
      *
@@ -15,9 +18,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('medias', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $this->addCommonFields($table);
 
-            $table->foreignUuid('creator_id')->constrained('users')->cascadeOnDelete();
+            $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
 
             $table->nullableMorphs('mediatable');
 
@@ -25,10 +28,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('url');
             $table->text('description')->nullable();
-
-            $table->softDeletes();
-
-            $table->timestamps();
         });
     }
 

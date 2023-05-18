@@ -25,6 +25,7 @@ class CouponFactory extends Factory
             'discount' => $this->faker->randomNumber(2),
             'promotion_started_at' => now(),
             'promotion_ended_at' => now()->addMonths(),
+            'total_use' => $this->faker->randomDigit(),
         ];
     }
 }
