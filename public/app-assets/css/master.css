@@ -1,0 +1,21 @@
+#instruction-area {
+    height : 75px;
+    max-height: 430px;
+}
+
+#instruction-field {
+    height: 45px;
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.pre {
+    display: block;
+    font-weight: bold;
+    white-space:pre-wrap;
+    margin: 1em 0;
+}
+
+.hand-cursor {
+    cursor: pointer;
+}
