@@ -21,6 +21,7 @@ class AttributeFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->name(),
+            'slug' => $this->faker->unique()->slug(),
             'type' => AttributeTypeEnum::randomValue(),
             'description' => $this->faker->text(),
             'status' => GeneralStatusEnum::randomValue(),

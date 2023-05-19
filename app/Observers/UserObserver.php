@@ -23,7 +23,6 @@ class UserObserver
     {
         $user->password = Hash::make($user->password ?: config('app.default_password'));
         $user->remember_token = Str::random(60);
-        $user->slug = Str::slug($user->name);
     }
 
     /**

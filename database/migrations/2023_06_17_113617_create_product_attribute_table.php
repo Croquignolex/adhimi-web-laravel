@@ -24,7 +24,7 @@ return new class extends Migration
             $this->addForeignKey(table: $table, foreignModelFqn: Attribute::class);
             $this->addForeignKey(table: $table, foreignModelFqn: AttributeValue::class);
 
-            $table->unique(['product_id', 'attribute_id', 'attribute_value_id']);
+            $table->primary(['product_id', 'attribute_id', 'attribute_value_id']);
         });
     }
 

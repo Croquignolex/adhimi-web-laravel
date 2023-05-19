@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $fillable = [
         'first_name',
         'last_name',
-        'username',
+        'slug',
         'email',
         'avatar',
         'password',
@@ -158,6 +158,18 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return new Attribute(
             get: fn () => $this->hasRole([UserRoleEnum::Saler->value])
+        );
+    }
+
+    /**
+     * Determine if user is customer, magic attribute $this->is_customer.
+     *
+     * @return Attribute
+     */
+    protected function isCustomer(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasExactRoles([UserRoleEnum::Customer->value])
         );
     }
 

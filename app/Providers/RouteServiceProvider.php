@@ -2,25 +2,15 @@
 
 namespace App\Providers;
 
-use App\Enums\LanguageEnum;
-use Carbon\Language;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Enums\LanguageEnum;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * The path to your application's "home" route.
-     *
-     * Typically, users are redirected here after authentication.
-     *
-     * @var string
-     */
-    public const HOME = '/';
-
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */
@@ -29,17 +19,44 @@ class RouteServiceProvider extends ServiceProvider
         // For the route to only consider known locale in segment
         Route::pattern('language', implode('|', LanguageEnum::values()));
 
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            $this->apiRoutes();
+
+            $this->webRoutes();
+        });
+    }
+
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting(): void
+    {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+    }
 
-        $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
+    /**
+     * @return void
+     */
+    private function apiRoutes(): void
+    {
+        Route::middleware('api')->prefix('api/v1')->group(base_path('routes/api/auth.php'));
+        Route::middleware('api')->prefix('api/v1')->group(base_path('routes/api/customer.php'));
+    }
 
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
-        });
+    /**
+     * @return void
+     */
+    private function webRoutes(): void
+    {
+        Route::middleware('web')->group(base_path('routes/web/shop.php'));
+        Route::middleware('web')->group(base_path('routes/web/auth.php'));
+        Route::middleware('web')->group(base_path('routes/web/admin.php'));
+        Route::middleware('web')->group(base_path('routes/web/customer.php'));
     }
 }

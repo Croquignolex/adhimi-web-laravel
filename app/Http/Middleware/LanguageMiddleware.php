@@ -20,17 +20,10 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if(!session()->has('language')) {
-            session(['language' => config('app.fallback_locale')]);
-        }
+        $language = $request->session()->get('language', LanguageEnum::French->value);
 
-        $activeLanguage = session('language');
-
-        if(in_array($activeLanguage, LanguageEnum::values()))
-        {
-            if(App::getLocale() != $activeLanguage) {
-                App::setLocale($activeLanguage);
-            }
+        if(!App::isLocale($language)) {
+            App::setLocale($language);
         }
 
         return $next($request);

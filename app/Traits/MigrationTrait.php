@@ -14,7 +14,7 @@ trait MigrationTrait
      * @param bool $hasSoftDelete
      * @return void
      */
-    public function addCommonFields(Blueprint $table, bool $hasSoftDelete = false): void
+    public function addCommonFields(Blueprint $table, bool $hasSoftDelete = true): void
     {
         $table->uuid('id')->primary();
 
@@ -84,7 +84,7 @@ trait MigrationTrait
         else
         {
             if(is_null($foreignModelFqn)) {
-                $table->foreign($foreignKey)->references('id')->on($foreignTable)->cascadeOnDelete();
+                $table->foreignUuid($foreignKey)->constrained($foreignTable)->cascadeOnDelete();
             } else {
                 $table->foreignIdFor($foreignModelFqn)->constrained()->cascadeOnDelete();
             }

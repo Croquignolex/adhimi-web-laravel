@@ -36,7 +36,12 @@
         <!-- END: Custom CSS-->
     </head>
 
-    <body>
+    <body class="@stack('master.body.class')"
+          data-menu="vertical-menu-modern"
+          data-layout="@stack('master.body.data')"
+          data-open="click"
+          data-col=""
+    >
         @yield('master.body')
 
         @stack('master.scripts')

@@ -8,6 +8,6 @@ enum LanguageEnum: string
 {
     use EnumToolsTrait;
 
-    case Fr = 'fr';
-    case En = 'en';
+    case French = 'fr';
+    case English = 'en';
 }

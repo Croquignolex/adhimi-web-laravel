@@ -10,9 +10,9 @@ enum RedirectionMiddlewareTypeEnum: string
 
     case Guest = 'guest';
     case Auth = 'auth';
-    case Active = 'active';
     case NotAdmin = 'admin';
     case NotSuperAdmin = 'super';
+    case NotCustomer = 'customer';
     case NotShopManager = 'manager';
     case NotMerchant = 'merchant';
     case NotSaler = 'saler';

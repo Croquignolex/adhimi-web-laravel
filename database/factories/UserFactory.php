@@ -20,11 +20,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->name(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'slug' => $this->faker->unique()->slug(),
             'email' => $this->faker->unique()->safeEmail(),
             'profession' => $this->faker->word,
-            'phone' => $this->faker->phoneNumber,
-            'address' => $this->faker->word,
             'gender' => GenderEnum::randomValue(),
             'email_verified_at' => now(),
             'description' => $this->faker->text(),
