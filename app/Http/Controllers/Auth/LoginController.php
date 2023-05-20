@@ -13,10 +13,21 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
+
+    /**
+     * Show the application's login form.
+     *
+     * @return View
+     */
+    public function showLoginForm():View
+    {
+        return view('backoffice.customer.auth.login');
+    }
 
     /**
      * @return string

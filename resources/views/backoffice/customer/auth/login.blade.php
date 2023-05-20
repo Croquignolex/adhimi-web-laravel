@@ -84,8 +84,6 @@
     </div>
 @endsection
 
-@push('body.class', 'vertical-layout vertical-menu-modern dark-layout navbar-floating footer-static blank-page')
-
-@push('body.data-layout', 'dark-layout')
+@push('body.class', 'vertical-layout vertical-menu-modern navbar-floating footer-static blank-page')
 
 @push('body.data-col', 'blank-page')

@@ -11,5 +11,6 @@ return [
     */
 
     'home' => 'Accueil',
+    'login' => 'Connexion',
 
 ];

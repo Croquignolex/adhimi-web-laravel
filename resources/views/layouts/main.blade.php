@@ -38,9 +38,9 @@
 
     <body class="@stack('master.body.class')"
           data-menu="vertical-menu-modern"
-          data-layout="@stack('master.body.data')"
+          data-layout="@stack('master.body.data-layout')"
           data-open="click"
-          data-col=""
+          data-col="@stack('master.body.data-col')"
     >
         @yield('master.body')
 

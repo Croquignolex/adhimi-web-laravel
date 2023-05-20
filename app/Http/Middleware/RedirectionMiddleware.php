@@ -18,10 +18,10 @@ class RedirectionMiddleware
      *
      * @param Request $request
      * @param Closure $next
-     * @param RedirectionMiddlewareTypeEnum $type
+     * @param string $type
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, RedirectionMiddlewareTypeEnum $type): Response|RedirectResponse
+    public function handle(Request $request, Closure $next, string $type): Response|RedirectResponse
     {
          switch ($type) {
              case RedirectionMiddlewareTypeEnum::Auth->value:
