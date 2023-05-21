@@ -13,7 +13,7 @@
                     </a>
                 </li>
             </ul>
-            @include('partials.top-breadcrumb', compact('title', 'breadcrumb_items'))
+            @include('partials.backoffice.breadcrumb', compact('title', 'breadcrumb_items'))
         </div>
         <ul class="nav navbar-nav align-items-center ml-auto">
             <li class="nav-item dropdown dropdown-language">
@@ -35,15 +35,9 @@
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
-                        <span class="user-name font-weight-bolder">{{ auth()->user()->name }}</span>
+                        <span class="user-name font-weight-bolder">{{ auth()->user()->first_name }}</span>
                         <div class="font-small-4">
-                            <span class="badge badge-light-{{ auth()->user()->role_badge['color'] }}">
-                                {{ auth()->user()->role_badge['value'] }}
-                            </span>
-                            <span class="badge badge-light-{{ auth()->user()->subscription->name_badge['color'] }}">
-                                <i data-feather='star' class="text-{{ auth()->user()->subscription->name_badge['color'] }}"></i>
-                                {{ auth()->user()->subscription->name_badge['value'] }}
-                            </span>
+                            @each('partials.backoffice.badge', auth()->user()->roles_badge, 'data')
                         </div>
                     </div>
                     <div class="avatar bg-light-primary">
@@ -51,20 +45,20 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-                    <a class="dropdown-item" href="{{ route('profile') }}">
-                        <i class="mr-50" data-feather="user"></i> Profile
-                    </a>
-                    <a class="dropdown-item" href="{{ route('settings') }}">
-                        <i class="mr-50" data-feather="settings"></i> Settings
-                    </a>
-                    <a class="dropdown-item" href="{{ route('logs') }}">
-                        <i class="mr-50" data-feather="file-text"></i> My logs
-                    </a>
+{{--                    <a class="dropdown-item" href="{{ route('profile') }}">--}}
+{{--                        <i class="mr-50" data-feather="user"></i> Profile--}}
+{{--                    </a>--}}
+{{--                    <a class="dropdown-item" href="{{ route('settings') }}">--}}
+{{--                        <i class="mr-50" data-feather="settings"></i> Settings--}}
+{{--                    </a>--}}
+{{--                    <a class="dropdown-item" href="{{ route('logs') }}">--}}
+{{--                        <i class="mr-50" data-feather="file-text"></i> My logs--}}
+{{--                    </a>--}}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="javascript:void(0);"
                        onclick="document.getElementById('logout-form').submit();"
                     >
-                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                        <form method="POST" action="{{ route('admin.logout') }}" id="logout-form">
                             @csrf
                         </form>
                         <i class="mr-50" data-feather="power"></i> Logout

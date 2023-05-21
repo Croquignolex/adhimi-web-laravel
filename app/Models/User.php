@@ -89,6 +89,32 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     ];
 
     /**
+     * Manage first name, attribute $this->first_name.
+     *
+     * @return Attribute
+     */
+    protected function firstName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+            set: fn (string $value) => mb_strtolower($value, 'UTF-8'),
+        );
+    }
+
+    /**
+     * Manage last name, attribute $this->last_name.
+     *
+     * @return Attribute
+     */
+    protected function lastName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => mb_strtoupper($value, 'UTF-8'),
+            set: fn (string $value) => mb_strtolower($value, 'UTF-8'),
+        );
+    }
+
+    /**
      * Determine timezone birthdate, magic attribute $this->tz_birthdate.
      *
      * @return Attribute
@@ -180,12 +206,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     protected function fullName(): Attribute
     {
-        $formatFirstName = ucfirst($this->first_name);
-
         return new Attribute(
             get: fn () => (is_null($this->last_name))
-                ? $formatFirstName
-                : $formatFirstName . " " . strtoupper($this->first_name)
+                ? $this->first_name
+                : $this->first_name . " " . $this->first_name
         );
     }
 
@@ -200,7 +224,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return new Attribute(
             get: function () {
                 if(is_null($this->first_name)) {
-                    return mb_substr(strtoupper($this->last_name), 0, 2);
+                    return mb_substr($this->last_name, 0, 2);
                 }
 
                 $nameArray = explode(' ', $this->full_name);
@@ -228,8 +252,49 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                 UserStatusEnum::Blocked => [
                     'value' => UserStatusEnum::Blocked->value,
                     'color' => 'danger',
+                ],
+                default => [
+                    'value' => 'Unknown',
+                    'color' => 'secondary',
                 ]
             }
+        );
+    }
+
+    /**
+     * Determine user roles badge, magic attribute $this->roles_badge.
+     *
+     * @return Attribute
+     */
+    protected function rolesBadge(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->getRoleNames()->map(fn (string $role) => match ($role) {
+                UserRoleEnum::SuperAdmin->value => [
+                    'value' => UserRoleEnum::SuperAdmin->value,
+                    'color' => 'danger',
+                ],
+                UserRoleEnum::Admin->value => [
+                    'value' => UserRoleEnum::Admin->value,
+                    'color' => 'danger',
+                ],
+                UserRoleEnum::Merchant->value => [
+                    'value' => UserRoleEnum::Merchant->value,
+                    'color' => 'warning',
+                ],
+                UserRoleEnum::ShopManager->value => [
+                    'value' => UserRoleEnum::ShopManager->value,
+                    'color' => 'primary',
+                ],
+                UserRoleEnum::Saler->value => [
+                    'value' => UserRoleEnum::Saler->value,
+                    'color' => 'info',
+                ],
+                default => [
+                    'value' => UserRoleEnum::Customer->value,
+                    'color' => 'secondary',
+                ]
+            })
         );
     }
 

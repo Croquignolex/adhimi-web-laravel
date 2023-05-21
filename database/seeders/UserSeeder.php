@@ -16,12 +16,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $super_admin = User::factory()->create(['email' => 'super_admin@adhimi.com']);
+        $super_admin = User::factory()->create(['email' => 'super.admin@adhimi.com']);
         User::factory()->for($super_admin, 'creator')->create(['email' => 'user@adhimi.com']);
         $admin = User::factory()->for($super_admin, 'creator')->create(['email' => 'admin@adhimi.com']);
         $saler = User::factory()->for($super_admin, 'creator')->create(['email' => 'saler@adhimi.com']);
         $merchant = User::factory()->for($super_admin, 'creator')->create(['email' => 'merchant@adhimi.com']);
-        $shop_manager = User::factory()->for($super_admin, 'creator')->create(['email' => 'shop_manager@adhimi.com']);
+        $shop_manager = User::factory()->for($super_admin, 'creator')->create(['email' => 'shop.manager@adhimi.com']);
 
         $admin->assignRole(Role::findOrCreate(UserRoleEnum::Admin->value));
         $saler->assignRole(Role::findOrCreate(UserRoleEnum::Saler->value));

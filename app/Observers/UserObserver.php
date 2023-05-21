@@ -3,10 +3,8 @@
 namespace App\Observers;
 
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use App\Traits\UniqueFieldTrait;
 use Illuminate\Support\Str;
-use App\Enums\UserRoleEnum;
 use App\Models\User;
 
 class UserObserver
@@ -33,8 +31,6 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $user->assignRole(Role::findOrCreate(UserRoleEnum::User->value));
-
         $user->setting()->create();
     }
 }

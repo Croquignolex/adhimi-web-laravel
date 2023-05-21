@@ -22,7 +22,7 @@ class LogListener
         }
 
         $event->model->loggers()->create([
-            'user_id' => Auth::id(),
+            'creator_id' => Auth::id(),
             'action' => $event->action,
             'description' => $event->description,
         ]);

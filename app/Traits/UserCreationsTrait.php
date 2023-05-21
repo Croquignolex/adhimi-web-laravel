@@ -2,10 +2,11 @@
 
 namespace App\Traits;
 
-use App\Models\InventoryHistory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\InventoryHistory;
 use App\Models\Organisation;
 use App\Models\Attribute;
+use App\Models\Address;
 use App\Models\Country;
 use App\Models\Vendor;
 use App\Models\Group;
@@ -105,6 +106,16 @@ trait UserCreationsTrait
     public function createdMedias(): HasMany
     {
         return $this->hasMany(Media::class);
+    }
+
+    /**
+     * Get created addresses associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdAddresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 
     /**

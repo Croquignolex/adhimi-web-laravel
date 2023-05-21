@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -17,6 +18,37 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+/**
+ * @middleware auth
+ */
+Route::middleware('redirect:auth')->group(function () {
+    /**
+     * @post admin logout
+     */
+    Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+    /**
+     * @prefix account
+     */
+    Route::prefix('account')->name('customer.')->group(function () {
+        /**
+         * @post customer logout
+         */
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+        /**
+         * @prefix email
+         * @controller verification
+         */
+        Route::prefix('email')->name('verification.')->controller(VerificationController::class)->group(function () {
+            Route::get('verify/{id}/{hash}', 'verify')->name('verify')->middleware('signed')->middleware('throttle:6,1');
+            Route::get('verify', 'show')->name('notice');
+            Route::post('resend', 'resend')->name('resend')->middleware('throttle:6,1');
+        });
+    });
+
+});
 
 /**
  * @middleware guest

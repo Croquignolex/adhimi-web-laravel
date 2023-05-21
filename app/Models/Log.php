@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
-use App\Traits\BelongsToUserTrait;
 use App\Traits\TimezoneDateTrait;
 use App\Enums\LogActionEnum;
 
 class Log extends Model
 {
-    use HasUuids, HasFactory, BelongsToUserTrait, SoftDeletes, TimezoneDateTrait, BelongsToCreatorTrait;
+    use HasUuids, HasFactory, SoftDeletes, TimezoneDateTrait, BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.

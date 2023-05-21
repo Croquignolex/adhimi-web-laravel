@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
-use App\Enums\UserStatusEnum;
-use App\Events\LogEvent;
-use App\Events\ToastEvent;
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\UserStatusEnum;
+use App\Enums\LogActionEnum;
+use App\Enums\ToastTypeEnum;
+use Illuminate\Http\Request;
+use App\Enums\LanguageEnum;
+use App\Events\ToastEvent;
 use Illuminate\View\View;
+use App\Events\LogEvent;
+use App\Models\User;
 
 class AdminLoginController extends Controller
 {
@@ -34,27 +35,30 @@ class AdminLoginController extends Controller
      */
     public function redirectTo(): string
     {
-        return route('home');
+        return route('admin.home');
     }
 
     /**
      * @param Request $request
      * @param User $user
-     * @return null|RedirectResponse
+     * @return null|string
      */
-    protected function authenticated(Request $request, User $user): null|RedirectResponse
+    protected function authenticated(Request $request, User $user): null|string
     {
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
+        $canLogin = (
+            enums_equals($user->status, UserStatusEnum::Active) &&
+            !$user->is_customer
+        );
 
-        if(!enums_equals($user->status, UserStatusEnum::Active)) {
-            return redirect(route('blocked'));
+        if($canLogin) {
+            return 'auth.failed';
         }
 
-        // Apply user settings
-        $setting = $user->setting;
-        session(['language' => $setting->language]);
+        $request->session()->put('language', $user->setting->language);
 
-        ToastEvent::dispatch("Welcome $user->name", ToastTypeEnum::Success);
+        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
+
+        ToastEvent::dispatch("Welcome $user->first_name", ToastTypeEnum::Success);
 
         return null;
     }
@@ -65,7 +69,10 @@ class AdminLoginController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request): RedirectResponse
     {
-        ToastEvent::dispatch("Incorrect credentials", ToastTypeEnum::Danger);
+        ToastEvent::dispatch(
+            __('general.login.invalid_credentials'),
+            ToastTypeEnum::Danger
+        );
 
         return back();
     }
@@ -82,13 +89,13 @@ class AdminLoginController extends Controller
 
         $this->guard()->logout();
 
-        $language = session('language', config('app.fallback_locale'));
+        $language = $request->session()->get('language', LanguageEnum::French->value);
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        session(compact('language'));
+        $request->session()->put('language', $language);
 
-        return redirect(route('login'));
+        return redirect(route('admin.login'));
     }
 }

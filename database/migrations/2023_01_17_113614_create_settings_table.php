@@ -23,7 +23,7 @@ return new class extends Migration
 
             $this->addForeignKey(table: $table, foreignModelFqn: User::class);
 
-            $table->string('language')->default(LanguageEnum::Fr->value);
+            $table->string('language')->default(LanguageEnum::French->value);
             $table->string('timezone')->default('UTC');
 
             $table->boolean('enable_action_on_super_admin_notification')->default(false);
