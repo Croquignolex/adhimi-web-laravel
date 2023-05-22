@@ -2,7 +2,7 @@
 
 @section('master.body')
     <!-- BEGIN: Header-->
-    @include('partials.backoffice.header', compact('title', 'breadcrumb_items'))
+    @include('partials.backoffice.admin.header', compact('title', 'breadcrumb_items'))
     <!-- END: Header-->
 
     <!-- BEGIN: Main Menu-->

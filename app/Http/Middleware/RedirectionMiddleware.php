@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\RedirectionMiddlewareTypeEnum;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\MiddlewareTypeEnum;
 use Illuminate\Http\Response;
-use App\Enums\ToastTypeEnum;
 use Illuminate\Http\Request;
-use App\Events\ToastEvent;
+use App\Enums\UserRoleEnum;
 use Closure;
 
 class RedirectionMiddleware
@@ -23,82 +22,25 @@ class RedirectionMiddleware
      */
     public function handle(Request $request, Closure $next, string $type): Response|RedirectResponse
     {
-         switch ($type) {
-             case RedirectionMiddlewareTypeEnum::Auth->value:
-                 if (!Auth::check()) {
-                     return redirect(route('customer.login'));
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::Guest->value:
-                 if (Auth::check()) {
-                     if (Auth::user()->is_customer) {
-                         return redirect(route('customer.home'));
-                     }
+        $authCheck = Auth::check();
 
-                     return redirect(route('admin.home'));
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::NotSuperAdmin->value:
-                 if (Auth::check()) {
-                     if(!Auth::user()->is_super_admin) {
-                         $this->notAllowToast();
-                         return back();
-                     }
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::NotAdmin->value:
-                 if (Auth::check()) {
-                     if(!Auth::user()->is_admin) {
-                         $this->notAllowToast();
-                         return back();
-                     }
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::NotMerchant->value:
-                 if (Auth::check()) {
-                     if(!Auth::user()->is_merchant) {
-                         $this->notAllowToast();
-                         return back();
-                     }
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::NotShopManager->value:
-                 if (Auth::check()) {
-                     if(!Auth::user()->is_shop_manager) {
-                         $this->notAllowToast();
-                         return back();
-                     }
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::NotSaler->value:
-                 if (Auth::check()) {
-                     if(!Auth::user()->is_saler) {
-                         $this->notAllowToast();
-                         return back();
-                     }
-                 }
-                 break;
-             case RedirectionMiddlewareTypeEnum::NotCustomer->value:
-                 if (Auth::check()) {
-                     if(!Auth::user()->is_customer) {
-                         $this->notAllowToast();
-                         return back();
-                     }
-                 }
-                 break;
-         }
+        switch ($type) {
+            case MiddlewareTypeEnum::Auth->value:
+                if (!$authCheck) {
+                    return redirect(route('customer.login'));
+                }
+                break;
+            case MiddlewareTypeEnum::Guest->value:
+                if ($authCheck) {
+                    if (Auth::user()->hasRole([UserRoleEnum::Customer->value])) {
+                        return redirect(route('customer.home'));
+                    }
+
+                    return redirect(route('admin.home'));
+                }
+                break;
+        }
 
         return $next($request);
-    }
-
-    /**
-     * @return void
-     */
-    private function notAllowToast(): void
-    {
-        ToastEvent::dispatch(
-            "You are not allow to perform this action",
-            ToastTypeEnum::Warning
-        );
     }
 }

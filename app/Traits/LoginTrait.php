@@ -2,15 +2,15 @@
 
 namespace App\Traits;
 
-use App\Enums\LanguageEnum;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Enums\LogActionEnum;
+use Illuminate\Http\Request;
+use App\Enums\ToastTypeEnum;
+use App\Enums\LanguageEnum;
+use App\Events\ToastEvent;
 use App\Events\LogEvent;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use App\Enums\ToastTypeEnum;
-use Illuminate\Http\Request;
-use App\Events\ToastEvent;
-use Illuminate\Support\Facades\Auth;
 
 trait LoginTrait
 {
@@ -20,9 +20,10 @@ trait LoginTrait
      * @param bool $canLogin
      * @return RedirectResponse|null
      */
-    protected function authenticatedProcess(Request $request,  User $user, bool $canLogin): null|RedirectResponse
+    protected function authenticatedProcess(Request $request, User $user, bool $canLogin): null|RedirectResponse
     {
-        if($canLogin) {
+        if(!$canLogin) {
+            $this->guard()->logout();
             return $this->sendFailedLoginResponse($request);
         }
 

@@ -24,14 +24,19 @@ use Illuminate\Support\Facades\Route;
  */
 Route::middleware('redirect:auth')->group(function () {
     /**
-     * @post admin logout
+     * @middleware super admin merchant manager saler
      */
-    Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+    Route::middleware('allow:super,admin,merchant,manager,saler')->group(function () {
+        /**
+         * @post logout
+         */
+        Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+    });
 
     /**
      * @prefix account
      */
-    Route::prefix('account')->name('customer.')->group(function () {
+    Route::middleware('allow:customer')->prefix('account')->name('customer.')->group(function () {
         /**
          * @post customer logout
          */

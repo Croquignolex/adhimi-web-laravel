@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Route;
  */
 Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(function () {
     /**
-     * @view home
+     * @middleware super admin merchant manager saler
      */
-    Route::view('home', 'backoffice.admin.home')->name('home');
-
+    Route::middleware('allow:super,admin,merchant,manager,saler')->group(function () {
+        /**
+         * @view home
+         */
+        Route::view('home', 'backoffice.admin.home')->name('home');
+    });
 });

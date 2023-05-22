@@ -46,11 +46,6 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="text-right">
-                                            <a href="{{ route('customer.password.request') }}">
-                                                <small>@lang('general.login.forgotten_password')?</small>
-                                            </a>
-                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox">
@@ -66,13 +61,6 @@
                                         @lang('field.login')
                                     </button>
                                 </form>
-                                <p class="text-center mt-2">
-                                    <span>@lang('general.login.new_on_this_platform') ?</span>
-                                    <a href="{{ route('customer.register') }}">
-                                        <span>&nbsp;@lang('general.login.create_an_account')</span>
-                                    </a>
-                                </p>
-
                             </div>
                         </div>
                     </div>

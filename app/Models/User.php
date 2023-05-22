@@ -199,33 +199,27 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return new Attribute(
             get: fn () => $this->getRoleNames()->map(fn (string $role) => match ($role) {
                 UserRoleEnum::SuperAdmin->value => [
-                    'title' => UserRoleEnum::SuperAdmin->value,
-                    'value' => 'SAD',
+                    'value' => UserRoleEnum::SuperAdmin->value,
                     'color' => 'danger',
                 ],
                 UserRoleEnum::Admin->value => [
-                    'title' => UserRoleEnum::Admin->value,
-                    'value' => 'ADM',
+                    'value' => UserRoleEnum::Admin->value,
                     'color' => 'danger',
                 ],
                 UserRoleEnum::Merchant->value => [
-                    'title' => UserRoleEnum::Merchant->value,
-                    'value' => 'MER',
+                    'value' => UserRoleEnum::Merchant->value,
                     'color' => 'warning',
                 ],
                 UserRoleEnum::ShopManager->value => [
-                    'title' => UserRoleEnum::ShopManager->value,
-                    'value' => 'SMA',
+                    'value' => UserRoleEnum::ShopManager->value,
                     'color' => 'primary',
                 ],
                 UserRoleEnum::Saler->value => [
-                    'title' => UserRoleEnum::Saler->value,
-                    'value' => 'SAL',
+                    'value' => UserRoleEnum::Saler->value,
                     'color' => 'info',
                 ],
                 default => [
-                    'title' => UserRoleEnum::Customer->value,
-                    'value' => 'CUS',
+                    'value' => UserRoleEnum::Customer->value,
                     'color' => 'secondary',
                 ]
             })

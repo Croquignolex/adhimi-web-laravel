@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\UserRoleEnum;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Enums\UserStatusEnum;
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
 use Illuminate\Http\Request;
-use App\Events\ToastEvent;
+use App\Enums\UserRoleEnum;
+use App\Traits\LoginTrait;
 use Illuminate\View\View;
-use App\Events\LogEvent;
 use App\Models\User;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, LoginTrait {
+        LoginTrait::sendFailedLoginResponse insteadof AuthenticatesUsers;
+        LoginTrait::logout insteadof AuthenticatesUsers;
+    }
 
     /**
      * Show the application's login form.
@@ -31,14 +30,8 @@ class LoginController extends Controller
     }
 
     /**
-     * @return string
-     */
-    public function redirectTo(): string
-    {
-        return route('customer.home');
-    }
-
-    /**
+     * The user has been authenticated.
+     *
      * @param Request $request
      * @param User $user
      * @return null|RedirectResponse
@@ -47,52 +40,29 @@ class LoginController extends Controller
     {
         $canLogin = (
             enums_equals($user->status, UserStatusEnum::Active) &&
-            $this->hasRole([UserRoleEnum::Customer->value])
+            $user->hasRole([UserRoleEnum::Customer->value])
         );
 
-        if($canLogin) {
-            return $this->sendFailedLoginResponse($request);
-        }
-
-        $request->session()->put('language', $user->setting->language);
-
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
-
-        ToastEvent::dispatch("Welcome $user->first_name", ToastTypeEnum::Success);
-
-        return null;
+        return $this->authenticatedProcess($request, $user, $canLogin);
     }
 
     /**
-     * @param Request $request
+     * The user has logged out of the application.
+     *
      * @return RedirectResponse
      */
-    protected function sendFailedLoginResponse(Request $request): RedirectResponse
+    protected function loggedOut(): RedirectResponse
     {
-        ToastEvent::dispatch("Incorrect credentials", ToastTypeEnum::Danger);
-
-        return back();
+        return redirect(route('customer.login'));
     }
 
     /**
-     * @param Request $request
-     * @return RedirectResponse
+     * Get the post register / login redirect path.
+     *
+     * @return string
      */
-    public function logout(Request $request): RedirectResponse
+    public function redirectTo(): string
     {
-        $user = Auth::user();
-
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Logout", false);
-
-        $this->guard()->logout();
-
-        $language = session('language', config('app.fallback_locale'));
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        session(compact('language'));
-
-        return redirect(route('login'));
+        return route('customer.home');
     }
 }
