@@ -25,8 +25,8 @@ return new class extends Migration
             $this->addForeignKey(table: $table, nullable: true, foreignKey: 'organisation_id');
             $this->addForeignKey(table: $table, nullable: true, foreignKey: 'shop_id');
 
-            $table->string('first_name')->nullable();
-            $table->string('last_name');
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
             $table->string('slug')->unique();
             $table->string('email')->unique();
             $table->string('password');

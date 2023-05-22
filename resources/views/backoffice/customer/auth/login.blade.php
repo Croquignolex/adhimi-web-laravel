@@ -5,36 +5,28 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <div class="content-header row"></div>
+            <div class="content-header row">
+            </div>
             <div class="content-body">
-                <div class="auth-wrapper auth-v2">
-                    <div class="auth-inner row m-0">
-                        <!-- Brand logo-->
-                        <a class="brand-logo" href="{{ route('home') }}">
-                            <h2 class="brand-text text-primary ml-1">{{ config('app.name') }}</h2>
-                        </a>
-                        <!-- /Brand logo-->
-                        <!-- Left Text-->
-                        <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
-                                <img class="img-fluid"
-                                     src="{{ asset("app-assets/images/pages/login-v2-dark.svg") }}"
-                                     alt="Login V2"
-                                />
-                            </div>
-                        </div>
-                        <!-- /Left Text-->
-                        <!-- Login-->
-                        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
-                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                                <h4 class="card-title mb-1">Welcome to {{ config('app.name') }}! 👋</h4>
-                                <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+                <div class="auth-wrapper auth-v1 px-2">
+                    <div class="auth-inner py-2">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <!-- Brand logo-->
+                                <a class="brand-logo" href="{{ route('home') }}">
+                                    <img src="{{ asset('assets/images/logo.png') }}" alt="adhimi-logo" class="img-fluid" width="200">
+                                </a>
+                                <!-- /Brand logo-->
+
+                                <h4 class="card-title mb-1">@lang('general.welcome')!! 👋</h4>
+                                <p class="card-text mb-2">@lang('general.login.enter_your_credentials')</p>
                                 @include('partials.feedbacks.alert')
+
                                 <form class="auth-login-form mt-2" action="" method="POST">
                                     @csrf
                                     <div class="form-group">
                                         <label class="form-label" for="login-email">
-                                            Email*
+                                            @lang('field.email') <span class="text-danger">*</span>
                                             @include('partials.feedbacks.validation', ['field' => 'email'])
                                         </label>
                                         <input class="form-control" id="login-email" type="email" name="email"
@@ -42,7 +34,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="login-password">
-                                            Password*
+                                            @lang('field.password') <span class="text-danger">*</span>
                                             @include('partials.feedbacks.validation', ['field' => 'password'])
                                         </label>
                                         <div class="input-group input-group-merge form-password-toggle">
@@ -55,7 +47,9 @@
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            <a href="{{ route('customer.password.request') }}"><small>Forgot Password?</small></a>
+                                            <a href="{{ route('customer.password.request') }}">
+                                                <small>@lang('general.login.forgotten_password')?</small>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -63,20 +57,24 @@
                                             <input class="custom-control-input" id="remember-me" name="remember"
                                                    type="checkbox"
                                                    tabindex="3" {{ old('remember') ? 'checked' : '' }} />
-                                            <label class="custom-control-label" for="remember-me"> Remember Me</label>
+                                            <label class="custom-control-label" for="remember-me">
+                                                @lang('general.login.remember_me')
+                                            </label>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary btn-block" tabindex="4" type="submit">Login</button>
+                                    <button class="btn btn-primary btn-block" tabindex="4" type="submit">
+                                        @lang('field.login')
+                                    </button>
                                 </form>
                                 <p class="text-center mt-2">
-                                    <span>New on our platform?</span>
+                                    <span>@lang('general.login.new_on_this_platform') ?</span>
                                     <a href="{{ route('customer.register') }}">
-                                        <span>&nbsp;Create an account</span>
+                                        <span>&nbsp;@lang('general.login.create_an_account')</span>
                                     </a>
                                 </p>
+
                             </div>
                         </div>
-                        <!-- /Login-->
                     </div>
                 </div>
             </div>

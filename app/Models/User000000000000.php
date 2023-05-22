@@ -27,7 +27,7 @@ use App\Enums\MediaTypeEnum;
 use App\Enums\UserRoleEnum;
 use App\Enums\GenderEnum;
 
-class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
+class User000000000000 extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use HasUuids,
         HasRoles,
@@ -124,6 +124,90 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         $field = $this->birthdate;
         return new Attribute(
             get: fn () => is_null($field) ? $field : $this->timezoneDate($field)
+        );
+    }
+
+    /**
+     * Determine if user is super admin, magic attribute $this->is_super_admin.
+     *
+     * @return Attribute
+     */
+    protected function isSuperAdmin(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::SuperAdmin->value])
+        );
+    }
+
+    /**
+     * Determine if user admin, magic attribute $this->is_admin.
+     *
+     * @return Attribute
+     */
+    protected function isAdmin(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::Admin->value])
+        );
+    }
+
+    /**
+     * Determine if user is merchant, magic attribute $this->is_merchant.
+     *
+     * @return Attribute
+     */
+    protected function isMerchant(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::Merchant->value])
+        );
+    }
+
+    /**
+     * Determine if user is shop manager, magic attribute $this->is_shop_manager.
+     *
+     * @return Attribute
+     */
+    protected function isShopManager(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::ShopManager->value])
+        );
+    }
+
+    /**
+     * Determine if user is saler, magic attribute $this->is_saler.
+     *
+     * @return Attribute
+     */
+    protected function isSaler(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::Saler->value])
+        );
+    }
+
+    /**
+     * Determine if user is customer, magic attribute $this->is_customer.
+     *
+     * @return Attribute
+     */
+    protected function isCustomer(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::Customer->value])
+        );
+    }
+
+    /**
+     * Determine if user is only a customer, magic attribute $this->is_only_customer.
+     *
+     * @return Attribute
+     */
+    protected function isOnlyCustomer(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasExactRoles([UserRoleEnum::Customer->value])
         );
     }
 

@@ -36,7 +36,7 @@
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
                         <span class="user-name font-weight-bolder">{{ auth()->user()->first_name }}</span>
-                        <div class="font-small-4">
+                        <div class="font-small-2">
                             @each('partials.backoffice.badge', auth()->user()->roles_badge, 'data')
                         </div>
                     </div>

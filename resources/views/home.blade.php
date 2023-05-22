@@ -1,6 +1,6 @@
-@extends('layouts.store', ['title' => __('page.home')])
+@extends('layouts.main', ['title' => __('page.home')])
 
-@section('body')
+@section('master.body')
     <div class="page-wrapper">
         <header class="header header-10 header-intro-clearance">
             <div class="header-top">
@@ -5581,22 +5581,29 @@
     </div>
 @endsection
 
-@push('other.styles')
+@push('master.styles')
+    <!-- BEGIN: Other CSS-->
     <link rel="stylesheet" href="{{ asset('assets/vendor/line-awesome/line-awesome/css/line-awesome.min.css') }}">
-@endpush
+    <!-- END: Other CSS-->
 
-@push('plugins.styles')
+    <!-- BEGIN: Plugins CSS-->
+    <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/plugins/owl-carousel/owl.carousel.css") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/plugins/magnific-popup/magnific-popup.css") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/plugins/jquery.countdown.css") }}">
-@endpush
+    <!-- END: Plugins CSS-->
 
-@push('main.styles')
+    <!-- BEGIN: Main CSS-->
+    <link rel="stylesheet" href="{{ asset("assets/css/style.css") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/skins/skin-demo-13.css") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/demos/demo-13.css") }}">
+    <!-- END: Main CSS-->
 @endpush
 
-@push('plugins.scripts')
+@push('master.scripts')
+    <!-- BEGIN: Plugins Js-->
+    <script src="{{ asset("assets/js/jquery.min.js") }}"></script>
+    <script src="{{ asset("assets/js/bootstrap.bundle.min.js") }}"></script>
     <script src="{{ asset("assets/js/jquery.hoverIntent.min.js") }}"></script>
     <script src="{{ asset("assets/js/jquery.waypoints.min.js") }}"></script>
     <script src="{{ asset("assets/js/superfish.min.js") }}"></script>
@@ -5605,8 +5612,10 @@
     <script src="{{ asset("assets/js/jquery.magnific-popup.min.js") }}"></script>
     <script src="{{ asset("assets/js/jquery.plugin.min.js") }}"></script>
     <script src="{{ asset("assets/js/jquery.countdown.min.js") }}"></script>
-@endpush
+    <!-- END: Plugins Js-->
 
-@push('main.scripts')
+    <!-- BEGIN: Main Js-->
+    <script src="{{ asset("assets/js/main.js") }}"></script>
     <script src="{{ asset("assets/js/demos/demo-13.js") }}"></script>
+    <!-- END: Main Js-->
 @endpush

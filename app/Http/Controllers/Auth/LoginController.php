@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
-use App\Enums\UserStatusEnum;
-use App\Events\LogEvent;
-use App\Events\ToastEvent;
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Enums\UserRoleEnum;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\UserStatusEnum;
+use App\Enums\LogActionEnum;
+use App\Enums\ToastTypeEnum;
+use Illuminate\Http\Request;
+use App\Events\ToastEvent;
 use Illuminate\View\View;
+use App\Events\LogEvent;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -34,7 +35,7 @@ class LoginController extends Controller
      */
     public function redirectTo(): string
     {
-        return route('home');
+        return route('customer.home');
     }
 
     /**
@@ -44,17 +45,20 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, User $user): null|RedirectResponse
     {
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
+        $canLogin = (
+            enums_equals($user->status, UserStatusEnum::Active) &&
+            $this->hasRole([UserRoleEnum::Customer->value])
+        );
 
-        if(!enums_equals($user->status, UserStatusEnum::Active)) {
-            return redirect(route('blocked'));
+        if($canLogin) {
+            return $this->sendFailedLoginResponse($request);
         }
 
-        // Apply user settings
-        $setting = $user->setting;
-        session(['language' => $setting->language]);
+        $request->session()->put('language', $user->setting->language);
 
-        ToastEvent::dispatch("Welcome $user->name", ToastTypeEnum::Success);
+        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
+
+        ToastEvent::dispatch("Welcome $user->first_name", ToastTypeEnum::Success);
 
         return null;
     }

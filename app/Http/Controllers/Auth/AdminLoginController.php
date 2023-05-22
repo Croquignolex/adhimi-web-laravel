@@ -5,20 +5,19 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Enums\UserStatusEnum;
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
 use Illuminate\Http\Request;
-use App\Enums\LanguageEnum;
-use App\Events\ToastEvent;
+use App\Enums\UserRoleEnum;
+use App\Traits\LoginTrait;
 use Illuminate\View\View;
-use App\Events\LogEvent;
 use App\Models\User;
 
 class AdminLoginController extends Controller
 {
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, LoginTrait {
+        LoginTrait::sendFailedLoginResponse insteadof AuthenticatesUsers;
+        LoginTrait::logout insteadof AuthenticatesUsers;
+    }
 
     /**
      * Show the application's login form.
@@ -31,71 +30,45 @@ class AdminLoginController extends Controller
     }
 
     /**
+     * The user has been authenticated.
+     *
+     * @param Request $request
+     * @param User $user
+     * @return null|RedirectResponse
+     */
+    protected function authenticated(Request $request, User $user): null|RedirectResponse
+    {
+        $canLogin = (
+            enums_equals($user->status, UserStatusEnum::Active) &&
+            $user->hasRole([
+                UserRoleEnum::ShopManager->value,
+                UserRoleEnum::SuperAdmin->value,
+                UserRoleEnum::Merchant->value,
+                UserRoleEnum::Admin->value,
+                UserRoleEnum::Saler->value,
+            ])
+        );
+
+        return $this->authenticatedProcess($request, $user, $canLogin);
+    }
+
+    /**
+     * The user has logged out of the application.
+     *
+     * @return RedirectResponse
+     */
+    protected function loggedOut(): RedirectResponse
+    {
+        return redirect(route('admin.login'));
+    }
+
+    /**
+     * Get the post register / login redirect path.
+     *
      * @return string
      */
     public function redirectTo(): string
     {
         return route('admin.home');
-    }
-
-    /**
-     * @param Request $request
-     * @param User $user
-     * @return null|string
-     */
-    protected function authenticated(Request $request, User $user): null|string
-    {
-        $canLogin = (
-            enums_equals($user->status, UserStatusEnum::Active) &&
-            !$user->is_customer
-        );
-
-        if($canLogin) {
-            return 'auth.failed';
-        }
-
-        $request->session()->put('language', $user->setting->language);
-
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
-
-        ToastEvent::dispatch("Welcome $user->first_name", ToastTypeEnum::Success);
-
-        return null;
-    }
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    protected function sendFailedLoginResponse(Request $request): RedirectResponse
-    {
-        ToastEvent::dispatch(
-            __('general.login.invalid_credentials'),
-            ToastTypeEnum::Danger
-        );
-
-        return back();
-    }
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function logout(Request $request): RedirectResponse
-    {
-        $user = Auth::user();
-
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Logout", false);
-
-        $this->guard()->logout();
-
-        $language = $request->session()->get('language', LanguageEnum::French->value);
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        $request->session()->put('language', $language);
-
-        return redirect(route('admin.login'));
     }
 }
