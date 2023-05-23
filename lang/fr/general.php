@@ -19,6 +19,14 @@ return [
         'new_on_this_platform' => 'Nouveau sur cette plateforme',
         'create_an_account' => 'Créer un compte',
         'invalid_credentials' => 'Identifiants incorrect',
+        'welcome_name' => 'Bienvenue :name',
+    ],
+
+    'profile' => [
+        'general' => 'Général',
+        'password' => 'Mot de passe',
+        'avatar' => 'Avatar',
+        'profile_updated' => 'Profil mis à jour avec succès',
     ],
 
     'footer' => [

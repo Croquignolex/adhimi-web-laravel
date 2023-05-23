@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('first_purchase')->default(false);
+            $table->boolean('default_password')->default(false);
             $table->string('profession')->nullable();
             $table->string('gender')->default(GenderEnum::Unknown->value);
             $table->date('birthdate')->nullable();

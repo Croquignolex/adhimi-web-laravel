@@ -50,11 +50,11 @@ trait EnumToolsTrait
     /**
      * Get validation string
      *
+     * @param string $separator
      * @return mixed
      */
-    public static function validationRule(): string
+    public static function stringify(string $separator = ','): string
     {
-        $inValues = implode(',', self::values());
-        return "string|in:$inValues";
+        return implode($separator, self::values());
     }
 }

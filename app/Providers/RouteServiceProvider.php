@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // For the route to only consider known locale in segment
-        Route::pattern('language', implode('|', LanguageEnum::values()));
+        Route::pattern('language', LanguageEnum::stringify('|'));
 
         $this->configureRateLimiting();
 

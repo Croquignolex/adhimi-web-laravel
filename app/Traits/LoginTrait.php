@@ -29,18 +29,19 @@ trait LoginTrait
 
         $request->session()->put('language', $user->setting->language);
 
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Login", false);
+        LogEvent::dispatch($user, LogActionEnum::Auth, __('page.login'), false);
 
-        ToastEvent::dispatch("Welcome $user->first_name", ToastTypeEnum::Success);
+        ToastEvent::dispatch(__('general.login.welcome_name', ['name' => $user->first_name]), ToastTypeEnum::Success);
 
         return null;
     }
 
     /**
-     * @param Request $request
+     * Get the failed login response instance.
+     *
      * @return RedirectResponse
      */
-    protected function sendFailedLoginResponse(Request $request): RedirectResponse
+    protected function sendFailedLoginResponse(): RedirectResponse
     {
         ToastEvent::dispatch(
             __('general.login.invalid_credentials'),
@@ -51,6 +52,8 @@ trait LoginTrait
     }
 
     /**
+     * Log the user out of the application.
+     *
      * @param Request $request
      * @return RedirectResponse
      */
@@ -58,7 +61,7 @@ trait LoginTrait
     {
         $user = Auth::user();
 
-        LogEvent::dispatch($user, LogActionEnum::Auth, "Logout", false);
+        LogEvent::dispatch($user, LogActionEnum::Auth, __('page.logout'), false);
 
         $this->guard()->logout();
 

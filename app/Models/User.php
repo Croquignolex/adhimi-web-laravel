@@ -21,6 +21,7 @@ use App\Traits\UserCreationsTrait;
 use App\Traits\BelongsToShopTrait;
 use App\Traits\MorphManyLogsTrait;
 use App\Traits\TimezoneDateTrait;
+use App\Traits\UniqueSlugTrait;
 use App\Enums\AddressTypeEnum;
 use App\Enums\UserStatusEnum;
 use App\Enums\MediaTypeEnum;
@@ -34,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         HasFactory,
         Notifiable,
         SoftDeletes,
+        UniqueSlugTrait,
         TimezoneDateTrait,
         MorphManyLogsTrait,
         BelongsToShopTrait,
@@ -60,6 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'status',
         'description',
         'first_purchase',
+        'default_password',
 
         'shop_id',
         'creator_id',
@@ -84,6 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $casts = [
         'birthdate' => 'date',
         'first_purchase' => 'boolean',
+        'default_password' => 'boolean',
         'status' => UserStatusEnum::class,
         'gender' => GenderEnum::class,
     ];

@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'description' => $this->faker->text(),
             'first_purchase' => $this->faker->boolean,
+            'default_password' => $this->faker->boolean,
             'status' => UserStatusEnum::randomValue(),
             'birthdate' => now()->subYears(fake()->randomNumber(2)),
         ];

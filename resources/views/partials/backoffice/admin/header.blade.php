@@ -45,9 +45,9 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-{{--                    <a class="dropdown-item" href="{{ route('profile') }}">--}}
-{{--                        <i class="mr-50" data-feather="user"></i> Profile--}}
-{{--                    </a>--}}
+                    <a class="dropdown-item" href="{{ route('admin.profile.general') }}">
+                        <i class="mr-50" data-feather="user"></i> @lang('page.profile')
+                    </a>
 {{--                    <a class="dropdown-item" href="{{ route('settings') }}">--}}
 {{--                        <i class="mr-50" data-feather="settings"></i> Settings--}}
 {{--                    </a>--}}
