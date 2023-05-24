@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backoffice\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +33,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
             Route::get('general', 'infoShowForm')->name('general');
             Route::put('general', 'infoUpdate');
-            Route::view('password', 'backoffice.admin.account.password')->name('password');
+            Route::view('password', 'backoffice.admin.profile.password')->name('password');
             Route::put('password', 'passwordUpdate');
             Route::get('avatar', 'avatarShowForm')->name('avatar');
             Route::put('avatar', 'avatarUpdate');

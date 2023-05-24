@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backoffice\Customer;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('backoffice.admin.account.profile', compact('user'));
+        return view('backoffice.admin.profile.index', compact('user'));
     }
 
     /**
@@ -68,7 +69,7 @@ class ProfileController extends Controller
         $password = $validated['password'];
 
         if ($password === $old_password) {
-            ToastEvent::dispatch("Identical passwords, please provide a new password different from the old password", ToastTypeEnum::Warning);
+            ToastEvent::dispatch(__('general.profile.identical_passwords'), ToastTypeEnum::Danger);
         }
         else
         {
@@ -78,10 +79,10 @@ class ProfileController extends Controller
             {
                 $user->update(['password' => Hash::make($password)]);
 
-                LogEvent::dispatch($user, LogActionEnum::Custom, "Password updated");
+                LogEvent::dispatch($user, LogActionEnum::Custom, __('general.profile.password_updated'));
             }
             else {
-                ToastEvent::dispatch("Incorrect old password", ToastTypeEnum::Danger);
+                ToastEvent::dispatch(__('general.profile.incorrect_old_password'), ToastTypeEnum::Danger);
             }
         }
 

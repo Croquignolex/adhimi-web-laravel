@@ -1,19 +1,23 @@
-@extends('layouts.app', [
-    'title' => 'Update password',
+@extends('layouts.admin', [
+    'title' => __('page.change_password'),
     'breadcrumb_items' => [
-        ['url' => route('home'), 'label' => 'Home'],
-        ['url' => route('profile'), 'label' => 'Profile'],
+        ['url' => route('home'), 'label' => __('page.home')]
     ]
 ])
 
 @section('content')
-    <div class="app-content content ">
+    <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
             <div class="content-body">
                 <div class="row">
-                    <div class="col-12">
+                    <!-- left menu section -->
+                    @include('partials.backoffice.admin.profile-sidebar')
+                    <!--/ left menu section -->
+
+                    <!-- right content section -->
+                    <div class="col-md-9">
                         <div class="card">
                             <div class="card-body">
                                 <!-- form -->
@@ -25,7 +29,7 @@
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
                                                 <label for="account-old-password">
-                                                    Old Password*
+                                                    @lang('field.old_password') <span class="text-danger">*</span>
                                                     @include('partials.feedbacks.validation', ['field' => 'old_password'])
                                                 </label>
                                                 <div class="input-group form-password-toggle input-group-merge">
@@ -43,7 +47,7 @@
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
                                                 <label for="account-new-password">
-                                                    New Password*
+                                                    @lang('field.new_password') <span class="text-danger">*</span>
                                                     @include('partials.feedbacks.validation', ['field' => 'password'])
                                                 </label>
                                                 <div class="input-group form-password-toggle input-group-merge">
@@ -58,7 +62,9 @@
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-retype-new-password">Retype New Password*</label>
+                                                <label for="account-retype-new-password">
+                                                    @lang('field.password_confirmation') <span class="text-danger">*</span>
+                                                </label>
                                                 <div class="input-group form-password-toggle input-group-merge">
                                                     <input type="password" class="form-control" id="account-retype-new-password" name="password_confirmation" />
                                                     <div class="input-group-append">
@@ -68,7 +74,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary mt-50">Save</button>
+                                            <button type="submit" class="btn btn-primary mt-50">@lang('field.save')</button>
                                         </div>
                                     </div>
                                 </form>
@@ -76,6 +82,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--/ right content section -->
                 </div>
             </div>
         </div>

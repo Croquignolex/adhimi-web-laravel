@@ -14,6 +14,7 @@ return [
     'login' => 'Connexion',
     'logout' => 'Déconnexion',
     'profile' => 'Profil',
-    'my_profile' => 'My profil',
+    'my_profile' => 'Modifier les infos',
+    'change_password' => 'Modifier le mot de passe',
 
 ];

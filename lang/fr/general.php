@@ -27,6 +27,9 @@ return [
         'password' => 'Mot de passe',
         'avatar' => 'Avatar',
         'profile_updated' => 'Profil mis à jour avec succès',
+        'password_updated' => 'Mot de passe mis à jour avec succès',
+        'incorrect_old_password' => 'Ancien mot de passe incorrect',
+        'identical_passwords' => "Mot de passes identiques, merci de donner un nouveau mot de passe différent de l'ancien mot de passe ",
     ],
 
     'footer' => [
