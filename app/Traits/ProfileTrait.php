@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
+use App\Http\Requests\Profile\UpdateSettingsRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,9 +36,9 @@ trait ProfileTrait
      */
     public function infoUpdate(UpdateProfileRequest $request): RedirectResponse
     {
-        $user = Auth::user();
-
         $validated = $request->validated();
+
+        $user = Auth::user();
 
         $user->update([
             'slug' => $validated['first_name'],
@@ -89,6 +90,63 @@ trait ProfileTrait
     }
 
     /**
+     * Show update settings info form
+     *
+     * @return View
+     */
+    public function settingsShowForm(): View
+    {
+        $user = Auth::user();
+
+        $setting = $user->setting;
+
+        return view('backoffice.admin.profile.settings', compact('setting', 'user'));
+    }
+
+    /**
+     * Update profile settings
+     *
+     * @param UpdateSettingsRequest $request
+     * @return RedirectResponse
+     */
+    public function settingsUpdate(UpdateSettingsRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $enable_payement = nullable_params_value('enable_payement', $validated);
+        $enable_purchase = nullable_params_value('enable_purchase', $validated);
+        $enable_product = nullable_params_value('enable_product', $validated);
+        $enable_customer = nullable_params_value('enable_customer', $validated);
+        $enable_saler = nullable_params_value('enable_saler', $validated);
+        $enable_manager = nullable_params_value('enable_manager', $validated);
+        $enable_merchant = nullable_params_value('enable_merchant', $validated);
+        $enable_admin = nullable_params_value('enable_admin', $validated);
+        $enable_super_admin = nullable_params_value('enable_super_admin', $validated);
+
+        $user = Auth::user();
+
+        $user->setting()->update([
+            'language' => $validated['language'],
+            'timezone' => $validated['timezone'],
+
+            'enable_action_on_super_admin_notification' => $enable_super_admin,
+            'enable_action_on_admin_notification' => $enable_admin,
+            'enable_action_on_manager_notification' => $enable_manager,
+            'enable_action_on_merchant_notification' => $enable_merchant,
+            'enable_action_on_saler_notification' => $enable_saler,
+            'enable_action_on_customer_notification' => $enable_customer,
+
+            'enable_product_notification' => $enable_product,
+            'enable_purchase_notification' => $enable_purchase,
+            'enable_payment_notification' => $enable_payement,
+        ]);
+
+        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.settings_updated'));
+
+        return back();
+    }
+
+    /**
      * Show user log activities
      *
      * @return View
@@ -99,4 +157,6 @@ trait ProfileTrait
 
         return view('backoffice.admin.profile.logs', compact('logs'));
     }
+
+
 }

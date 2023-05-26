@@ -31,7 +31,7 @@ return new class extends Migration
             $table->boolean('enable_action_on_manager_notification')->default(false);
             $table->boolean('enable_action_on_merchant_notification')->default(false);
             $table->boolean('enable_action_on_saler_notification')->default(false);
-            $table->boolean('enable_action_on_user_notification')->default(false);
+            $table->boolean('enable_action_on_customer_notification')->default(false);
 
             $table->boolean('enable_product_notification')->default(false);
             $table->boolean('enable_purchase_notification')->default(false);

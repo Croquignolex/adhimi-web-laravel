@@ -7,11 +7,17 @@ if(!function_exists('nullable_params_value'))
     /**
      * @param string $key
      * @param array $validated
-     * @return string
+     * @param bool $boolValue
+     * @return string|bool
      */
-    function nullable_params_value(string $key, array $validated): string
+    function nullable_params_value(string $key, array $validated, bool $boolValue = true): string|bool
     {
         $value = array_key_exists($key, $validated) ? $validated[$key] : '';
+
+        if($boolValue) {
+            return $value !== '';
+        }
+
         return $value ?? '';
     }
 }

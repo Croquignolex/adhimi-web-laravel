@@ -26,7 +26,7 @@ class Setting extends Model
         'enable_action_on_manager_notification',
         'enable_action_on_merchant_notification',
         'enable_action_on_saler_notification',
-        'enable_action_on_user_notification',
+        'enable_action_on_customer_notification',
 
         'enable_product_notification',
         'enable_purchase_notification',
@@ -46,7 +46,7 @@ class Setting extends Model
         'enable_action_on_manager_notification' => 'boolean',
         'enable_action_on_merchant_notification' => 'boolean',
         'enable_action_on_saler_notification' => 'boolean',
-        'enable_action_on_user_notification' => 'boolean',
+        'enable_action_on_customer_notification' => 'boolean',
 
         'enable_payment_notification' => 'boolean',
         'enable_purchase_notification' => 'boolean',

@@ -47,13 +47,13 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-                    <a class="dropdown-item" href="{{ route('admin.profile.general') }}">
+                    <a class="dropdown-item {{ active_page('admin.profile.general') }}" href="{{ route('admin.profile.general') }}">
                         <i class="mr-50" data-feather="user"></i> @lang('page.profile')
                     </a>
-{{--                    <a class="dropdown-item" href="{{ route('settings') }}">--}}
-{{--                        <i class="mr-50" data-feather="settings"></i> Settings--}}
-{{--                    </a>--}}
-                    <a class="dropdown-item" href="{{ route('admin.profile.logs') }}">
+                    <a class="dropdown-item {{ active_page('admin.profile.settings') }}" href="{{ route('admin.profile.settings') }}">
+                        <i class="mr-50" data-feather="settings"></i> @lang('page.settings')
+                    </a>
+                    <a class="dropdown-item {{ active_page('admin.profile.logs') }}" href="{{ route('admin.profile.logs') }}">
                         <i class="mr-50" data-feather="file-text"></i> @lang('page.logs')
                     </a>
                     <div class="dropdown-divider"></div>

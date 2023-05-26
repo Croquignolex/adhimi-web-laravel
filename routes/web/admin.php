@@ -33,6 +33,8 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
             Route::get('general', 'infoShowForm')->name('general');
             Route::put('general', 'infoUpdate');
+            Route::get('settings', 'settingsShowForm')->name('settings');
+            Route::put('settings', 'settingsUpdate');
             Route::view('password', 'backoffice.admin.profile.password')->name('password');
             Route::put('password', 'passwordUpdate');
             Route::get('logs', 'logsShowForm')->name('logs');

@@ -14,8 +14,10 @@ return [
     'login' => 'Connexion',
     'logout' => 'Déconnexion',
     'profile' => 'Mon profil',
+    'settings' => 'Mes params',
     'logs' => 'Mes journaux',
-    'my_profile' => 'Modifier les infos',
-    'change_password' => 'Modifier le mot de passe',
+    'my_profile' => 'Modifier mes infos',
+    'change_password' => 'Modifier mon mot de passe',
+    'update_settings' => 'Modifier mes paramètres',
 
 ];

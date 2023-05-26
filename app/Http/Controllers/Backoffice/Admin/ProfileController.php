@@ -8,6 +8,4 @@ use App\Traits\ProfileTrait;
 class ProfileController extends Controller
 {
     use ProfileTrait;
-
-
 }
