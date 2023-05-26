@@ -169,27 +169,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
-     * Determine user status badge, magic attribute $this->status_badge.
+     * Determine user role, magic attribute $this->role.
      *
      * @return Attribute
      */
-    protected function statusBadge(): Attribute
+    protected function role(): Attribute
     {
         return new Attribute(
-            get: fn () => match ($this->status) {
-                UserStatusEnum::Active => [
-                    'value' => UserStatusEnum::Active->value,
-                    'color' => 'success',
-                ],
-                UserStatusEnum::Blocked => [
-                    'value' => UserStatusEnum::Blocked->value,
-                    'color' => 'danger',
-                ],
-                default => [
-                    'value' => 'Unknown',
-                    'color' => 'secondary',
-                ]
-            }
+            get: fn () => $this->getRoleNames()->first()
         );
     }
 
@@ -201,7 +188,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected function rolesBadge(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->getRoleNames()->map(fn (string $role) => match ($role) {
+            get: fn () => match ($this->role) {
                 UserRoleEnum::SuperAdmin->value => [
                     'value' => UserRoleEnum::SuperAdmin->value,
                     'color' => 'danger',
@@ -226,7 +213,32 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                     'value' => UserRoleEnum::Customer->value,
                     'color' => 'secondary',
                 ]
-            })
+            }
+        );
+    }
+
+    /**
+     * Determine user status badge, magic attribute $this->status_badge.
+     *
+     * @return Attribute
+     */
+    protected function statusBadge(): Attribute
+    {
+        return new Attribute(
+            get: fn () => match ($this->status) {
+                UserStatusEnum::Active => [
+                    'value' => UserStatusEnum::Active->value,
+                    'color' => 'success',
+                ],
+                UserStatusEnum::Blocked => [
+                    'value' => UserStatusEnum::Blocked->value,
+                    'color' => 'danger',
+                ],
+                default => [
+                    'value' => 'Unknown',
+                    'color' => 'secondary',
+                ]
+            }
         );
     }
 
@@ -280,7 +292,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     public function logs(): HasMany
     {
-        return $this->hasMany(Log::class);
+        return $this->hasMany(Log::class, 'creator_id');
     }
 
     /**

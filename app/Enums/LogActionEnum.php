@@ -12,5 +12,5 @@ enum LogActionEnum: string
     case Update = 'Update';
     case Auth = 'Auth';
     case Delete = 'Delete';
-    case Custom = 'Custom';
+    case Other = 'Other';
 }

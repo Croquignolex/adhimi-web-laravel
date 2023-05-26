@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToCreatorTrait;
@@ -72,14 +73,37 @@ class Log extends Model
                     'value' => LogActionEnum::Update->value,
                     'color' => 'warning',
                 ],
-                LogActionEnum::Custom => [
-                    'value' => LogActionEnum::Custom->value,
-                    'color' => 'secondary',
-                ],
                 LogActionEnum::Create => [
                     'value' => LogActionEnum::Create->value,
                     'color' => 'success',
                 ],
+                default =>  [
+                    'value' => LogActionEnum::Other->value,
+                    'color' => 'secondary',
+                ],
+            }
+        );
+    }
+
+    /**
+     * Determine detail URL, magic attribute $this->detail_url.
+     *
+     * @return Attribute
+     */
+    protected function detailUrl(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $model = $this->loggable;
+
+                if(enums_equals($this->action, LogActionEnum::Auth) || enums_equals($this->action, LogActionEnum::Other)) {
+                    return null;
+                }
+
+                return match (Relation::getMorphedModel($this->loggable_type)) {
+//                User::class => route('users.show', [$model]),
+                    default => null,
+                };
             }
         );
     }

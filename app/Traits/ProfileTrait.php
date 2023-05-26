@@ -49,7 +49,7 @@ trait ProfileTrait
             'description' => $validated['description'],
         ]);
 
-        LogEvent::dispatch($user, LogActionEnum::Custom, __('general.profile.profile_updated'));
+        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_updated'));
 
         return back();
     }
@@ -78,7 +78,7 @@ trait ProfileTrait
             {
                 $user->update(['password' => Hash::make($password)]);
 
-                LogEvent::dispatch($user, LogActionEnum::Custom, __('general.profile.password_updated'));
+                LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.password_updated'));
             }
             else {
                 ToastEvent::dispatch(__('general.profile.incorrect_old_password'), ToastTypeEnum::Danger);
@@ -86,5 +86,17 @@ trait ProfileTrait
         }
 
         return back();
+    }
+
+    /**
+     * Show user log activities
+     *
+     * @return View
+     */
+    public function logsShowForm(): View
+    {
+        $logs = Auth::user()->logs()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.profile.logs', compact('logs'));
     }
 }

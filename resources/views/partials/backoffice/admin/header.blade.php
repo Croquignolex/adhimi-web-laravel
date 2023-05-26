@@ -36,8 +36,10 @@
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
                         <span class="user-name font-weight-bolder">{{ auth()->user()->first_name }}</span>
-                        <div class="font-small-2">
-                            @each('partials.backoffice.badge', auth()->user()->roles_badge, 'data')
+                        <div class="font-small-3">
+                            <span class="badge badge-light-{{ auth()->user()->roles_badge['color'] }} ml-25">
+                                {{ auth()->user()->roles_badge['value'] }}
+                            </span>
                         </div>
                     </div>
                     <div class="avatar bg-light-primary">
@@ -51,9 +53,9 @@
 {{--                    <a class="dropdown-item" href="{{ route('settings') }}">--}}
 {{--                        <i class="mr-50" data-feather="settings"></i> Settings--}}
 {{--                    </a>--}}
-{{--                    <a class="dropdown-item" href="{{ route('logs') }}">--}}
-{{--                        <i class="mr-50" data-feather="file-text"></i> My logs--}}
-{{--                    </a>--}}
+                    <a class="dropdown-item" href="{{ route('admin.profile.logs') }}">
+                        <i class="mr-50" data-feather="file-text"></i> @lang('page.logs')
+                    </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="javascript:void(0);"
                        onclick="document.getElementById('logout-form').submit();"

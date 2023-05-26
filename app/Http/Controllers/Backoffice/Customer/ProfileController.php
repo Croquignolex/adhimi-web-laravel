@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'description' => $validated['description'],
         ]);
 
-        LogEvent::dispatch($user, LogActionEnum::Custom, __('general.profile.profile_updated'));
+        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_updated'));
 
         return back();
     }
@@ -79,7 +79,7 @@ class ProfileController extends Controller
             {
                 $user->update(['password' => Hash::make($password)]);
 
-                LogEvent::dispatch($user, LogActionEnum::Custom, __('general.profile.password_updated'));
+                LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.password_updated'));
             }
             else {
                 ToastEvent::dispatch(__('general.profile.incorrect_old_password'), ToastTypeEnum::Danger);

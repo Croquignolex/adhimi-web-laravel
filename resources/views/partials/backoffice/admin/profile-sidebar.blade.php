@@ -29,11 +29,11 @@
 {{--            </a>--}}
 {{--        </li>--}}
         <!-- Logs -->
-{{--        <li class="nav-item">--}}
-{{--            <a class="nav-link" id="account-pill-notifications" data-toggle="pill" href="#account-vertical-notifications" aria-expanded="false">--}}
-{{--                <i data-feather="bell" class="font-medium-3 mr-1"></i>--}}
-{{--                <span class="font-weight-bold">Notifications</span>--}}
-{{--            </a>--}}
-{{--        </li>--}}
+        <li class="nav-item">
+            <a class="nav-link {{ active_page('admin.profile.logs') }}" href="{{ route('admin.profile.logs') }}">
+                <i data-feather="file-text" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">@lang('general.profile.logs')</span>
+            </a>
+        </li>
     </ul>
 </div>

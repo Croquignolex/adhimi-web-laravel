@@ -24,6 +24,7 @@ return [
 
     'profile' => [
         'general' => 'Général',
+        'logs' => 'Journaux',
         'password' => 'Mot de passe',
         'avatar' => 'Avatar',
         'profile_updated' => 'Profil mis à jour avec succès',

@@ -4,13 +4,13 @@ use Illuminate\Support\Facades\App;
 use App\Enums\LanguageEnum;
 use Carbon\Carbon;
 
-if(!function_exists('datetime_format'))
+if(!function_exists('format_datetime'))
 {
     /**
      * @param Carbon $date
      * @return string
      */
-    function datetime_format(Carbon $date): string
+    function format_datetime(Carbon $date): string
     {
         return match (App::getLocale()) {
             LanguageEnum::English->value => $date->format('d-m-Y H:i A'),
@@ -19,13 +19,13 @@ if(!function_exists('datetime_format'))
     }
 }
 
-if(!function_exists('date_format'))
+if(!function_exists('format_date'))
 {
     /**
      * @param Carbon $date
      * @return string
      */
-    function date_format(Carbon $date): string
+    function format_date(Carbon $date): string
     {
         return match (App::getLocale()) {
             LanguageEnum::English->value => $date->format('d-m-Y'),
@@ -34,13 +34,13 @@ if(!function_exists('date_format'))
     }
 }
 
-if(!function_exists('time_format'))
+if(!function_exists('format_time'))
 {
     /**
      * @param Carbon $date
      * @return string
      */
-    function time_format(Carbon $date): string
+    function format_time(Carbon $date): string
     {
         return match (App::getLocale()) {
             LanguageEnum::English->value => $date->format('H:i A'),

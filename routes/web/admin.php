@@ -35,9 +35,10 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::put('general', 'infoUpdate');
             Route::view('password', 'backoffice.admin.profile.password')->name('password');
             Route::put('password', 'passwordUpdate');
-            Route::get('avatar', 'avatarShowForm')->name('avatar');
-            Route::put('avatar', 'avatarUpdate');
-            Route::delete('avatar', 'avatarUpdate');
+            Route::get('logs', 'logsShowForm')->name('logs');
+//            Route::get('avatar', 'avatarShowForm')->name('avatar');
+//            Route::put('avatar', 'avatarUpdate');
+//            Route::delete('avatar', 'avatarUpdate');
         });
     });
 });

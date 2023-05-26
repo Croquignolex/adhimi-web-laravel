@@ -24,6 +24,7 @@ class LogListener
         $event->model->loggers()->create([
             'creator_id' => Auth::id(),
             'action' => $event->action,
+            'ip' => client_ip_address(),
             'description' => $event->description,
         ]);
     }
