@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\GeneralStatusEnum;
 use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\HasManyInventoryHistoriesTrait;
 use App\Traits\Models\HasManyUsersTrait;
 use App\Traits\Models\MorphOneBannerTrait;
@@ -23,6 +24,7 @@ class Organisation extends Model
         HasFactory,
         SoftDeletes,
         MorphToManyTags,
+        EnableScopeTrait,
         HasManyUsersTrait,
         TimezoneDateTrait,
         MorphOneLogoTrait,

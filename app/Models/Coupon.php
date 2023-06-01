@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\GeneralStatusEnum;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToOrganisationTrait;
+use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -17,6 +18,7 @@ class Coupon extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        EnableScopeTrait,
         TimezoneDateTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\GeneralStatusEnum;
 use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\MorphOneBannerTrait;
 use App\Traits\Models\MorphToManyTags;
 use App\Traits\Models\TimezoneDateTrait;
@@ -19,6 +20,7 @@ class Category extends Model
         HasFactory,
         SoftDeletes,
         MorphToManyTags,
+        EnableScopeTrait,
         TimezoneDateTrait,
         MorphOneBannerTrait,
         BelongsToCreatorTrait;

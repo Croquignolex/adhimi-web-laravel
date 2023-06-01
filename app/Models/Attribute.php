@@ -7,6 +7,7 @@ use App\Enums\GeneralStatusEnum;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToManyAttributeValuesTrait;
 use App\Traits\Models\BelongsToManyProductsTrait;
+use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,7 @@ class Attribute extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        EnableScopeTrait,
         TimezoneDateTrait,
         BelongsToCreatorTrait,
         BelongsToManyProductsTrait,

@@ -19,8 +19,9 @@ class StateFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => $this->faker->lexify('???'),
             'name' => $this->faker->city(),
+            'longitude' => $this->faker->longitude(),
+            'latitude' => $this->faker->latitude(),
             'status' => GeneralStatusEnum::randomValue(),
         ];
     }

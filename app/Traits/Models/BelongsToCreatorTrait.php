@@ -2,8 +2,8 @@
 
 namespace App\Traits\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
 
 trait BelongsToCreatorTrait
 {
@@ -14,6 +14,6 @@ trait BelongsToCreatorTrait
      */
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 }

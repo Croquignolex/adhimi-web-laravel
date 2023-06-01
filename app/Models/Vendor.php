@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
@@ -19,6 +20,7 @@ class Vendor extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        EnableScopeTrait,
         MorphOneLogoTrait,
         TimezoneDateTrait,
         HasManyProductsTrait,

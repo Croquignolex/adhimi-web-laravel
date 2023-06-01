@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\ProfileTrait;
 use Illuminate\View\View;
-use App\Models\State;
 
 class ProfileController extends Controller
 {
@@ -47,9 +46,7 @@ class ProfileController extends Controller
     {
         $address = Auth::user()->defaultAddress;
 
-        $states = State::with('country')->orderBy('name')->get();
-
-        return view('backoffice.admin.profile.address', compact('address', 'states'));
+        return view('backoffice.admin.profile.address', compact('address'));
     }
 
     /**

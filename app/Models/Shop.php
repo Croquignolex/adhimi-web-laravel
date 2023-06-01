@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
@@ -22,6 +23,7 @@ class Shop extends Model
         HasFactory,
         SoftDeletes,
         MorphToManyTags,
+        EnableScopeTrait,
         MorphOneLogoTrait,
         HasManyUsersTrait,
         TimezoneDateTrait,

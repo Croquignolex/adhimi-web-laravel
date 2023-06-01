@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -13,7 +14,7 @@ use App\Enums\GeneralStatusEnum;
 
 class Rating extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToUserTrait, TimezoneDateTrait;
+    use HasFactory, SoftDeletes, HasUuids, BelongsToUserTrait, EnableScopeTrait, TimezoneDateTrait;
 
     /**
      * The attributes that are mass assignable.

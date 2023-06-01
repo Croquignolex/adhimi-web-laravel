@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\GenderEnum;
 
 class UpdateAddressRequest extends FormRequest
 {
@@ -24,14 +23,14 @@ class UpdateAddressRequest extends FormRequest
      */
     public function rules(): array
     {
-        $genders = GenderEnum::stringify();
-
         return [
-            'first_name' => "required|string",
-            'last_name' => "nullable|string",
-            'profession' => "nullable|string",
-            'gender' => "required|in:$genders",
-            'birthdate' => "nullable|string",
+            'street_address' => "required|string",
+            'street_address_plus' => "nullable|string",
+            'zipcode' => "nullable|string",
+            'phone_number_one' => "nullable|string",
+            'phone_number_two' => "nullable|string",
+            'country' => "required|string|exists:countries,id",
+            'state' => "required|string|exists:states,id",
             'description' => "nullable|string",
         ];
     }

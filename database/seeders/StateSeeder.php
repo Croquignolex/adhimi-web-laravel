@@ -26,12 +26,13 @@ class StateSeeder extends Seeder
             $fileJsonDecoded = json_decode($fileJsonContent, true, 512, JSON_THROW_ON_ERROR);
 
             foreach ($fileJsonDecoded as $country) {
-                $dbCountry = Country::whereCode($country['iso2'])->first();
+                $dbCountry = Country::whereName($country['name'])->first();
 
                 if ($dbCountry instanceof Country) {
                     foreach ($country['states'] as $state) {
                         State::factory()->for($dbCountry)->create([
-                            'code' => $state['state_code'],
+                            'latitude' => $state['latitude'],
+                            'longitude' => $state['longitude'],
                             'name' => $state['name'],
                             'status' => GeneralStatusEnum::Enable,
                         ]);

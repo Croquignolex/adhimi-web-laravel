@@ -19,8 +19,9 @@ class CountryFactory extends Factory
     public function definition(): array
     {
         return [
-            'phone_extension' => $this->faker->randomNumber(),
-            'code' => $this->faker->countryCode(),
+            'phone_code' => $this->faker->randomNumber(),
+            'longitude' => $this->faker->longitude(),
+            'latitude' => $this->faker->latitude(),
             'name' => $this->faker->country(),
             'status' => GeneralStatusEnum::randomValue(),
         ];

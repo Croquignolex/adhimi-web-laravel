@@ -27,8 +27,9 @@ class CountrySeeder extends Seeder
 
             foreach ($fileJsonDecoded as $country) {
                 Country::factory()->create([
-                    'phone_extension' => $country['phone_code'],
-                    'code' => $country['iso2'],
+                    'phone_code' => $country['phone_code'],
+                    'latitude' => $country['latitude'],
+                    'longitude' => $country['longitude'],
                     'name' => $country['name'],
                     'status' => GeneralStatusEnum::Enable,
                 ]);

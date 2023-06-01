@@ -17,6 +17,7 @@ use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\TimezoneDateTrait;
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\MorphToManyTags;
 use App\Enums\DistanceValueEnum;
@@ -31,6 +32,7 @@ class Product extends Model
         HasFactory,
         SoftDeletes,
         MorphToManyTags,
+        EnableScopeTrait,
         TimezoneDateTrait,
         BelongsToShopTrait,
         BelongsToCountryTrait,

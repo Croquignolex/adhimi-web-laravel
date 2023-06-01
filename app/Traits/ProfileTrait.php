@@ -132,28 +132,37 @@ trait ProfileTrait
 
         $user = Auth::user();
 
-        $address = Auth::user()->defaultAddress;
+        $address = $user->defaultAddress;
 
         if($address)
         {
+            $address->update([
+                'street_address' => $validated['street_address'],
+                'street_address_plus' => $validated['street_address_plus'],
+                'zipcode' => $validated['zipcode'],
+                'phone_number_one' => $validated['phone_number_one'],
+                'phone_number_two' => $validated['phone_number_two'],
+                'description' => $validated['description'],
+                'state_id' => $validated['state'],
+            ]);
 
+            LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_default_address_updated'));
         }
         else
         {
+            $user->defaultAddress()->create([
+                'street_address' => $validated['street_address'],
+                'street_address_plus' => $validated['street_address_plus'],
+                'zipcode' => $validated['zipcode'],
+                'phone_number_one' => $validated['phone_number_one'],
+                'phone_number_two' => $validated['phone_number_two'],
+                'description' => $validated['description'],
+                'creator_id' => $user->id,
+                'state_id' => $validated['state'],
+            ]);
 
+            LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_created'));
         }
-
-        $user->update([
-            'slug' => $validated['first_name'],
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
-            'description' => $validated['description'],
-        ]);
-
-        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_updated'));
 
         return back();
     }

@@ -9,6 +9,7 @@ use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\MorphOneFlagTrait;
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\GeneralStatusEnum;
 
@@ -17,6 +18,7 @@ class State extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        EnableScopeTrait,
         MorphOneFlagTrait,
         TimezoneDateTrait,
         BelongsToCountryTrait,
@@ -28,8 +30,9 @@ class State extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'code',
         'name',
+        'latitude',
+        'longitude',
         'status',
 
         'country_id',
@@ -43,5 +46,7 @@ class State extends Model
      */
     protected $casts = [
         'status' => GeneralStatusEnum::class,
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 }

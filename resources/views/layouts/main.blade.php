@@ -30,10 +30,6 @@
         <title>{{ $title }} - {{ config('app.name') }}</title>
 
         @stack('master.styles')
-
-        <!-- BEGIN: Custom CSS-->
-        <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/global.css") }}">
-        <!-- END: Custom CSS-->
     </head>
 
     <body class="@stack('master.body.class')"
@@ -45,10 +41,6 @@
         @yield('master.body')
 
         @stack('master.scripts')
-
-        <!-- BEGIN: Custom JS-->
-        <script src="{{ asset("assets/js/global.js") }}"></script>
-        <!-- END: Custom JS-->
     </body>
 
 </html>

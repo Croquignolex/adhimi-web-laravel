@@ -26,7 +26,7 @@
                                     @csrf
                                     @method('put')
                                     <div class="row">
-                                        <div class="col-12 col-sm-6">
+                                        <div class="col-12 col-sm-12">
                                             <div class="form-group">
                                                 <label for="account-street-address">
                                                     @lang('field.street_address') <span class="text-danger">*</span>
@@ -77,18 +77,26 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-state">
+                                            <div class="spinner-border text-primary mt-2" id="country-loader"></div>
+                                            <div class="form-group" id="country-area" style="display: none">
+                                                <label for="country">
+                                                    @lang('field.country') <span class="text-danger">*</span>
+                                                    @include('partials.feedbacks.validation', ['field' => 'country'])
+                                                </label>
+                                                <select class="select2 form-control" id="country" name="country"
+                                                        data-option="{{ $address?->state->country->id }}" data-old="{{ old('country') }}" data-url="{{ route('api.countries.index') }}">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="spinner-border text-primary mt-2" id="state-loader"></div>
+                                            <div class="form-group" id="state-area" style="display: none">
+                                                <label for="state">
                                                     @lang('field.state') <span class="text-danger">*</span>
                                                     @include('partials.feedbacks.validation', ['field' => 'state'])
                                                 </label>
-                                                <select class="select2 form-control" id="account-state" name="state">
-                                                    @foreach($states as $state)
-                                                        <option value="{{ $state->id }}"
-                                                                {{ (old('state') ?? $address?->state->id) == $state->id ? 'selected' : '' }}>
-                                                            ({{ $state->code }}) {{ $state->name }} - {{ $state->country->name }}
-                                                        </option>
-                                                    @endforeach
+                                                <select class="select2 form-control" id="state" name="state"
+                                                        data-option="{{ $address?->state->id }}" data-old="{{ old('state') }}" data-url="{{ route('api.states.index') }}">
                                                 </select>
                                             </div>
                                         </div>
@@ -123,4 +131,8 @@
 
 @push('vendor.scripts')
     <script src="{{ asset("app-assets/vendors/js/forms/select/select2.full.min.js") }}"></script>
+@endpush
+
+@push('custom.scripts')
+    <script src="{{ asset("custom/js/country-state-select.js") }}"></script>
 @endpush

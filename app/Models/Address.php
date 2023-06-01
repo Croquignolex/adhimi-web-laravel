@@ -53,6 +53,8 @@ class Address extends Model
      */
     protected $casts = [
         'type' => AddressTypeEnum::class,
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     /**

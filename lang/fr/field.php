@@ -26,10 +26,11 @@ return [
     'language' => 'Default language',
     'timezone' => 'Default timezone',
     'state' => 'Ville',
+    'country' => 'Country',
     'phone_number_one' => 'Numéro de téléphone principal',
     'phone_number_two' => 'Numéro de téléphone secondaire',
     'zipcode' => 'Code postal',
-    'street_address_plus' => 'Adresse explicite',
+    'street_address_plus' => 'Plus de detail',
     'street_address' => 'Adresse',
 
     'notification' => [

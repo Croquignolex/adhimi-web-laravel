@@ -83,7 +83,7 @@ trait UserCreationsTrait
      *
      * @return HasMany
      */
-    public function createdLCountries(): HasMany
+    public function createdCountries(): HasMany
     {
         return $this->hasMany(Country::class);
     }
@@ -93,7 +93,7 @@ trait UserCreationsTrait
      *
      * @return HasMany
      */
-    public function createdLStates(): HasMany
+    public function createdStates(): HasMany
     {
         return $this->hasMany(State::class);
     }

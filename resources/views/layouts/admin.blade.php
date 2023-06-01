@@ -44,7 +44,7 @@
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset("app-assets/css/master.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("custom/css/main.css") }}">
     @stack('custom.styles')
     <!-- END: Custom CSS-->
 @endpush
@@ -65,7 +65,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Custom JS-->
-    <script src="{{ asset("app-assets/js/master.js") }}"></script>
+    <script src="{{ asset("custom/js/main.js") }}"></script>
     @stack('custom.scripts')
     <!-- END: Custom JS-->
 @endpush

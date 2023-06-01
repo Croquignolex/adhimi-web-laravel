@@ -31,6 +31,8 @@ return [
         'address' => 'Address',
         'notifications' => 'Notifications',
         'profile_updated' => 'Profil mis à jour avec succès',
+        'profile_default_address_updated' => 'Adresse par défaut mise à jour avec succès',
+        'profile_default_address_created' => 'Adresse par défaut ajoutée avec succès',
         'password_updated' => 'Mot de passe mis à jour avec succès',
         'settings_updated' => 'Paramètres mis à jour avec succès',
         'incorrect_old_password' => 'Ancien mot de passe incorrect',

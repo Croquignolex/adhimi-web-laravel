@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\GeneralStatusEnum;
 use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphOneLogoTrait;
 use App\Traits\Models\TimezoneDateTrait;
@@ -17,6 +18,7 @@ class Brand extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        EnableScopeTrait,
         MorphOneLogoTrait,
         TimezoneDateTrait,
         HasManyProductsTrait,

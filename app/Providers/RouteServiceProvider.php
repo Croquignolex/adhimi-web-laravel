@@ -45,8 +45,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     private function apiRoutes(): void
     {
-        Route::middleware('api')->prefix('api/v1')->group(base_path('routes/api/auth.php'));
-        Route::middleware('api')->prefix('api/v1')->group(base_path('routes/api/customer.php'));
+        $route = Route::middleware('api')->name('api.')->prefix('api/v1');
+
+        $route->group(base_path('routes/api/shop.php'));
+        $route->group(base_path('routes/api/auth.php'));
     }
 
     /**
@@ -54,9 +56,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     private function webRoutes(): void
     {
-        Route::middleware('web')->group(base_path('routes/web/shop.php'));
-        Route::middleware('web')->group(base_path('routes/web/auth.php'));
-        Route::middleware('web')->group(base_path('routes/web/admin.php'));
-        Route::middleware('web')->group(base_path('routes/web/customer.php'));
+        $route = Route::middleware('web');
+
+        $route->group(base_path('routes/web/shop.php'));
+        $route->group(base_path('routes/web/auth.php'));
+        $route->group(base_path('routes/web/admin.php'));
+        $route->group(base_path('routes/web/customer.php'));
     }
 }

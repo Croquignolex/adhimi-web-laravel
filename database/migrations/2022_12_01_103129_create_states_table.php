@@ -24,11 +24,10 @@ return new class extends Migration
             $this->addForeignKey(table: $table, nullable: true, foreignKey: 'creator_id');
             $this->addForeignKey(table: $table, foreignModelFqn: Country::class);
 
-            $table->string('code');
             $table->string('name');
+            $table->decimal('latitude', 10, 5)->nullable();
+            $table->decimal('longitude', 10, 5)->nullable();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
-
-            $table->unique(['country_id', 'code', 'name']);
         });
     }
 

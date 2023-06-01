@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Invoice;
@@ -26,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // Default morph key
         Builder::defaultMorphKeyType('uuid');
+
+        // No data wrapper for api resources
+        JsonResource::withoutWrapping();
 
         // Morph names mapping
         Relation::enforceMorphMap([

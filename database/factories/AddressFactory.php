@@ -22,7 +22,10 @@ class AddressFactory extends Factory
             'street_address' => $this->faker->streetName(),
             'street_address_plus' => $this->faker->streetAddress(),
             'zipcode' => $this->faker->postcode(),
-            'phone_number' => $this->faker->phoneNumber(),
+            'phone_number_one' => $this->faker->phoneNumber(),
+            'phone_number_two' => $this->faker->phoneNumber(),
+            'longitude' => $this->faker->longitude(),
+            'latitude' => $this->faker->latitude(),
             'description' => $this->faker->text(),
             'type' => AddressTypeEnum::randomValue(),
         ];
