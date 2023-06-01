@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait BelongsToManyProductsTrait
 {

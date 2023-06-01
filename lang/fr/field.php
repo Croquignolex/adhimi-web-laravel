@@ -25,6 +25,12 @@ return [
     'password_confirmation' => 'Confirmation du mot de passe',
     'language' => 'Default language',
     'timezone' => 'Default timezone',
+    'state' => 'Ville',
+    'phone_number_one' => 'Numéro de téléphone principal',
+    'phone_number_two' => 'Numéro de téléphone secondaire',
+    'zipcode' => 'Code postal',
+    'street_address_plus' => 'Adresse explicite',
+    'street_address' => 'Adresse',
 
     'notification' => [
         'enable_super_admin' => "Me notifier l'ors d'une action sur un super admin",

@@ -1,7 +1,7 @@
 @inject('languageService', 'App\Services\LanguageService')
 
 @extends('layouts.admin', [
-    'title' => __('page.update_settings'),
+    'title' => __('page.update_my_settings'),
     'breadcrumb_items' => [
         ['url' => route('home'), 'label' => __('page.home')]
     ]

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasManyProductsTrait
 {

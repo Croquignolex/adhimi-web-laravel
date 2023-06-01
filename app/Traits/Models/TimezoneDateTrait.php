@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 trait TimezoneDateTrait
 {

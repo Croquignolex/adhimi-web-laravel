@@ -1,6 +1,8 @@
 <ul class="nav navbar-nav d-flex align-items-center">
     <li class="nav-item">
-        <strong>{{ $title }}</strong>
+        <strong class="d-block d-sm-block d-md-none">{{ format_text($title, 20) }}</strong>
+        <strong class="d-none d-md-block d-lg-none d-xl-none">{{ format_text($title, 40) }}</strong>
+        <strong class="d-none d-lg-block">{{ format_text($title, 50) }}</strong>
     </li>
 
     @if(count($breadcrumb_items) > 0)
@@ -20,7 +22,7 @@
 
     @if(count($breadcrumb_items) > 0)
         <li class="nav-item d-none d-lg-block">
-            <span>{{ $title }}</span>
+            <span>{{ format_text($title, 50) }}</span>
         </li>
     @endif
 </ul>

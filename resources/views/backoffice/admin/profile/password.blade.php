@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.change_password'),
+    'title' => __('page.update_my_password'),
     'breadcrumb_items' => [
         ['url' => route('home'), 'label' => __('page.home')]
     ]

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\HasManyProductsTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\GeneralStatusEnum;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\HasManyProductsTrait;
+use App\Traits\Models\MorphOneFlagTrait;
+use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\TimezoneDateTrait;
-use App\Traits\MorphOneFlagTrait;
-use App\Enums\GeneralStatusEnum;
 
 class Country extends Model
 {

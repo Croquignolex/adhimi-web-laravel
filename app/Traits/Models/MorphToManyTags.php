@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait MorphToManyTags
 {

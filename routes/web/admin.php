@@ -31,13 +31,15 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          * @controller profile
          */
         Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
-            Route::get('general', 'infoShowForm')->name('general');
+            Route::get('general', 'showInfoForm')->name('general');
             Route::put('general', 'infoUpdate');
-            Route::get('settings', 'settingsShowForm')->name('settings');
+            Route::get('settings', 'showSettingsForm')->name('settings');
             Route::put('settings', 'settingsUpdate');
             Route::view('password', 'backoffice.admin.profile.password')->name('password');
             Route::put('password', 'passwordUpdate');
-            Route::get('logs', 'logsShowForm')->name('logs');
+            Route::get('address', 'showAddressForm')->name('address');
+            Route::put('address', 'defaultAddressUpdate');
+            Route::get('logs', 'showLogsForm')->name('logs');
 //            Route::get('avatar', 'avatarShowForm')->name('avatar');
 //            Route::put('avatar', 'avatarUpdate');
 //            Route::delete('avatar', 'avatarUpdate');

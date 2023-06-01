@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.update_my_profile'),
+    'title' => __('page.update_my_address'),
     'breadcrumb_items' => [
         ['url' => route('home'), 'label' => __('page.home')]
     ]
@@ -28,65 +28,68 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-first-name">
-                                                    @lang('field.first_name') <span class="text-danger">*</span>
-                                                    @include('partials.feedbacks.validation', ['field' => 'first_name'])
+                                                <label for="account-street-address">
+                                                    @lang('field.street_address') <span class="text-danger">*</span>
+                                                    @include('partials.feedbacks.validation', ['field' => 'street_address'])
                                                 </label>
-                                                <input type="text" class="form-control" id="account-first-name"
-                                                       name="first_name" value="{{ old('first_name') ?? $user->first_name }}" />
+                                                <input type="text" class="form-control" id="account-street-address"
+                                                       name="street_address" value="{{ old('street_address') ?? $address?->street_address }}" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-last-name">
-                                                    @lang('field.last_name')
-                                                    @include('partials.feedbacks.validation', ['field' => 'last_name'])
+                                                <label for="account-street-address-plus">
+                                                    @lang('field.street_address_plus')
+                                                    @include('partials.feedbacks.validation', ['field' => 'street_address_plus'])
                                                 </label>
-                                                <input type="text" class="form-control" id="account-last-name"
-                                                       name="last_name" value="{{ old('last_name') ?? $user->last_name }}" />
+                                                <input type="text" class="form-control" id="account-street-address-plus"
+                                                       name="street_address_plus" value="{{ old('street_address_plus') ?? $address?->street_address_plus }}" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-email">@lang('field.email')</label>
-                                                <input type="text" class="form-control" id="account-email"
-                                                       value="{{ $user->email }}" disabled />
+                                                <label for="account-zipcode">
+                                                    @lang('field.zipcode')
+                                                    @include('partials.feedbacks.validation', ['field' => 'zipcode'])
+                                                </label>
+                                                <input type="text" class="form-control" id="account-zipcode"
+                                                       name="zipcode" value="{{ old('zipcode') ?? $address?->zipcode }}" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-profession">
-                                                    @lang('field.profession')
-                                                    @include('partials.feedbacks.validation', ['field' => 'profession'])
+                                                <label for="account-phone-number-one">
+                                                    @lang('field.phone_number_one')
+                                                    @include('partials.feedbacks.validation', ['field' => 'phone_number_one'])
                                                 </label>
-                                                <input type="text" class="form-control" id="account-profession"
-                                                       name="profession" value="{{ old('profession') ?? $user->profession }}" />
+                                                <input type="text" class="form-control" id="account-phone-number-one"
+                                                       name="phone_number_one" value="{{ old('phone_number_one') ?? $address?->phone_number_one }}" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-gender">
-                                                    @lang('field.gender') <span class="text-danger">*</span>
-                                                    @include('partials.feedbacks.validation', ['field' => 'gender'])
+                                                <label for="account-phone-number-two">
+                                                    @lang('field.phone_number_two')
+                                                    @include('partials.feedbacks.validation', ['field' => 'phone_number_two'])
                                                 </label>
-                                                <select class="select2 form-control" id="account-gender" name="gender">
-                                                    @foreach(\App\Enums\GenderEnum::values() as $gender)
-                                                        <option value="{{ $gender }}"
-                                                                {{ (old('gender') ?? $user->gender->value) == $gender ? 'selected' : '' }}>
-                                                            {{ $gender }}
+                                                <input type="text" class="form-control" id="account-phone-number-two"
+                                                       name="phone_number_two" value="{{ old('phone_number_two') ?? $address?->phone_number_two }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="form-group">
+                                                <label for="account-state">
+                                                    @lang('field.state') <span class="text-danger">*</span>
+                                                    @include('partials.feedbacks.validation', ['field' => 'state'])
+                                                </label>
+                                                <select class="select2 form-control" id="account-state" name="state">
+                                                    @foreach($states as $state)
+                                                        <option value="{{ $state->id }}"
+                                                                {{ (old('state') ?? $address?->state->id) == $state->id ? 'selected' : '' }}>
+                                                            ({{ $state->code }}) {{ $state->name }} - {{ $state->country->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-birthdate">
-                                                    @lang('field.birthdate')
-                                                    @include('partials.feedbacks.validation', ['field' => 'birthdate'])
-                                                </label>
-                                                <input type="text" id="account-birthdate" class="form-control flatpickr-basic"
-                                                       name="birthdate" value="{{ old('birthdate') ?? $user->birthdate }}" />
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -95,7 +98,7 @@
                                                     @lang('field.description')
                                                     @include('partials.feedbacks.validation', ['field' => 'description'])
                                                 </label>
-                                                <textarea class="form-control" id="account-description" name="description" rows="3">{{ old('description') ?? $user->description }}</textarea>
+                                                <textarea class="form-control" id="account-description" name="description" rows="3">{{ old('description') ?? $address?->description }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -116,14 +119,8 @@
 
 @push('vendor.styles')
     <link rel="stylesheet" type="text/css" href="{{ asset("app-assets/vendors/css/forms/select/select2.min.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css") }}">
-@endpush
-
-@push('page.styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset("app-assets/css/plugins/forms/pickers/form-flat-pickr.css") }}">
 @endpush
 
 @push('vendor.scripts')
     <script src="{{ asset("app-assets/vendors/js/forms/select/select2.full.min.js") }}"></script>
-    <script src="{{ asset("app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js") }}"></script>
 @endpush

@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Traits\Models\MorphOneDefaultAddressTrait;
+use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\MorphOneDefaultAddressTrait;
-use App\Traits\BelongsToOrganisationTrait;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\MorphOneBannerTrait;
+use App\Traits\Models\HasManyUsersTrait;
+use App\Traits\Models\MorphOneLogoTrait;
+use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\MorphOneBannerTrait;
-use App\Traits\TimezoneDateTrait;
-use App\Traits\HasManyUsersTrait;
-use App\Traits\MorphOneLogoTrait;
+use App\Traits\Models\MorphToManyTags;
 use App\Enums\GeneralStatusEnum;
-use App\Traits\MorphToManyTags;
 
 class Shop extends Model
 {

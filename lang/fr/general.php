@@ -28,6 +28,7 @@ return [
         'settings' => 'Paramètres',
         'password' => 'Mot de passe',
         'avatar' => 'Avatar',
+        'address' => 'Address',
         'notifications' => 'Notifications',
         'profile_updated' => 'Profil mis à jour avec succès',
         'password_updated' => 'Mot de passe mis à jour avec succès',

@@ -16,8 +16,9 @@ return [
     'profile' => 'Mon profil',
     'settings' => 'Mes params',
     'logs' => 'Mes journaux',
-    'my_profile' => 'Modifier mes infos',
-    'change_password' => 'Modifier mon mot de passe',
-    'update_settings' => 'Modifier mes paramètres',
+    'update_my_profile' => 'Modifier mes infos',
+    'update_my_address' => 'Modifier mon adresse personnelle',
+    'update_my_password' => 'Modifier mon mot de passe',
+    'update_my_settings' => 'Modifier mes paramètres',
 
 ];

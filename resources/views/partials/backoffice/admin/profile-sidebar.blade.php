@@ -14,6 +14,13 @@
                 <span class="font-weight-bold">@lang('general.profile.avatar')</span>
             </a>
         </li>--}}
+        <!-- address -->
+        <li class="nav-item">
+            <a class="nav-link {{ active_page('admin.profile.address') }}" href="{{ route('admin.profile.address') }}">
+                <i data-feather="map" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">@lang('general.profile.address')</span>
+            </a>
+        </li>
         <!-- password -->
         <li class="nav-item">
             <a class="nav-link {{ active_page('admin.profile.password') }}" href="{{ route('admin.profile.password') }}">

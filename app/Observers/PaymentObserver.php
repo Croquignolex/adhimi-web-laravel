@@ -3,12 +3,10 @@
 namespace App\Observers;
 
 use App\Enums\AutoUniqueModelFieldEnum;
-use App\Traits\UniqueFieldTrait;
 use App\Models\Payment;
 
 class PaymentObserver
 {
-    use UniqueFieldTrait;
 
     /**
      * Handle the Payment "creating" event.
@@ -18,6 +16,6 @@ class PaymentObserver
      */
     public function creating(Payment $payment): void
     {
-        $payment->reference = $this->uniqueField("HAP", AutoUniqueModelFieldEnum::Payment);
+        //$payment->reference = $this->uniqueField("HAP", AutoUniqueModelFieldEnum::Payment);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\BelongsToManyAttributesTrait;
-use App\Traits\BelongsToManyProductsTrait;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\TimezoneDateTrait;
 use App\Enums\GeneralStatusEnum;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\BelongsToManyAttributesTrait;
+use App\Traits\Models\BelongsToManyProductsTrait;
+use App\Traits\Models\TimezoneDateTrait;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AttributeValue extends Model
 {

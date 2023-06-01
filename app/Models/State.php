@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToCountryTrait;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\TimezoneDateTrait;
+use App\Traits\Models\MorphOneFlagTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCountryTrait;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\TimezoneDateTrait;
-use App\Traits\MorphOneFlagTrait;
 use App\Enums\GeneralStatusEnum;
 
 class State extends Model

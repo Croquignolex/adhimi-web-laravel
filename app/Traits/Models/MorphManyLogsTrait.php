@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Models\Log;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait MorphManyLogsTrait
 {

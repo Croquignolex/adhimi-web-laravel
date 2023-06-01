@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\MorphOneHardCopyTrait;
-use App\Traits\MorphManyLogsTrait;
 use App\Enums\PaymentProviderEnum;
-use App\Traits\TimezoneDateTrait;
 use App\Enums\PaymentStatusEnum;
-use App\Traits\MorphToManyTags;
+use App\Traits\Models\MorphManyLogsTrait;
+use App\Traits\Models\MorphOneHardCopyTrait;
+use App\Traits\Models\MorphToManyTags;
+use App\Traits\Models\TimezoneDateTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {

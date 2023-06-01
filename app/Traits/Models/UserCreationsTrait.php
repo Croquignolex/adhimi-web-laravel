@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\InventoryHistory;
-use App\Models\Organisation;
-use App\Models\Attribute;
 use App\Models\Address;
+use App\Models\Attribute;
 use App\Models\Country;
-use App\Models\Vendor;
 use App\Models\Group;
-use App\Models\Media;
-use App\Models\State;
-use App\Models\Shop;
-use App\Models\User;
+use App\Models\InventoryHistory;
 use App\Models\Log;
+use App\Models\Media;
+use App\Models\Organisation;
+use App\Models\Shop;
+use App\Models\State;
+use App\Models\User;
+use App\Models\Vendor;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait UserCreationsTrait
 {

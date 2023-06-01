@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enums\AddressTypeEnum;
 use App\Traits\MigrationTrait;
-use App\Models\Country;
 use App\Models\State;
 
 return new class extends Migration
@@ -23,17 +22,16 @@ return new class extends Migration
             $this->addCommonFields($table);
 
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
-            $this->addForeignKey(table: $table, foreignModelFqn: Country::class);
             $this->addForeignKey(table: $table, foreignModelFqn: State::class);
 
-            $table->nullableMorphs('addressable');
+            $table->morphs('addressable');
 
             $table->string('type')->default(AddressTypeEnum::Default->value);
-            $table->string('name');
             $table->string('street_address');
             $table->string('street_address_plus')->nullable();
             $table->string('zipcode')->nullable();
-            $table->string('phone_number')->nullable();
+            $table->string('phone_number_one')->nullable();
+            $table->string('phone_number_two')->nullable();
             $table->decimal('latitude', 10, 5)->nullable();
             $table->decimal('longitude', 10, 5)->nullable();
             $table->text('description')->nullable();

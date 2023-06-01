@@ -2,27 +2,27 @@
 
 namespace App\Models;
 
+use App\Traits\Models\BelongsToManyAttributeValuesTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use App\Traits\Models\BelongsToManyAttributesTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Traits\Models\BelongsToOrganisationTrait;
+use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use App\Traits\BelongsToManyAttributeValuesTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\BelongsToManyAttributesTrait;
-use App\Traits\BelongsToOrganisationTrait;
-use App\Traits\TimezonePromotionDateTrait;
+use App\Traits\Models\BelongsToCountryTrait;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\BelongsToShopTrait;
+use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\BelongsToCountryTrait;
-use App\Traits\BelongsToShopTrait;
-use App\Traits\TimezoneDateTrait;
+use App\Traits\Models\MorphToManyTags;
 use App\Enums\DistanceValueEnum;
-use App\Enums\QuantityValueEnum;
 use App\Enums\GeneralStatusEnum;
+use App\Enums\QuantityValueEnum;
 use App\Enums\WeightValueEnum;
-use App\Traits\MorphToManyTags;
 use App\Enums\MediaTypeEnum;
 
 class Product extends Model

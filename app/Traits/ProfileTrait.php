@@ -2,32 +2,20 @@
 
 namespace App\Traits;
 
+use App\Http\Requests\Profile\UpdateAddressRequest;
 use App\Http\Requests\Profile\UpdatePasswordRequest;
-use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Http\Requests\Profile\UpdateSettingsRequest;
+use App\Http\Requests\Profile\UpdateProfileRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Enums\LogActionEnum;
 use App\Enums\ToastTypeEnum;
 use App\Events\ToastEvent;
-use Illuminate\View\View;
 use App\Events\LogEvent;
 
 trait ProfileTrait
 {
-    /**
-     * Show update profile info form
-     *
-     * @return View
-     */
-    public function infoShowForm(): View
-    {
-        $user = Auth::user();
-
-        return view('backoffice.admin.profile.index', compact('user'));
-    }
-
     /**
      * Update profile info
      *
@@ -90,20 +78,6 @@ trait ProfileTrait
     }
 
     /**
-     * Show update settings info form
-     *
-     * @return View
-     */
-    public function settingsShowForm(): View
-    {
-        $user = Auth::user();
-
-        $setting = $user->setting;
-
-        return view('backoffice.admin.profile.settings', compact('setting', 'user'));
-    }
-
-    /**
      * Update profile settings
      *
      * @param UpdateSettingsRequest $request
@@ -147,16 +121,40 @@ trait ProfileTrait
     }
 
     /**
-     * Show user log activities
+     * Update profile default address
      *
-     * @return View
+     * @param UpdateAddressRequest $request
+     * @return RedirectResponse
      */
-    public function logsShowForm(): View
+    public function defaultAddressUpdate(UpdateAddressRequest $request): RedirectResponse
     {
-        $logs = Auth::user()->logs()->orderBy('created_at', 'desc')->paginate();
+        $validated = $request->validated();
 
-        return view('backoffice.admin.profile.logs', compact('logs'));
+        $user = Auth::user();
+
+        $address = Auth::user()->defaultAddress;
+
+        if($address)
+        {
+
+        }
+        else
+        {
+
+        }
+
+        $user->update([
+            'slug' => $validated['first_name'],
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'profession' => $validated['profession'],
+            'gender' => $validated['gender'],
+            'birthdate' => $validated['birthdate'],
+            'description' => $validated['description'],
+        ]);
+
+        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_updated'));
+
+        return back();
     }
-
-
 }

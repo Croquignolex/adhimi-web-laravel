@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Organisation;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToOrganisationTrait
 {

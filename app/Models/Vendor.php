@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Traits\Models\MorphOneDefaultAddressTrait;
+use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\MorphOneDefaultAddressTrait;
-use App\Traits\BelongsToOrganisationTrait;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\HasManyProductsTrait;
+use App\Traits\Models\TimezoneDateTrait;
+use App\Traits\Models\MorphOneLogoTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\HasManyProductsTrait;
-use App\Traits\TimezoneDateTrait;
-use App\Traits\MorphOneLogoTrait;
 use App\Enums\GeneralStatusEnum;
 
 class Vendor extends Model

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Models;
 
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use App\Enums\MediaTypeEnum;
 use App\Models\Media;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait MorphOneBannerTrait
 {

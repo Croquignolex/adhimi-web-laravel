@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\MorphOneBannerTrait;
-use App\Traits\TimezoneDateTrait;
 use App\Enums\GeneralStatusEnum;
-use App\Traits\MorphToManyTags;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\MorphOneBannerTrait;
+use App\Traits\Models\MorphToManyTags;
+use App\Traits\Models\TimezoneDateTrait;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {

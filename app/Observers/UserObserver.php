@@ -3,14 +3,11 @@
 namespace App\Observers;
 
 use Illuminate\Support\Facades\Hash;
-use App\Traits\UniqueFieldTrait;
 use Illuminate\Support\Str;
 use App\Models\User;
 
 class UserObserver
 {
-    use UniqueFieldTrait;
-
     /**
      * Handle the User "creating" event.
      *

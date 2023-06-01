@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\BelongsToStateTrait;
+use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToCreatorTrait;
-use App\Traits\TimezoneDateTrait;
 use App\Enums\AddressTypeEnum;
 
 class Address extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, TimezoneDateTrait;
+    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, TimezoneDateTrait, BelongsToStateTrait;
 
     /**
      * The table associated with the model.
@@ -29,18 +30,19 @@ class Address extends Model
      */
     protected $fillable = [
         'type',
-        'name',
         'street_address',
         'street_address_plus',
         'zipcode',
-        'phone_number',
+        'phone_number_one',
+        'phone_number_two',
+        'latitude',
+        'longitude',
         'description',
 
         'addressable_type',
         'addressable_id',
 
         'creator_id',
-        'country_id',
         'state_id',
     ];
 
