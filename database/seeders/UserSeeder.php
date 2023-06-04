@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserStatusEnum;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 use App\Enums\UserRoleEnum;
@@ -16,12 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $super_admin = User::factory()->create(['email' => 'super.admin@adhimi.com']);
-        $admin = User::factory()->for($super_admin, 'creator')->create(['email' => 'admin@adhimi.com']);
-        $saler = User::factory()->for($super_admin, 'creator')->create(['email' => 'saler@adhimi.com']);
-        $merchant = User::factory()->for($super_admin, 'creator')->create(['email' => 'merchant@adhimi.com']);
-        $customer = User::factory()->for($super_admin, 'creator')->create(['email' => 'customer@adhimi.com']);
-        $shop_manager = User::factory()->for($super_admin, 'creator')->create(['email' => 'shop.manager@adhimi.com']);
+        $super_admin = User::factory()->create(['email' => 'super.admin@adhimi.com', 'status' => UserStatusEnum::Active]);
+        $admin = User::factory()->for($super_admin, 'creator')->create(['email' => 'admin@adhimi.com', 'status' => UserStatusEnum::Active]);
+        $saler = User::factory()->for($super_admin, 'creator')->create(['email' => 'saler@adhimi.com', 'status' => UserStatusEnum::Active]);
+        $merchant = User::factory()->for($super_admin, 'creator')->create(['email' => 'merchant@adhimi.com', 'status' => UserStatusEnum::Active]);
+        $customer = User::factory()->for($super_admin, 'creator')->create(['email' => 'customer@adhimi.com', 'status' => UserStatusEnum::Active]);
+        $shop_manager = User::factory()->for($super_admin, 'creator')->create(['email' => 'shop.manager@adhimi.com', 'status' => UserStatusEnum::Active]);
 
         $admin->assignRole(Role::findOrCreate(UserRoleEnum::Admin->value));
         $saler->assignRole(Role::findOrCreate(UserRoleEnum::Saler->value));

@@ -151,8 +151,7 @@ class Product extends Model
     public function aboutNotice(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediatable')
-            ->whereType(MediaTypeEnum::Txt)
-            ->orWereType(MediaTypeEnum::PDF);
+            ->whereType(MediaTypeEnum::Document);
     }
 
     /**

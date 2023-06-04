@@ -42,9 +42,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="avatar bg-light-primary">
-                        <span class="avatar-content font-medium-1">{{ auth()->user()->initials }}</span>
-                    </div>
+                    @include('partials.backoffice.profile-avatar', ['user' => auth()->user(), 'size' => 'sm'])
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
                     <a class="dropdown-item {{ active_page('admin.profile.general') }}" href="{{ route('admin.profile.general') }}">

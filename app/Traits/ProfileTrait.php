@@ -2,13 +2,16 @@
 
 namespace App\Traits;
 
-use App\Http\Requests\Profile\UpdateAddressRequest;
 use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Http\Requests\Profile\UpdateSettingsRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
+use App\Http\Requests\Profile\UpdateAddressRequest;
+use App\Http\Requests\Profile\UpdateAvatarRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Enums\MediaTypeEnum;
 use App\Enums\LogActionEnum;
 use App\Enums\ToastTypeEnum;
 use App\Events\ToastEvent;
@@ -159,6 +162,42 @@ trait ProfileTrait
                 'description' => $validated['description'],
                 'creator_id' => $user->id,
                 'state_id' => $validated['state'],
+            ]);
+
+            LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_created'));
+        }
+
+        return back();
+    }
+
+    /**
+     * Update profile avatar
+     *
+     * @param UpdateAvatarRequest $request$
+     * @return RedirectResponse
+     */
+    public function avatarUpdate(UpdateAvatarRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $user = Auth::user();
+
+        $avatar = $user->avatar;
+
+        $avatarName = Storage::disk('public')->put(MediaTypeEnum::Avatar->value, $validated['avatar']);
+
+        if($avatar)
+        {
+            $avatar->update(['name' => $avatarName]);
+
+            LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_default_address_updated'));
+        }
+        else
+        {
+            $user->avatar()->create([
+                'name' => $avatarName,
+                'type' => MediaTypeEnum::Avatar,
+                'creator_id' => $user->id,
             ]);
 
             LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_created'));

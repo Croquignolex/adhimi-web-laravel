@@ -8,12 +8,12 @@
             </a>
         </li>
         <!-- avatar -->
-        {{--<li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link {{ active_page('admin.profile.avatar') }}" href="{{ route('admin.profile.avatar') }}">
                 <i data-feather="image" class="font-medium-3 mr-1"></i>
                 <span class="font-weight-bold">@lang('general.profile.avatar')</span>
             </a>
-        </li>--}}
+        </li>
         <!-- address -->
         <li class="nav-item">
             <a class="nav-link {{ active_page('admin.profile.address') }}" href="{{ route('admin.profile.address') }}">

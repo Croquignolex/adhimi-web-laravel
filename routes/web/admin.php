@@ -40,9 +40,9 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('address', 'showAddressForm')->name('address');
             Route::put('address', 'defaultAddressUpdate');
             Route::get('logs', 'showLogsForm')->name('logs');
-//            Route::get('avatar', 'avatarShowForm')->name('avatar');
-//            Route::put('avatar', 'avatarUpdate');
-//            Route::delete('avatar', 'avatarUpdate');
+            Route::get('avatar', 'showAvatarForm')->name('avatar');
+            Route::put('avatar', 'avatarUpdate');
+            Route::delete('avatar', 'avatarDelete');
         });
     });
 });

@@ -26,7 +26,8 @@ return new class extends Migration
 
             $table->string('type')->default(MediaTypeEnum::Image->value);
             $table->string('name');
-            $table->string('url');
+            $table->string('location')->nullable();
+            $table->boolean('is_local')->default(true);
             $table->text('description')->nullable();
         });
     }

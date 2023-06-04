@@ -20,5 +20,6 @@ return [
     'update_my_address' => 'Modifier mon adresse personnelle',
     'update_my_password' => 'Modifier mon mot de passe',
     'update_my_settings' => 'Modifier mes paramètres',
+    'update_my_avatar' => 'Modifier mon avatar',
 
 ];

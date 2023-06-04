@@ -54,7 +54,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'last_name',
         'slug',
         'email',
-        'avatar',
         'password',
         'profession',
         'gender',
@@ -260,7 +259,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function avatar(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediatable')
-            ->whereType(MediaTypeEnum::Image);
+            ->whereType(MediaTypeEnum::Avatar);
     }
 
     /**

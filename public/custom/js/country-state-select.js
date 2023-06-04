@@ -26,7 +26,7 @@
     const oldStateId = stateSelect.data('old');
     const optionSateId = stateSelect.data('option');
 
-    countrySelect.change(() => {
+    countrySelect.on('change', () => {
         const selectedCountryId = countrySelect.val();
         loadStateSelect(selectedCountryId);
     });

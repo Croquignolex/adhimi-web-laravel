@@ -50,6 +50,20 @@ class ProfileController extends Controller
     }
 
     /**
+     * Show update avatar form
+     *
+     * @return View
+     */
+    public function showAvatarForm(): View
+    {
+        $avatar = Auth::user()->avatar;
+
+       // dd($avatar);
+
+        return view('backoffice.admin.profile.avatar', compact('avatar'));
+    }
+
+    /**
      * Show user log activities
      *
      * @return View

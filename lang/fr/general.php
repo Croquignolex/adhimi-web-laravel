@@ -29,6 +29,7 @@ return [
         'password' => 'Mot de passe',
         'avatar' => 'Avatar',
         'address' => 'Address',
+        'avatar_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 800kb',
         'notifications' => 'Notifications',
         'profile_updated' => 'Profil mis à jour avec succès',
         'profile_default_address_updated' => 'Adresse par défaut mise à jour avec succès',

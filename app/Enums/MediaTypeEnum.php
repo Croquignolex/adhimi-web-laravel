@@ -8,10 +8,10 @@ enum MediaTypeEnum: string
 {
     use EnumToolsTrait;
 
-    case Image = 'Image';
-    case Banner = 'Banner';
-    case Logo = 'Logo';
-    case Video = 'Video';
-    case Txt = 'Txt';
-    case PDF = 'PDF';
+    case Image = 'images';
+    case Avatar = 'avatars';
+    case Banner = 'banners';
+    case Logo = 'logos';
+    case Video = 'videos';
+    case Document = 'documents';
 }

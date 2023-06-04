@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
-use App\Enums\MediaTypeEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\TimezoneDateTrait;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Enums\StorageFolderEnum;
+use App\Enums\MediaTypeEnum;
 
 class Media extends Model
 {
@@ -30,7 +33,8 @@ class Media extends Model
     protected $fillable = [
         'type',
         'name',
-        'url',
+        'location',
+        'is_local',
         'description',
 
         'mediatable_type',
@@ -46,6 +50,7 @@ class Media extends Model
      */
     protected $casts = [
         'type' => MediaTypeEnum::class,
+        'is_local' => 'boolean',
     ];
 
     /**
@@ -56,5 +61,23 @@ class Media extends Model
     public function mediatable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Determine media url, magic attribute $this->url.
+     *
+     * @return Attribute
+     */
+    protected function url(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if ($this->is_local) {
+                    return Storage::disk('public')->url($this->name);
+                }
+
+                return $this->location;
+            }
+        );
     }
 }
