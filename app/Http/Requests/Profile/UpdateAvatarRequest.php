@@ -23,12 +23,6 @@ class UpdateAvatarRequest extends FormRequest
      */
     public function rules(): array
     {
-//        $mimetypes = implode(',', [
-//            'image/jpg', 'image/jpeg', 'image/png',
-//            'application/msword', 'application/pdf', 'text/plain',
-//            'video/mp4', 'video/mpeg', 'video/quicktime', 'video/x-msvideo', 'video/x-ms-wmv',
-//        ]);
-
         return [
             'avatar' => "required|file|mimetypes:image/jpg,image/jpeg,image/png|max:1024",
         ];

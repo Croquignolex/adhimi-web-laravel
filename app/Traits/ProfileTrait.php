@@ -149,7 +149,7 @@ trait ProfileTrait
                 'state_id' => $validated['state'],
             ]);
 
-            LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_default_address_updated'));
+            LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_updated'));
         }
         else
         {
@@ -164,7 +164,7 @@ trait ProfileTrait
                 'state_id' => $validated['state'],
             ]);
 
-            LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_created'));
+            LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_default_address_created'));
         }
 
         return back();
@@ -186,22 +186,43 @@ trait ProfileTrait
 
         $avatarName = Storage::disk('public')->put(MediaTypeEnum::Avatar->value, $validated['avatar']);
 
-        if($avatar)
+        if($avatarName)
         {
-            $avatar->update(['name' => $avatarName]);
+            if($avatar)
+            {
+                $avatar->update(['name' => $avatarName]);
 
-            LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_default_address_updated'));
-        }
-        else
-        {
-            $user->avatar()->create([
-                'name' => $avatarName,
-                'type' => MediaTypeEnum::Avatar,
-                'creator_id' => $user->id,
-            ]);
+                LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_avatar_updated'));
+            }
+            else
+            {
+                $user->avatar()->create([
+                    'name' => $avatarName,
+                    'type' => MediaTypeEnum::Avatar,
+                    'creator_id' => $user->id,
+                ]);
 
-            LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_created'));
+                LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_avatar_created'));
+            }
+        } else {
+            ToastEvent::dispatch(__('general.upload_error'), ToastTypeEnum::Danger);
         }
+
+        return back();
+    }
+
+    /**
+     * Delete profile avatar
+     *
+     * @return RedirectResponse
+     */
+    public function avatarDelete(): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $user->avatar()->delete();
+
+        LogEvent::dispatch($user, LogActionEnum::Delete, __('general.profile.profile_avatar_deleted'));
 
         return back();
     }

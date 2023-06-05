@@ -21,6 +21,7 @@ return [
     'description' => 'Description',
     'save' => 'Sauvegarder',
     'change' => 'Changer',
+    'delete' => 'Supprimer',
     'old_password' => 'Ancien mot de passe',
     'new_password' => 'Nouveau mot de passe',
     'password_confirmation' => 'Confirmation du mot de passe',
