@@ -26,7 +26,6 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('email')->unique();
             $table->text('description')->nullable();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
 

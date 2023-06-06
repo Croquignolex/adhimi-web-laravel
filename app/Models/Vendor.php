@@ -37,9 +37,6 @@ class Vendor extends Model
         'name',
         'slug',
         'status',
-        'email',
-        'phone',
-        'address',
         'description',
 
         'creator_id',

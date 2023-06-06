@@ -36,6 +36,8 @@ return new class extends Migration
             $table->boolean('enable_product_notification')->default(false);
             $table->boolean('enable_purchase_notification')->default(false);
             $table->boolean('enable_payment_notification')->default(false);
+
+            $table->unique(['id', 'user_id']);
         });
     }
 

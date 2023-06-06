@@ -25,6 +25,10 @@
                     <span class="menu-title text-truncate">@lang('page.home')</span>
                 </a>
             </li>
+
+            <li class="navigation-header">
+                <span>Administration</span>
+            </li>
         </ul>
     </div>
 </div>

@@ -10,12 +10,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use App\Traits\Models\BelongsToManyAttributesTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\BelongsToOrganisationTrait;
-use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -34,10 +31,7 @@ class Product extends Model
         MorphToManyTags,
         EnableScopeTrait,
         TimezoneDateTrait,
-        BelongsToShopTrait,
-        BelongsToCountryTrait,
         BelongsToCreatorTrait,
-        TimezonePromotionDateTrait,
         BelongsToOrganisationTrait,
         BelongsToManyAttributesTrait,
         BelongsToManyAttributeValuesTrait;
@@ -53,15 +47,9 @@ class Product extends Model
         'sku',
         'barcode',
         'status',
-        'quantity',
-        'alert_quantity',
         'description',
-        'delivery_price',
-        'purchase_price',
-        'sale_price',
-        'promotion_price',
-        'promotion_started_at',
-        'promotion_ended_at',
+        'min_price',
+        'max_price',
         'weight_value',
         'weight_unit',
         'height_value',
@@ -76,11 +64,9 @@ class Product extends Model
         'seo_description',
 
         'creator_id',
-        'vendor_id',
         'category_id',
         'brand_id',
         'organisation_id',
-        'country_id',
     ];
 
     /**
@@ -90,8 +76,6 @@ class Product extends Model
      */
     protected $casts = [
         'status' => GeneralStatusEnum::class,
-        'promotion_started_at' => 'datetime',
-        'promotion_ended_at' => 'datetime',
         'weight_unit' => WeightValueEnum::class,
         'height_unit' => DistanceValueEnum::class,
         'width_unit' => DistanceValueEnum::class,
@@ -162,16 +146,6 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
-    }
-
-    /**
-     * Get the vendor that owns the current model.
-     *
-     * @return BelongsTo
-     */
-    public function vendor(): BelongsTo
-    {
-        return $this->belongsTo(Vendor::class);
     }
 
     /**

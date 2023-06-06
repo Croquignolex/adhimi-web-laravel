@@ -21,7 +21,7 @@ return new class extends Migration
 
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
 
-            $table->nullableMorphs('loggable');
+            $table->morphs('loggable');
 
             $table->string('action');
             $table->string('ip')->nullable();

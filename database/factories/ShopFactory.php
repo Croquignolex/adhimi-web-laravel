@@ -20,10 +20,7 @@ class ShopFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->name(),
-            'email' => $this->faker->safeEmail(),
-            'address' => $this->faker->word,
             'slug' => $this->faker->unique()->slug,
-            'phone' => $this->faker->phoneNumber,
             'description' => $this->faker->text(),
             'status' => GeneralStatusEnum::randomValue(),
         ];

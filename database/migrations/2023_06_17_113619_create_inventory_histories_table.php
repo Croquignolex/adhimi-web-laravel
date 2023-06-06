@@ -21,11 +21,8 @@ return new class extends Migration
             $this->addCommonFields($table);
 
             $this->addForeignKey(table: $table, nullable: true, foreignKey: 'creator_id');
-            $this->addForeignKey(table: $table, nullable: true, foreignKey: 'organisation_id');
             $this->addForeignKey(table: $table, nullable: true, foreignKey: 'shop_id');
             $this->addForeignKey(table: $table, foreignModelFqn: Product::class);
-
-            $table->morphs('stockable');
 
             $table->integer('quantity')->default(0);
             $table->integer('old_quantity')->default(0);
