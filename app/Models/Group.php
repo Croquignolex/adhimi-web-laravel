@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphOneBannerTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\MorphToManyTags;
@@ -20,7 +19,6 @@ class Group extends Model
         SoftDeletes,
         MorphToManyTags,
         EnableScopeTrait,
-        TimezoneDateTrait,
         MorphOneBannerTrait,
         BelongsToCreatorTrait;
 

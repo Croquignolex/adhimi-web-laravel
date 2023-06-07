@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Models\HasManyInventoryHistoriesTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
 use App\Traits\Models\BelongsToOrganisationTrait;
@@ -11,7 +12,6 @@ use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphOneBannerTrait;
 use App\Traits\Models\HasManyUsersTrait;
 use App\Traits\Models\MorphOneLogoTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\MorphToManyTags;
@@ -26,11 +26,11 @@ class Shop extends Model
         EnableScopeTrait,
         MorphOneLogoTrait,
         HasManyUsersTrait,
-        TimezoneDateTrait,
         MorphOneBannerTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
-        MorphOneDefaultAddressTrait;
+        MorphOneDefaultAddressTrait,
+        HasManyInventoryHistoriesTrait;
 
     /**
      * The attributes that are mass assignable.

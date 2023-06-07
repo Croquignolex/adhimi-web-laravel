@@ -17,10 +17,10 @@ class RedirectionMiddleware
      *
      * @param Request $request
      * @param Closure $next
-     * @param string $type
+     * @param string|null $type
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $type): Response|RedirectResponse
+    public function handle(Request $request, Closure $next, ?string $type): Response|RedirectResponse
     {
         $authCheck = Auth::check();
 
@@ -39,6 +39,8 @@ class RedirectionMiddleware
                     return redirect(route('admin.home'));
                 }
                 break;
+            default:
+                return redirect(route('home'));
         }
 
         return $next($request);

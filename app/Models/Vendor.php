@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
@@ -10,8 +9,8 @@ use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\MorphOneLogoTrait;
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\GeneralStatusEnum;
 
@@ -22,7 +21,6 @@ class Vendor extends Model
         SoftDeletes,
         EnableScopeTrait,
         MorphOneLogoTrait,
-        TimezoneDateTrait,
         HasManyProductsTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,

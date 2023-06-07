@@ -22,8 +22,6 @@ class InventoryFactory extends Factory
         return [
             'status' => GeneralStatusEnum::randomValue(),
             'condition' => InventoryConditionEnum::randomValue(),
-            'name' => $this->faker->name(),
-            'slug' => $this->faker->unique()->slug,
             'description' => $this->faker->text(),
             'quantity' => $this->faker->randomNumber(1),
             'alert_quantity' => $this->faker->randomNumber(1),

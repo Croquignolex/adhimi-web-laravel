@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Organisation;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;
@@ -36,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
             'user' => User::class,
             'payment' => Payment::class,
             'invoice' => Invoice::class,
+            'organisation' => Organisation::class,
         ]);
     }
 }

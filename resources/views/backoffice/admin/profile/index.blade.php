@@ -26,6 +26,26 @@
                                     @csrf
                                     @method('put')
                                     <div class="row">
+                                        @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="account-store">@lang('field.store')</label>
+                                                    <input type="text" class="form-control" id="account-store"
+                                                           value="{{ $user?->organisation->name }}" disabled />
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="account-shop">@lang('field.shop')</label>
+                                                    <input type="text" class="form-control" id="account-shop"
+                                                           value="{{ $user?->shop->name }}" disabled />
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="row">
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
                                                 <label for="account-first-name">

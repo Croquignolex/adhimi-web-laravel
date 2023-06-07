@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Backoffice\Admin\OrganisationController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
+use App\Http\Controllers\Backoffice\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +45,28 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('avatar', 'showAvatarForm')->name('avatar');
             Route::put('avatar', 'avatarUpdate');
             Route::delete('avatar', 'avatarDelete');
+        });
+
+        /**
+         * @middleware super
+         */
+        Route::middleware('allow:super')->group(function () {
+            /**
+             * @resource organisations
+             */
+            Route::resource('organisations', OrganisationController::class);
+            /**
+             * @controller organisation
+             */
+            Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
+                Route::get('{organisation}/add-store', 'addStore')->name('add.store');
+                Route::get('{organisation}/add-vendor', 'addVendor')->name('add.vendor');
+                Route::get('{organisation}/add-merchant', 'addMerchant')->name('add.merchant');
+            });
+            /**
+             * @resource users
+             */
+            Route::resource('users', UserController::class);
         });
     });
 });

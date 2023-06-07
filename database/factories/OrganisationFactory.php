@@ -20,13 +20,12 @@ class OrganisationFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->name(),
-            'email' => $this->faker->safeEmail(),
-            'address' => $this->faker->word,
-            'website' => $this->faker->url,
             'slug' => $this->faker->unique()->slug,
+            'email' => $this->faker->safeEmail(),
+            'website' => $this->faker->url,
             'phone' => $this->faker->phoneNumber,
-            'description' => $this->faker->text(),
             'status' => GeneralStatusEnum::randomValue(),
+            'description' => $this->faker->text(),
         ];
     }
 }

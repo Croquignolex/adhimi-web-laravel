@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use App\Enums\LogActionEnum;
-use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\TimezoneDateTrait;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Model;
+use App\Enums\LogActionEnum;
 
 class Log extends Model
 {
-    use HasUuids, HasFactory, SoftDeletes, TimezoneDateTrait, BelongsToCreatorTrait;
+    use HasUuids, HasFactory, SoftDeletes, BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -101,7 +100,8 @@ class Log extends Model
                 }
 
                 return match (Relation::getMorphedModel($this->loggable_type)) {
-//                User::class => route('users.show', [$model]),
+                    User::class => route('admin.users.show', [$model]),
+                    Organisation::class => route('admin.organisations.show', [$model]),
                     default => null,
                 };
             }

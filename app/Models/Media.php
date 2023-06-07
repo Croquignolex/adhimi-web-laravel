@@ -8,15 +8,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\StorageFolderEnum;
 use App\Enums\MediaTypeEnum;
 
 class Media extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, TimezoneDateTrait;
+    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait;
 
     /**
      * The table associated with the model.

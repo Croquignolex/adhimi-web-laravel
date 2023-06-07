@@ -34,6 +34,8 @@ return [
     'zipcode' => 'Code postal',
     'street_address_plus' => 'Plus de detail',
     'street_address' => 'Adresse',
+    'store' => 'Boutique',
+    'shop' => 'Agence',
 
     'notification' => [
         'enable_super_admin' => "Me notifier l'ors d'une action sur un super admin",

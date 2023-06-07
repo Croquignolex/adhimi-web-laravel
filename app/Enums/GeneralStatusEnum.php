@@ -8,7 +8,7 @@ enum GeneralStatusEnum: string
 {
     use EnumToolsTrait;
 
-    case Enable = 'Enable';
-    case StandBy = 'Stand By';
-    case Disable = 'Disable';
+    case Enable = 'enable';
+    case StandBy = 'stand_ty';
+    case Disable = 'disable';
 }

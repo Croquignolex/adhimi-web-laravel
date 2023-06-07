@@ -27,8 +27,6 @@ return new class extends Migration
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
             $this->addForeignKey(table: $table, foreignModelFqn: Country::class);
 
-            $table->string('name');
-            $table->string('slug')->unique();
             $table->string('condition')->default(InventoryConditionEnum::New->value);
             $table->integer('quantity')->default(0);
             $table->integer('alert_quantity')->default(0);
@@ -40,8 +38,6 @@ return new class extends Migration
             $table->dateTime('promotion_ended_at')->nullable();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
-
-            $table->unique(['organisation_id', 'name']);
         });
     }
 

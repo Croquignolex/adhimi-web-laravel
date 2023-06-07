@@ -1218,6 +1218,31 @@ footer.footer-border {
 
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
+.avatar.avatar-xs {
+  font-size : 1rem;
+}
+
+.avatar.avatar-xs img {
+  width : 26px;
+  height : 26px;
+}
+
+.avatar.avatar-xs .avatar-content {
+  height : 26px;
+  width : 26px;
+  font-size : 2rem;
+}
+
+.avatar.avatar-xs .avatar-content .avatar-icon, .avatar.avatar-xs .avatar-content i, .avatar.avatar-xs .avatar-content svg {
+  height : 0.5rem;
+  width : 0.5rem;
+  font-size : 0.5rem;
+}
+
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+
 .avatar.avatar-xxl {
   font-size : 2.5rem;
 }

@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToStateTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\AddressTypeEnum;
 
 class Address extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, TimezoneDateTrait, BelongsToStateTrait;
+    use HasFactory, SoftDeletes, HasUuids, BelongsToCreatorTrait, BelongsToStateTrait;
 
     /**
      * The table associated with the model.

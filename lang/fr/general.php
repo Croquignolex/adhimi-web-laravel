@@ -14,6 +14,12 @@ return [
     'no' => 'Non',
     'welcome' => 'Bienvenue',
     'upload_error' => "Une erreur s'est l'ors du stockage du fichier",
+    'permission_denied' => "Vous n'êtes pas autorisé à effectué cette action",
+    'enable' => "Actif",
+    'stand_ty' => "En attente",
+    'disable' => "Inactif",
+    'unknown' => "Inconnu",
+    'no_records' => "Pas de données",
 
     'login' => [
         'enter_your_credentials' => 'Entrez vos identifiants',

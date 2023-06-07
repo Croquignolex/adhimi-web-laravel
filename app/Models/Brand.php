@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Enums\GeneralStatusEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphOneLogoTrait;
-use App\Traits\Models\TimezoneDateTrait;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\EnableScopeTrait;
+use App\Enums\GeneralStatusEnum;
 
 class Brand extends Model
 {
@@ -20,7 +19,6 @@ class Brand extends Model
         SoftDeletes,
         EnableScopeTrait,
         MorphOneLogoTrait,
-        TimezoneDateTrait,
         HasManyProductsTrait,
         BelongsToCreatorTrait;
 

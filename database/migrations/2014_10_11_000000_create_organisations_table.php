@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
+            $table->string('phone')->nullable();
             $table->string('status')->default(GeneralStatusEnum::Enable->value);
             $table->text('description')->nullable();
         });

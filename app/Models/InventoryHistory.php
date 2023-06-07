@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToShopTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class InventoryHistory extends Model
@@ -17,7 +16,6 @@ class InventoryHistory extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        TimezoneDateTrait,
         BelongsToShopTrait,
         BelongsToCreatorTrait,
         HasManyInventoryHistoriesTrait;

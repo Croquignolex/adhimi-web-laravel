@@ -19,7 +19,6 @@ use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\UserCreationsTrait;
 use Illuminate\Notifications\Notifiable;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\UniqueSlugTrait;
 use Spatie\Permission\Traits\HasRoles;
 use App\Enums\AddressTypeEnum;
@@ -36,7 +35,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         Notifiable,
         SoftDeletes,
         UniqueSlugTrait,
-        TimezoneDateTrait,
         MorphManyLogsTrait,
         BelongsToShopTrait,
         UserCreationsTrait,
@@ -144,6 +142,17 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         );
     }
 
+    /**
+     * Determine user role, magic attribute $this->role.
+     *
+     * @return Attribute
+     */
+    protected function role(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->getRoleNames()->first()
+        );
+    }
 
     /**
      * Determine user initials, magic attribute $this->initials.
@@ -164,18 +173,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                 }
                 return mb_substr($nameArray[0], 0, 2);
             }
-        );
-    }
-
-    /**
-     * Determine user role, magic attribute $this->role.
-     *
-     * @return Attribute
-     */
-    protected function role(): Attribute
-    {
-        return new Attribute(
-            get: fn () => $this->getRoleNames()->first()
         );
     }
 

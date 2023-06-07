@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\GeneralStatusEnum;
-use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\EnableScopeTrait;
-use App\Traits\Models\MorphOneBannerTrait;
-use App\Traits\Models\MorphToManyTags;
-use App\Traits\Models\TimezoneDateTrait;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\MorphOneBannerTrait;
+use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\EnableScopeTrait;
+use App\Traits\Models\MorphToManyTags;
+use App\Enums\GeneralStatusEnum;
 
 class Category extends Model
 {
@@ -21,7 +20,6 @@ class Category extends Model
         SoftDeletes,
         MorphToManyTags,
         EnableScopeTrait,
-        TimezoneDateTrait,
         MorphOneBannerTrait,
         BelongsToCreatorTrait;
 

@@ -33,12 +33,9 @@ class RoleMiddleware
             default => UserRoleEnum::SuperAdmin->value,
         })->all();
 
-        if(Auth::check() && !Auth::user()->hasRole($mappedTypes)) {
-            ToastEvent::dispatch(
-                "You are not allow to perform this action",
-                ToastTypeEnum::Warning
-            );
-
+        if(Auth::check() && !Auth::user()->hasRole($mappedTypes))
+        {
+            ToastEvent::dispatch(__('general.permission_denied'), ToastTypeEnum::Warning);
             return back();
         }
 

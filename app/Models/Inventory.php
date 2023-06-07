@@ -36,8 +36,6 @@ class Inventory extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'slug',
         'status',
         'quantity',
         'alert_quantity',

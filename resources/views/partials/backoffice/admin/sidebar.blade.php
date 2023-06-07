@@ -18,6 +18,10 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class="navigation-header">
+                <span>Administration</span>
+            </li>
+
             {{-- Home menu --}}
             <li class="{{ active_page('admin.home') }} nav-item">
                 <a class="d-flex align-items-center" href="{{ route('admin.home') }}">
@@ -26,9 +30,47 @@
                 </a>
             </li>
 
-            <li class="navigation-header">
-                <span>Administration</span>
-            </li>
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value]))
+                {{-- Organisations menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="globe"></i>
+                        <span class="menu-title text-truncate">@lang('page.shops')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All organisations menu item --}}
+                        <li class="{{ active_page('admin.organisations.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.organisations.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.all_shops')</span>
+                            </a>
+                        </li>
+                        {{-- New organisation menu item --}}
+                        <li class="{{ active_page('admin.organisations.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.organisations.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.new_shop')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Admin->value]))
+
+            @endif
+
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Merchant->value]))
+
+            @endif
+
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::ShopManager->value]))
+
+            @endif
+
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Saler->value]))
+
+            @endif
         </ul>
     </div>
 </div>

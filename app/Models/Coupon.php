@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Enums\GeneralStatusEnum;
-use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\BelongsToOrganisationTrait;
-use App\Traits\Models\EnableScopeTrait;
-use App\Traits\Models\TimezoneDateTrait;
-use App\Traits\Models\TimezonePromotionDateTrait;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Traits\Models\BelongsToOrganisationTrait;
+use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\EnableScopeTrait;
+use Illuminate\Database\Eloquent\Model;
+use App\Enums\GeneralStatusEnum;
 
 class Coupon extends Model
 {
@@ -19,7 +18,6 @@ class Coupon extends Model
         HasFactory,
         SoftDeletes,
         EnableScopeTrait,
-        TimezoneDateTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
         TimezonePromotionDateTrait;

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\MorphOneFlagTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +19,6 @@ class State extends Model
         SoftDeletes,
         EnableScopeTrait,
         MorphOneFlagTrait,
-        TimezoneDateTrait,
         BelongsToCountryTrait,
         BelongsToCreatorTrait;
 

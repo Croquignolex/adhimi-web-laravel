@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\TimezoneDateTrait;
+use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\GeneralStatusEnum;
 
 class Tag extends Model
 {
-    use HasFactory, BelongsToCreatorTrait, HasUuids, TimezoneDateTrait, EnableScopeTrait, SoftDeletes;
+    use HasFactory, BelongsToCreatorTrait, HasUuids, EnableScopeTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

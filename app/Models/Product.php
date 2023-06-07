@@ -13,7 +13,6 @@ use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\MorphToManyTags;
@@ -30,7 +29,6 @@ class Product extends Model
         SoftDeletes,
         MorphToManyTags,
         EnableScopeTrait,
-        TimezoneDateTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
         BelongsToManyAttributesTrait,
