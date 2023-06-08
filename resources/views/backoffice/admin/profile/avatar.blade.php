@@ -10,7 +10,7 @@
         <div class="card-body">
             @include('partials.feedbacks.alert')
             <div class="text-center">
-                @include('partials.backoffice.round-avatar', ['user' => auth()->user(), 'class' => 'mb-1'])
+                @include('partials.backoffice.round-image', ['url' => auth()->user()->avatar?->url, 'initials' => auth()->user()->initials, 'class' => 'mb-1'])
                 @include('partials.feedbacks.validation', ['field' => 'avatar'])
                 <div class="mt-2">
                     <button class="btn btn-primary" id="avatar-change">@lang('field.change')</button>

@@ -42,7 +42,7 @@
                             </span>
                         </div>
                     </div>
-                    @include('partials.backoffice.round-avatar', ['user' => auth()->user(), 'size' => 'sm'])
+                    @include('partials.backoffice.round-image', ['url' => auth()->user()->avatar?->url, 'initials' => auth()->user()->initials, 'size' => 'sm'])
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
                     <a class="dropdown-item {{ active_page('admin.profile.general') }}" href="{{ route('admin.profile.general') }}">

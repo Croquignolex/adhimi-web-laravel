@@ -43,6 +43,9 @@ return [
     'street_address' => 'Adresse',
     'store' => 'Boutique',
     'shop' => 'Agence',
+    'phone_code' => 'Indice tel.',
+    'states' => 'Regions',
+    'search' => 'Rechercher',
 
     'notification' => [
         'enable_super_admin' => "Me notifier l'ors d'une action sur un super admin",

@@ -22,10 +22,16 @@ return [
     'update_my_settings' => 'Modifier mes paramètres',
     'update_my_avatar' => 'Modifier mon avatar',
 
+    'countries' => [
+        'countries' => 'Pays',
+        'new' => 'Nouveau pays',
+        'all' => 'Tous les Pays',
+    ],
+
     'shops' => [
         'shops' => 'Magasins',
         'new' => 'Nouveau magasin',
         'all' => 'Tous les Magasins',
-    ]
+    ],
 
 ];

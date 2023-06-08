@@ -1,3 +1,5 @@
+@props(['id' => '', 'size' => '', 'class' => '', 'url' => null])
+
 @switch($size)
     @case('xs')
         <div id="{{ $id }}" class="{{ $class }}">

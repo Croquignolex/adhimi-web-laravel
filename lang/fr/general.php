@@ -13,6 +13,7 @@ return [
     'yes' => 'Oui',
     'no' => 'Non',
     'welcome' => 'Bienvenue',
+    'settings' => 'Paramètres',
     'upload_error' => "Une erreur s'est l'ors du stockage du fichier",
     'permission_denied' => "Vous n'êtes pas autorisé à effectué cette action",
     'no_records' => "Pas de données",

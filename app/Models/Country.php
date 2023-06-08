@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphOneFlagTrait;
+use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\EnableScopeTrait;
+use App\Traits\Models\StatusBadgeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\GeneralStatusEnum;
 
@@ -18,8 +21,10 @@ class Country extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        StatusBadgeTrait,
         EnableScopeTrait,
         MorphOneFlagTrait,
+        NameInitialsTrait,
         HasManyProductsTrait,
         BelongsToCreatorTrait;
 
@@ -48,6 +53,15 @@ class Country extends Model
         'latitude' => 'float',
         'longitude' => 'float',
     ];
+
+    /**
+     * Scope a query to only include search model.
+     */
+    public function scopeSearch(Builder $query, string $q): void
+    {
+        $query->where('name', 'LIKE', "%$q%")
+            ->orWhere('phone_code', 'LIKE', "%$q%");
+    }
 
     /**
      * Get the states for the country.
