@@ -11,6 +11,13 @@ return [
     */
 
     'email' => 'Email',
+    'type' => 'Type',
+    'creation' => 'Création',
+    'name' => 'Name',
+    'phone' => 'Téléphone',
+    'status' => 'Status',
+    'merchant' => 'Marchand',
+    'actions' => 'Actions',
     'login' => 'Connexion',
     'password' => 'Mot de passe',
     'first_name' => 'Prénom',

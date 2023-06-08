@@ -17,19 +17,19 @@ trait StatusBadgeTrait
         return new Attribute(
             get: fn () => match ($this->status) {
                 GeneralStatusEnum::Enable => [
-                    'value' => __('general.' . GeneralStatusEnum::Enable->value),
+                    'value' => __('general.status.' . GeneralStatusEnum::Enable->value),
                     'color' => 'success',
                 ],
                 GeneralStatusEnum::Disable => [
-                    'value' => __('general.' . GeneralStatusEnum::Disable->value),
+                    'value' => __('general.status.' . GeneralStatusEnum::Disable->value),
                     'color' => 'danger',
                 ],
                 GeneralStatusEnum::StandBy => [
-                    'value' => __('general.' . GeneralStatusEnum::StandBy->value),
+                    'value' => __('general.status.' . GeneralStatusEnum::StandBy->value),
                     'color' => 'warning',
                 ],
                 default => [
-                    'value' => __('general.unknown'),
+                    'value' => __('general.status.unknown'),
                     'color' => 'secondary',
                 ]
             }

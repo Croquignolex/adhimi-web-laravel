@@ -8,6 +8,6 @@ enum UserStatusEnum: string
 {
     use EnumToolsTrait;
 
-    case Active = 'Active';
-    case Blocked = 'Blocked';
+    case Active = 'active';
+    case Blocked = 'blocked';
 }

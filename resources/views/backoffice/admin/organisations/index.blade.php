@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.shops'),
+    'title' => __('page.shops.all'),
     'breadcrumb_items' => [
         ['url' => route('home'), 'label' => __('page.home')]
     ]
@@ -16,7 +16,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <a href="{{ route('admin.organisations.create') }}" class="mb-1 btn btn-primary">
-                                    Nouveau magasin
+                                    @lang('page.shops.new')
                                 </a>
                                 <form action="" method="GET" class="w-50 float-right">
                                     <div class="form-group">
@@ -29,12 +29,12 @@
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Creation</th>
-                                        <th>Name</th>
-                                        <th>Telephone</th>
-                                        <th>Status</th>
-                                        <th>Marchant</th>
-                                        <th>Actions</th>
+                                        <th>@lang('field.creation')</th>
+                                        <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
+                                        <th>@lang('field.phone') <i data-feather="search" class="text-secondary"></i></th>
+                                        <th>@lang('field.status')</th>
+                                        <th>@lang('field.merchant')</th>
+                                        <th>@lang('field.actions')</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -79,25 +79,25 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.show', [$organisation]) }}">
                                                             <i data-feather="eye" class="mr-50 text-success"></i>
-                                                            <span>Details</span>
+                                                            <span>@lang('general.action.detail')</span>
                                                         </a>
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.edit', [$organisation]) }}">
                                                             <i data-feather="edit-2" class="mr-50 text-warning"></i>
-                                                            <span>Modifier</span>
+                                                            <span>@lang('general.action.update')</span>
                                                         </a>
                                                         <hr>
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.add.store', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                            <span>Ajouter une boutique</span>
+                                                            <span>@lang('general.action.add_store')</span>
                                                         </a>
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                            <span>Ajouter un fournisseur</span>
+                                                            <span>@lang('general.action.add_vendor')</span>
                                                         </a>
                                                         @if(!$organisation?->merchant)
                                                             <a class="dropdown-item" href="{{ route('admin.organisations.add.merchant', [$organisation]) }}">
                                                                 <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                                <span>Ajouter le marchant</span>
+                                                                <span>@lang('general.action.add_merchant')</span>
                                                             </a>
                                                         @endif
                                                     </div>

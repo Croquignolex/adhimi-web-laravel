@@ -64,7 +64,6 @@ class Organisation extends Model
     public function scopeSearch(Builder $query, string $q): void
     {
         $query->where('name', 'LIKE', "%$q%")
-            ->orWhere('email', 'LIKE', "%$q%")
             ->orWhere('phone', 'LIKE', "%$q%");
     }
 

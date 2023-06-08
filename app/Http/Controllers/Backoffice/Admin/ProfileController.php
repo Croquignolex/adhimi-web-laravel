@@ -18,7 +18,7 @@ class ProfileController extends Controller
      */
     public function showInfoForm(): View
     {
-        $user = Auth::user();
+        $user = Auth::user()->load('organisation', 'shop');
 
         return view('backoffice.admin.profile.index', compact('user'));
     }
@@ -44,7 +44,7 @@ class ProfileController extends Controller
      */
     public function showAddressForm(): View
     {
-        $address = Auth::user()->defaultAddress;
+        $address = Auth::user()->load('defaultAddress')->defaultAddress;
 
         return view('backoffice.admin.profile.address', compact('address'));
     }
@@ -56,9 +56,7 @@ class ProfileController extends Controller
      */
     public function showAvatarForm(): View
     {
-        $avatar = Auth::user()->avatar;
-
-       // dd($avatar);
+        $avatar = Auth::user()->load('avatar')->avatar;
 
         return view('backoffice.admin.profile.avatar', compact('avatar'));
     }
@@ -70,7 +68,7 @@ class ProfileController extends Controller
      */
     public function showLogsForm(): View
     {
-        $logs = Auth::user()->logs()->orderBy('created_at', 'desc')->paginate();
+        $logs = Auth::user()->load('logs')->logs()->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.profile.logs', compact('logs'));
     }

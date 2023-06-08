@@ -15,11 +15,33 @@ return [
     'welcome' => 'Bienvenue',
     'upload_error' => "Une erreur s'est l'ors du stockage du fichier",
     'permission_denied' => "Vous n'êtes pas autorisé à effectué cette action",
-    'enable' => "Actif",
-    'stand_ty' => "En attente",
-    'disable' => "Inactif",
-    'unknown' => "Inconnu",
     'no_records' => "Pas de données",
+
+    'action' => [
+        'detail' => 'Détails',
+        'update' => 'Modifier',
+        'add_store' => 'Ajouter une boutique',
+        'add_vendor' => 'Ajouter un fournisseur',
+        'add_merchant' => 'Ajouter un marchand',
+    ],
+
+    'role' => [
+        'customer' => 'Client',
+        'saler' => 'Vendeur',
+        'admin' => 'Admin',
+        'merchant' => 'Marchand',
+        'shop_manager' => 'Gestionnaire',
+        'super_admin' => 'Super admin',
+    ],
+
+    'status' => [
+        'enable' => "Actif",
+        'active' => "Actif",
+        'blocked' => "Bloqué",
+        'stand_ty' => "En attente",
+        'disable' => "Inactif",
+        'unknown' => "Inconnu",
+    ],
 
     'login' => [
         'enter_your_credentials' => 'Entrez vos identifiants',

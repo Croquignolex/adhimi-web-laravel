@@ -35,21 +35,21 @@
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="javascript:void(0);">
                         <i data-feather="globe"></i>
-                        <span class="menu-title text-truncate">@lang('page.shops')</span>
+                        <span class="menu-title text-truncate">@lang('page.shops.shops')</span>
                     </a>
                     <ul class="menu-content">
                         {{-- All organisations menu item --}}
                         <li class="{{ active_page('admin.organisations.index') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.organisations.index') }}">
                                 <i data-feather="circle"></i>
-                                <span class="menu-item">@lang('page.all_shops')</span>
+                                <span class="menu-item">@lang('page.shops.all')</span>
                             </a>
                         </li>
                         {{-- New organisation menu item --}}
                         <li class="{{ active_page('admin.organisations.create') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.organisations.create') }}">
                                 <i data-feather="circle"></i>
-                                <span class="menu-item">@lang('page.new_shop')</span>
+                                <span class="menu-item">@lang('page.shops.new')</span>
                             </a>
                         </li>
                     </ul>

@@ -8,10 +8,10 @@ enum UserRoleEnum: string
 {
     use EnumToolsTrait;
 
-    case Customer = 'Customer';
-    case Saler = 'Saler';
-    case Admin = 'Admin';
-    case Merchant = 'Merchant';
-    case ShopManager = 'Shop Manager';
-    case SuperAdmin = 'Super Admin';
+    case Customer = 'customer';
+    case Saler = 'saler';
+    case Admin = 'admin';
+    case Merchant = 'merchant';
+    case ShopManager = 'shop_manager';
+    case SuperAdmin = 'super_admin';
 }

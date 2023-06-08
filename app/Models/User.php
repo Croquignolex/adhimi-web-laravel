@@ -90,6 +90,13 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['roles'];
+
+    /**
      * Manage first name, attribute $this->first_name.
      *
      * @return Attribute
@@ -186,27 +193,31 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return new Attribute(
             get: fn () => match ($this->role) {
                 UserRoleEnum::SuperAdmin->value => [
-                    'value' => UserRoleEnum::SuperAdmin->value,
+                    'value' => __('general.role.' . UserRoleEnum::SuperAdmin->value),
                     'color' => 'danger',
                 ],
                 UserRoleEnum::Admin->value => [
-                    'value' => UserRoleEnum::Admin->value,
-                    'color' => 'danger',
-                ],
-                UserRoleEnum::Merchant->value => [
-                    'value' => UserRoleEnum::Merchant->value,
+                    'value' => __('general.role.' . UserRoleEnum::Admin->value),
                     'color' => 'warning',
                 ],
-                UserRoleEnum::ShopManager->value => [
-                    'value' => UserRoleEnum::ShopManager->value,
+                UserRoleEnum::Merchant->value => [
+                    'value' => __('general.role.' . UserRoleEnum::Merchant->value),
                     'color' => 'primary',
                 ],
-                UserRoleEnum::Saler->value => [
-                    'value' => UserRoleEnum::Saler->value,
+                UserRoleEnum::ShopManager->value => [
+                    'value' => __('general.role.' . UserRoleEnum::ShopManager->value),
                     'color' => 'info',
                 ],
+                UserRoleEnum::Saler->value => [
+                    'value' => __('general.role.' . UserRoleEnum::Saler->value),
+                    'color' => 'secondary',
+                ],
+                UserRoleEnum::Customer->value => [
+                    'value' => __('general.role.' . UserRoleEnum::Customer->value),
+                    'color' => 'success',
+                ],
                 default => [
-                    'value' => UserRoleEnum::Customer->value,
+                    'value' => __('general.status.unknown'),
                     'color' => 'secondary',
                 ]
             }
@@ -223,15 +234,15 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return new Attribute(
             get: fn () => match ($this->status) {
                 UserStatusEnum::Active => [
-                    'value' => UserStatusEnum::Active->value,
+                    'value' => __('general.status.' . UserStatusEnum::Active->value),
                     'color' => 'success',
                 ],
                 UserStatusEnum::Blocked => [
-                    'value' => UserStatusEnum::Blocked->value,
+                    'value' => __('general.status.' . UserStatusEnum::Blocked->value),
                     'color' => 'danger',
                 ],
                 default => [
-                    'value' => 'Unknown',
+                    'value' => __('general.status.unknown'),
                     'color' => 'secondary',
                 ]
             }

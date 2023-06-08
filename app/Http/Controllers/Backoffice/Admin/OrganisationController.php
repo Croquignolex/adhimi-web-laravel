@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
+use App\Http\Requests\Organisation\StoreOrganisationRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +31,8 @@ class OrganisationController extends Controller
         $q = $request->query('q');
 
         $organisations = ($q)
-            ? Organisation::with('merchant')->search($q)->orderBy('name')->paginate()
-            : Organisation::with('merchant')->orderBy('created_at', 'desc')->paginate();
+            ? Organisation::search($q)->orderBy('name')->paginate()
+            : Organisation::orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.organisations.index', compact('organisations', 'q'));
     }
@@ -43,41 +44,44 @@ class OrganisationController extends Controller
      */
     public function create(): View
     {
-        return view('users.create');
+        return view('backoffice.admin.organisations.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreUserRequest $request
+     * @param StoreOrganisationRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(StoreOrganisationRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $user = User::create([
+        $organisation = Organisation::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate']
+            'website' => $validated['website'],
+            'phone' => $validated['phone'],
+            'description' => $validated['description']
         ]);
 
-        LogEvent::dispatch($user, LogActionEnum::Create, "User $user->name created");
+        LogEvent::dispatch($organisation, LogActionEnum::Create, "User $organisation->name created");
 
-        return redirect(route('users.index'));
+        return redirect(route('admin.organisations.show', [$organisation]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param Organisation $organisation
      * @return View
      */
-    public function show(User $user): View
+    public function show(Organisation $organisation): View
     {
-        return view('users.show', compact('user'));
+//        $organisation = $organisation->load(['shops', 'vendors', 'merchant', 'creator', 'banner', 'logo', 'users']);
+        $organisation = $organisation->load(['shops']);
+
+        return view('backoffice.admin.organisations.create.show', compact('organisation'));
     }
 
     /**

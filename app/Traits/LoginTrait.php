@@ -24,7 +24,7 @@ trait LoginTrait
     {
         if(!$canLogin) {
             $this->guard()->logout();
-            return $this->sendFailedLoginResponse($request);
+            return $this->sendFailedLoginResponse();
         }
 
         $request->session()->put('language', $user->setting->language);
@@ -43,10 +43,7 @@ trait LoginTrait
      */
     protected function sendFailedLoginResponse(): RedirectResponse
     {
-        ToastEvent::dispatch(
-            __('general.login.invalid_credentials'),
-            ToastTypeEnum::Danger
-        );
+        ToastEvent::dispatch(__('general.login.invalid_credentials'), ToastTypeEnum::Danger);
 
         return back();
     }
