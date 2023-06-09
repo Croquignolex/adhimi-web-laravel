@@ -26,6 +26,7 @@ return [
         'countries' => 'Pays',
         'new' => 'Nouveau pays',
         'all' => 'Tous les Pays',
+        'detail' => 'Détail du pays :name',
     ],
 
     'shops' => [

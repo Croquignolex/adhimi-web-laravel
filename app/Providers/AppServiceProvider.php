@@ -7,8 +7,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Organisation;
+use App\Models\Country;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\State;
 use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,9 +37,11 @@ class AppServiceProvider extends ServiceProvider
         // Morph names mapping
         Relation::enforceMorphMap([
             'user' => User::class,
-            'payment' => Payment::class,
-            'invoice' => Invoice::class,
-            'organisation' => Organisation::class,
+//            'payment' => Payment::class,
+//            'invoice' => Invoice::class,
+//            'organisation' => Organisation::class,
+            'state' => State::class,
+            'country' => Country::class,
         ]);
     }
 }

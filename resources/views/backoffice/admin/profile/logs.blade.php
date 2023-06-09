@@ -24,7 +24,7 @@
                         <tr>
                             <td>
                                 <span class="badge badge-light-secondary">
-                                    {{ format_date($log->created_at) }}
+                                    {{ format_datetime($log->created_at) }}
                                 </span>
                             </td>
                             <td>

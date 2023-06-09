@@ -23,6 +23,8 @@ class CountryFactory extends Factory
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),
             'name' => $this->faker->country(),
+            'slug' => $this->faker->unique()->slug,
+            'description' => $this->faker->text(),
             'status' => GeneralStatusEnum::randomValue(),
         ];
     }

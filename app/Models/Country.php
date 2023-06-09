@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
+use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\MorphOneFlagTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\StatusBadgeTrait;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
 
 class Country extends Model
@@ -21,10 +24,13 @@ class Country extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        UniqueSlugTrait,
         StatusBadgeTrait,
         EnableScopeTrait,
         MorphOneFlagTrait,
         NameInitialsTrait,
+        SlugFromNameTrait,
+        MorphManyLogsTrait,
         HasManyProductsTrait,
         BelongsToCreatorTrait;
 
@@ -36,9 +42,11 @@ class Country extends Model
     protected $fillable = [
         'phone_code',
         'name',
+        'slug',
         'latitude',
         'longitude',
         'status',
+        'description',
 
         'creator_id',
     ];

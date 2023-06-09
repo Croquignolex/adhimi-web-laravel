@@ -34,7 +34,6 @@ class StateSeeder extends Seeder
                             'latitude' => $state['latitude'],
                             'longitude' => $state['longitude'],
                             'name' => $state['name'],
-                            'status' => GeneralStatusEnum::Enable,
                         ]);
                     }
                 } else {

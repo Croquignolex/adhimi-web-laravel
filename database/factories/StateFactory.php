@@ -20,8 +20,10 @@ class StateFactory extends Factory
     {
         return [
             'name' => $this->faker->city(),
+            'slug' => $this->faker->unique()->slug,
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),
+            'description' => $this->faker->text(),
             'status' => GeneralStatusEnum::randomValue(),
         ];
     }

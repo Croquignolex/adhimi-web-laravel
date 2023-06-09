@@ -1,8 +1,8 @@
 @extends('layouts.admin', [
-    'title' => __('page.shops.new'),
+    'title' => __('page.countries.new'),
     'breadcrumb_items' => [
         ['url' => route('home'), 'label' => __('page.home')],
-        ['url' => route('admin.organisations.index'), 'label' => __('page.shops.shops')]
+        ['url' => route('admin.countries.index'), 'label' => __('page.countries.countries')]
     ]
 ])
 
@@ -18,7 +18,7 @@
                             <div class="card-body">
                                 <!-- form -->
                                 @include('partials.feedbacks.alert')
-                                <form class="validate-form mt-1" method="POST" action="{{ route('admin.organisations.store') }}">
+                                <form class="validate-form mt-1" method="POST" action="{{ route('admin.countries.store') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
@@ -33,32 +33,12 @@
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label for="account-email">
-                                                    @lang('field.email')
-                                                    @include('partials.feedbacks.validation', ['field' => 'email'])
+                                                <label for="account-phone_code">
+                                                    @lang('field.phone_code')
+                                                    @include('partials.feedbacks.validation', ['field' => 'phone_code'])
                                                 </label>
-                                                <input type="text" class="form-control" id="account-email"
-                                                       name="email" value="{{ old('email') }}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-website">
-                                                    @lang('field.website')
-                                                    @include('partials.feedbacks.validation', ['field' => 'website'])
-                                                </label>
-                                                <input type="text" class="form-control" id="account-website"
-                                                       name="website" value="{{ old('website') }}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-phone">
-                                                    @lang('field.phone')
-                                                    @include('partials.feedbacks.validation', ['field' => 'phone'])
-                                                </label>
-                                                <input type="text" class="form-control" id="account-phone"
-                                                       name="phone" value="{{ old('phone') }}" />
+                                                <input type="text" class="form-control" id="account-phone_code"
+                                                       name="phone_code" value="{{ old('phone_code') }}" />
                                             </div>
                                         </div>
                                         <div class="col-12">

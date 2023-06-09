@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Organisation\StoreOrganisationRequest;
-use App\Models\Country;
+use App\Http\Requests\Country\StoreCountryRequest;
+use App\Http\Requests\Country\UpdateCountryRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +17,7 @@ use App\Enums\ToastTypeEnum;
 use Illuminate\Support\Str;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
+use App\Models\Country;
 use App\Models\User;
 
 class CountryController extends Controller
@@ -53,79 +54,68 @@ class CountryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreOrganisationRequest $request
+     * @param StoreCountryRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreOrganisationRequest $request): RedirectResponse
+    public function store(StoreCountryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $organisation = Organisation::create([
+        $country = Country::create([
             'name' => $validated['name'],
-            'email' => $validated['email'],
-            'website' => $validated['website'],
-            'phone' => $validated['phone'],
+            'phone_code' => $validated['phone_code'],
             'description' => $validated['description']
         ]);
 
-        LogEvent::dispatch($organisation, LogActionEnum::Create, "User $organisation->name created");
+        LogEvent::dispatch($country, LogActionEnum::Create, __('general.country.created', ['name' => $country->name]));
 
-        return redirect(route('admin.countries.show', [$organisation]));
+        return redirect(route('admin.countries.show', [$country]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Organisation $organisation
+     * @param Country $country
      * @return View
      */
-    public function show(Organisation $organisation): View
+    public function show(Country $country): View
     {
-//        $organisation = $organisation->load(['shops', 'vendors', 'merchant', 'creator', 'banner', 'logo', 'users']);
-        $organisation = $organisation->load(['shops']);
+        $country->load(['states']);
 
-        return view('backoffice.admin.countries.create.show', compact('organisation'));
+        return view('backoffice.admin.countries.show', compact('country'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
+     * @param Country $country
      * @return View|RedirectResponse
      */
-    public function edit(User $user): View|RedirectResponse
+    public function edit(Country $country): View|RedirectResponse
     {
-        if(!$this->authorized($user)) return back();
-
-        return view('users.edit', compact('user'));
+        return view('backoffice.admin.countries.edit', compact('country'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateUserRequest $request
-     * @param User $user
+     * @param UpdateCountryRequest $request
+     * @param Country $country
      * @return RedirectResponse
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UpdateCountryRequest $request, Country $country): RedirectResponse
     {
-        if(!$this->authorized($user)) return back();
-
         $validated = $request->validated();
 
-        $user->update([
+        $country->update([
             'name' => $validated['name'],
-            'username' => Str::slug($validated['name']),
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
+            'phone_code' => $validated['phone_code'],
+            'description' => $validated['description'],
         ]);
 
-        $user->syncRoles([Role::findOrCreate($validated['role'], 'web')]);
+        LogEvent::dispatch($country, LogActionEnum::Update, __('general.country.updated', ['name' => $country->name]));
 
-        LogEvent::dispatch($user, LogActionEnum::Update, "User $user->name updated");
-
-        return redirect(route('users.show', [$user]));
+        return redirect(route('admin.countries.show', [$country]));
     }
 
     /**

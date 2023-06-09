@@ -100,8 +100,10 @@ class Log extends Model
                 }
 
                 return match (Relation::getMorphedModel($this->loggable_type)) {
-                    User::class => route('admin.users.show', [$model]),
                     Organisation::class => route('admin.organisations.show', [$model]),
+                    Country::class => route('admin.countries.show', [$model]),
+                    State::class => route('admin.states.show', [$model]),
+                    User::class => route('admin.users.show', [$model]),
                     default => null,
                 };
             }

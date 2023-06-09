@@ -18,6 +18,11 @@ return [
     'permission_denied' => "Vous n'êtes pas autorisé à effectué cette action",
     'no_records' => "Pas de données",
 
+    'country' => [
+        'created' => 'Pays :name créer',
+        'updated' => 'Pays :name mis à jour',
+    ],
+
     'action' => [
         'detail' => 'Détails',
         'update' => 'Modifier',
