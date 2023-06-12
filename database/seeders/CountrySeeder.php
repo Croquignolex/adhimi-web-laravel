@@ -31,6 +31,7 @@ class CountrySeeder extends Seeder
                     'latitude' => $country['latitude'],
                     'longitude' => $country['longitude'],
                     'name' => $country['name'],
+                    'status' => GeneralStatusEnum::Enable,
                 ]);
             }
         } else {

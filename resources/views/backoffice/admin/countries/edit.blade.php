@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.countries.new'),
+    'title' => __('page.countries.edit', ['name' => $country->name]),
     'breadcrumb_items' => [
         ['url' => route('admin.home'), 'label' => __('page.home')],
         ['url' => route('admin.countries.index'), 'label' => __('page.countries.countries')]
@@ -18,8 +18,9 @@
                             <div class="card-body">
                                 <!-- form -->
                                 @include('partials.feedbacks.alert')
-                                <form class="validate-form mt-1" method="POST" action="{{ route('admin.countries.store') }}">
+                                <form class="validate-form mt-1" method="POST" action="{{ route('admin.countries.update', [$country]) }}">
                                     @csrf
+                                    @method('PUT')
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
@@ -28,7 +29,7 @@
                                                     @include('partials.feedbacks.validation', ['field' => 'name'])
                                                 </label>
                                                 <input type="text" class="form-control" id="account-name"
-                                                       name="name" value="{{ old('name') }}" />
+                                                       name="name" value="{{ old('name') ?? $country->name }}" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
@@ -38,7 +39,7 @@
                                                     @include('partials.feedbacks.validation', ['field' => 'phone_code'])
                                                 </label>
                                                 <input type="text" class="form-control" id="account-phone_code"
-                                                       name="phone_code" value="{{ old('phone_code') }}" />
+                                                       name="phone_code" value="{{ old('phone_code') ?? $country->phone_code }}" />
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -47,7 +48,7 @@
                                                     @lang('field.description')
                                                     @include('partials.feedbacks.validation', ['field' => 'description'])
                                                 </label>
-                                                <textarea class="form-control" id="account-description" name="description" rows="3">{{ old('description') }}</textarea>
+                                                <textarea class="form-control" id="account-description" name="description" rows="3">{{ old('description') ?? $country->description }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">

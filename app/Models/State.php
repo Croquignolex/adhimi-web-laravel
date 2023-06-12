@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphManyLogsTrait;
-use App\Traits\Models\MorphOneFlagTrait;
 use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +22,6 @@ class State extends Model
         UniqueSlugTrait,
         EnableScopeTrait,
         SlugFromNameTrait,
-        MorphOneFlagTrait,
         MorphManyLogsTrait,
         BelongsToCountryTrait,
         BelongsToCreatorTrait;

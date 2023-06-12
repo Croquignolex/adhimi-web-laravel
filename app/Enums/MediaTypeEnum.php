@@ -9,6 +9,7 @@ enum MediaTypeEnum: string
     use EnumToolsTrait;
 
     case Image = 'images';
+    case Flag = 'flags';
     case Avatar = 'avatars';
     case Banner = 'banners';
     case Logo = 'logos';

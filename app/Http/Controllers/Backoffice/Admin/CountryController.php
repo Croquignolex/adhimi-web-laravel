@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Country\StoreCountryRequest;
 use App\Http\Requests\Country\UpdateCountryRequest;
+use App\Http\Requests\Country\StoreCountryRequest;
+use App\Http\Requests\Country\UpdateFlagRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
-use Spatie\Permission\Models\Role;
 use App\Enums\UserStatusEnum;
-use App\Models\Organisation;
+use App\Enums\MediaTypeEnum;
 use Illuminate\Http\Request;
 use App\Enums\LogActionEnum;
 use App\Enums\ToastTypeEnum;
-use Illuminate\Support\Str;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
 use App\Models\Country;
@@ -80,7 +80,7 @@ class CountryController extends Controller
      */
     public function show(Country $country): View
     {
-        $country->load(['states']);
+        $country->load(['states', 'flag']);
 
         return view('backoffice.admin.countries.show', compact('country'));
     }
@@ -142,17 +142,57 @@ class CountryController extends Controller
     }
 
     /**
-     * @param User $user
-     * @return bool
+     * Update country flag
+     *
+     * @param UpdateFlagRequest $request $
+     * @param Country $country
+     * @return RedirectResponse
      */
-    private function authorized(User $user): bool
+    public function changeFlag(UpdateFlagRequest $request, Country $country): RedirectResponse
     {
-        if(Auth::id() === $user->id)
+        $validated = $request->validated();
+
+        $flag = $country->flag;
+
+        $flagName = Storage::disk('public')->put(MediaTypeEnum::Flag->value, $validated['flag']);
+
+        if($flagName)
         {
-            ToastEvent::dispatch("You are not allow to perform this action", ToastTypeEnum::Warning);
-            return false;
+            if($flag)
+            {
+                $flag->update(['name' => $flagName]);
+
+                LogEvent::dispatch($country, LogActionEnum::Update, __('general.country.flag_updated', ['name' => $country->name]));
+            }
+            else
+            {
+                $country->flag()->create([
+                    'name' => $flagName,
+                    'type' => MediaTypeEnum::Flag,
+                    'creator_id' => Auth::id(),
+                ]);
+
+                LogEvent::dispatch($country, LogActionEnum::Create, __('general.country.flag_created', ['name' => $country->name]));
+            }
+        } else {
+            ToastEvent::dispatch(__('general.upload_error'), ToastTypeEnum::Danger);
         }
 
-        return true;
+        return back();
+    }
+
+    /**
+     * Delete country flag
+     *
+     * @param Country $country
+     * @return RedirectResponse
+     */
+    public function removeFlag(Country $country): RedirectResponse
+    {
+        $country->flag()->delete();
+
+        LogEvent::dispatch($country, LogActionEnum::Delete, __('general.country.flag_deleted', ['name' => $country->name]));
+
+        return back();
     }
 }

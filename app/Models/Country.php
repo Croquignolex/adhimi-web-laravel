@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,13 +12,13 @@ use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\SlugFromNameTrait;
-use App\Traits\Models\MorphOneFlagTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\StatusBadgeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
+use App\Enums\MediaTypeEnum;
 
 class Country extends Model
 {
@@ -27,7 +28,6 @@ class Country extends Model
         UniqueSlugTrait,
         StatusBadgeTrait,
         EnableScopeTrait,
-        MorphOneFlagTrait,
         NameInitialsTrait,
         SlugFromNameTrait,
         MorphManyLogsTrait,
@@ -79,5 +79,16 @@ class Country extends Model
     public function states(): HasMany
     {
         return $this->hasMany(State::class);
+    }
+
+    /**
+     * Get country's flag.
+     *
+     * @return MorphOne
+     */
+    public function flag(): MorphOne
+    {
+        return $this->morphOne(Media::class, 'mediatable')
+            ->whereType(MediaTypeEnum::Flag);
     }
 }

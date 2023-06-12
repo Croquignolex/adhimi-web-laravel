@@ -19,7 +19,7 @@
                             @lang('field.delete')
                         </button>
                     @endif
-                    <p class="mt-1">@lang('general.profile.avatar_recommendation')</p>
+                    <p class="mt-1">@lang('general.image_recommendation')</p>
                     <form action="" method="POST" hidden enctype="multipart/form-data" id="avatar-change-form">
                         @csrf
                         @method('PUT')
@@ -46,5 +46,17 @@
 @endsection
 
 @push('profile.vendor.scripts')
-    <script src="{{ asset("custom/js/avatar.js") }}"></script>
+    <script type="text/javascript">
+        const avatarChangeButton = $('#avatar-change');
+        const avatarChangeForm = $('#avatar-change-form');
+        const avatarInput = $('#avatar-upload');
+
+        avatarChangeButton.on('click', () => {
+            avatarInput.click();
+        });
+
+        avatarInput.on('change', (e) => {
+            avatarChangeForm.submit();
+        });
+    </script>
 @endpush

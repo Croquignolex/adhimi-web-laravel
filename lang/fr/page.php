@@ -27,6 +27,7 @@ return [
         'new' => 'Nouveau pays',
         'all' => 'Tous les Pays',
         'detail' => 'Détail du pays :name',
+        'edit' => 'Modifier le pays :name',
     ],
 
     'shops' => [

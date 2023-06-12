@@ -16,11 +16,17 @@ return [
     'settings' => 'Paramètres',
     'upload_error' => "Une erreur s'est l'ors du stockage du fichier",
     'permission_denied' => "Vous n'êtes pas autorisé à effectué cette action",
+    'image_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 1Mo',
     'no_records' => "Pas de données",
 
     'country' => [
         'created' => 'Pays :name créer',
         'updated' => 'Pays :name mis à jour',
+        'flag_deleted' => 'Drapeau du pays :name supprimé avec succès',
+        'flag_created' => 'Drapeau du pays :name ajouté avec succès',
+        'flag_updated' => 'Drapeau du pays :name mis à jour avec succès',
+        'delete_flag_question' => 'Voulez-vous vraiment supprimer le drapeau',
+        'delete_flag' => 'Supprimer le drapeau',
     ],
 
     'action' => [
@@ -66,7 +72,6 @@ return [
         'password' => 'Mot de passe',
         'avatar' => 'Avatar',
         'address' => 'Address',
-        'avatar_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 1Mo',
         'delete_avatar_question' => 'Voulez-vous vraiment supprimer votre avatar',
         'delete_avatar' => 'Supprimer mon avatar',
         'notifications' => 'Notifications',

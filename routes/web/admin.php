@@ -58,6 +58,13 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          */
         Route::resource('countries', CountryController::class);
         /**
+         * @controller countries
+         */
+        Route::controller(CountryController::class)->prefix('countries')->name('countries.')->group(function () {
+            Route::put('{country}/change-flag', 'changeFlag')->name('flag.change');
+            Route::delete('{country}/remove-flag', 'removeFlag')->name('flag.remove');
+        });
+        /**
          * @resource organisations
          */
         Route::resource('organisations', OrganisationController::class);

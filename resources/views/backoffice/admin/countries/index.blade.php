@@ -1,7 +1,7 @@
 @extends('layouts.admin', [
     'title' => __('page.countries.all'),
     'breadcrumb_items' => [
-        ['url' => route('home'), 'label' => __('page.home')]
+        ['url' => route('admin.home'), 'label' => __('page.home')]
     ]
 ])
 
@@ -47,8 +47,8 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex">
-                                                    @include('partials.backoffice.round-image', ['url' => $country->logo?->url, 'initials' => $country->initials, 'size' => 'xs'])
-                                                    <div class="ml-25 mt-25">
+                                                    @include('partials.backoffice.round-image', ['url' => $country->flag?->url, 'initials' => $country->initials, 'size' => 'xs'])
+                                                    <div class="ml-50 mt-25">
                                                         {{ $country->name }}
                                                     </div>
                                                 </div>

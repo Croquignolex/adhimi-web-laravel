@@ -4,7 +4,7 @@
     @case('xs')
         <div id="{{ $id }}" class="{{ $class }}">
             @if($url)
-                <img src="{{ $url }}" class="rounded-circle" alt="{{ $id }}" height="20" width="20" />
+                <img src="{{ $url }}" class="rounded-circle" alt="{{ $id }}" height="26" width="26" />
             @else
                 <div class="avatar bg-light-primary avatar-xs">
                     <span class="avatar-content font-small-3">{{ $initials }}</span>
