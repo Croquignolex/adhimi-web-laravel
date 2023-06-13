@@ -7,6 +7,7 @@ use App\Enums\InventoryConditionEnum;
 use App\Enums\GeneralStatusEnum;
 use App\Traits\MigrationTrait;
 use App\Models\Country;
+use App\Models\Product;
 
 return new class extends Migration
 {
@@ -26,6 +27,7 @@ return new class extends Migration
             $this->addForeignKey(table: $table, nullable:true, foreignKey: 'vendor_id');
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
             $this->addForeignKey(table: $table, foreignModelFqn: Country::class);
+            $this->addForeignKey(table: $table, foreignModelFqn: Product::class);
 
             $table->string('condition')->default(InventoryConditionEnum::New->value);
             $table->integer('quantity')->default(0);
@@ -34,8 +36,8 @@ return new class extends Migration
             $table->integer('purchase_price')->default(0);
             $table->integer('sale_price')->default(0);
             $table->integer('promotion_price')->default(0);
-            $table->dateTime('promotion_started_at')->nullable();
-            $table->dateTime('promotion_ended_at')->nullable();
+            $table->timestamp('promotion_started_at')->nullable();
+            $table->timestamp('promotion_ended_at')->nullable();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
         });

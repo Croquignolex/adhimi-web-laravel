@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Models\HasManyInventoryHistoriesTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToProductTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToShopTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +17,7 @@ class InventoryHistory extends Model
         HasFactory,
         SoftDeletes,
         BelongsToShopTrait,
+        BelongsToProductTrait,
         BelongsToCreatorTrait,
         HasManyInventoryHistoriesTrait;
 
@@ -41,14 +42,4 @@ class InventoryHistory extends Model
         'creator_id',
         'product_id',
     ];
-
-    /**
-     * Get the product that owns the current model.
-     *
-     * @return BelongsTo
-     */
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
-    }
 }

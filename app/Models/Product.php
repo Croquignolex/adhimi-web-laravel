@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Traits\Models\BelongsToManyAttributesTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\BelongsToOrganisationTrait;
@@ -154,5 +155,25 @@ class Product extends Model
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    /**
+     * Get inventories associated with the current model.
+     *
+     * @return HasMany
+     */
+    public function inventories(): HasMany
+    {
+        return $this->hasMany(Inventory::class);
+    }
+
+    /**
+     * Get inventory histories associated with the current model.
+     *
+     * @return HasMany
+     */
+    public function inventoryHistories(): HasMany
+    {
+        return $this->hasMany(InventoryHistory::class);
     }
 }

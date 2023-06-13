@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\BelongsToProductTrait;
 use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\BelongsToShopTrait;
-use App\Traits\Models\TimezoneDateTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\MorphToManyTags;
@@ -24,8 +24,8 @@ class Inventory extends Model
         SoftDeletes,
         MorphToManyTags,
         EnableScopeTrait,
-        TimezoneDateTrait,
         BelongsToShopTrait,
+        BelongsToProductTrait,
         BelongsToCountryTrait,
         BelongsToCreatorTrait,
         TimezonePromotionDateTrait;
@@ -49,6 +49,7 @@ class Inventory extends Model
         'condition',
 
         'shop_id',
+        'product_id',
         'creator_id',
         'vendor_id',
         'country_id',
