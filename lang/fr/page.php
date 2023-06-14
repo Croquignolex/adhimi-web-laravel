@@ -30,6 +30,14 @@ return [
         'edit' => 'Modifier le pays :name',
     ],
 
+    'states' => [
+        'states' => 'Régions',
+        'new' => 'Nouvelle région',
+        'all' => 'Toutes les régions',
+        'detail' => 'Détail de la region :name',
+        'edit' => 'Modifier de la region :name',
+    ],
+
     'shops' => [
         'shops' => 'Magasins',
         'new' => 'Nouveau magasin',

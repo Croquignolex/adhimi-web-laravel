@@ -15,7 +15,8 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('admin.countries.create') }}" class="mb-1 btn btn-primary">
+                                <a href="{{ route('admin.countries.create') }}" class="btn btn-primary">
+                                    <i data-feather="plus"></i>
                                     @lang('page.countries.new')
                                 </a>
                                 <form action="" method="GET" class="w-50 float-right">
@@ -68,13 +69,15 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="{{ route('admin.countries.show', [$country]) }}">
                                                             <i data-feather="eye" class="mr-50 text-success"></i>
-                                                            <span>@lang('general.action.detail')</span>
+                                                            @lang('general.action.detail')
                                                         </a>
                                                         <a class="dropdown-item" href="{{ route('admin.countries.edit', [$country]) }}">
-                                                            <i data-feather="edit-2" class="mr-50 text-warning"></i>
-                                                            <span>@lang('general.action.update')</span>
+                                                            <i data-feather="edit" class="mr-50 text-warning"></i>
+                                                            @lang('general.action.update')
                                                         </a>
                                                         <hr>
+                                                        {{--                                                            TODO: add countries links --}}
+
                                                         {{--<a class="dropdown-item" href="{{ route('admin.organisations.add.store', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-primary"></i>
                                                             <span>@lang('general.action.add_store')</span>

@@ -17,66 +17,55 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label for="account-store">@lang('field.store')</label>
-                                <input type="text" class="form-control" id="account-store"
-                                       value="{{ $user?->organisation->name }}" disabled />
+                                @include('partials.input.label', ['label' => __('field.store'), 'field' => 'store'])
+                                <input type="text" class="form-control" value="{{ $user->organisation?->name }}" disabled />
                             </div>
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label for="account-shop">@lang('field.shop')</label>
-                                <input type="text" class="form-control" id="account-shop"
-                                       value="{{ $user?->shop->name }}" disabled />
+                                @include('partials.input.label', ['label' => __('field.shop'), 'field' => 'shop'])
+                                <input type="text" class="form-control" value="{{ $user->shop?->name }}" disabled />
                             </div>
                         </div>
                     @endif
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                            <label for="account-first-name">
-                                @lang('field.first_name') <span class="text-danger">*</span>
-                                @include('partials.feedbacks.validation', ['field' => 'first_name'])
-                            </label>
-                            <input type="text" class="form-control" id="account-first-name"
-                                   name="first_name" value="{{ old('first_name') ?? $user->first_name }}" />
-                        </div>
+                        @include('partials.input.text', [
+                            'value' => $user->first_name,
+                            'label' => __('field.first_name'),
+                            'field' => 'first_name',
+                        ])
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        @include('partials.input.text', [
+                            'value' => $user->last_name,
+                            'label' => __('field.last_name'),
+                            'field' => 'last_name',
+                        ])
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
-                            <label for="account-last-name">
-                                @lang('field.last_name')
-                                @include('partials.feedbacks.validation', ['field' => 'last_name'])
-                            </label>
-                            <input type="text" class="form-control" id="account-last-name"
-                                   name="last_name" value="{{ old('last_name') ?? $user->last_name }}" />
+                            @include('partials.input.label', ['label' => __('field.email'), 'field' => 'email'])
+                            <input type="text" class="form-control" value="{{ $user->email }}" disabled />
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                            <label for="account-email">@lang('field.email')</label>
-                            <input type="text" class="form-control" id="account-email"
-                                   value="{{ $user->email }}" disabled />
-                        </div>
+                        @include('partials.input.text', [
+                            'value' => $user->profession,
+                            'label' => __('field.profession'),
+                            'field' => 'profession',
+                        ])
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
-                            <label for="account-profession">
-                                @lang('field.profession')
-                                @include('partials.feedbacks.validation', ['field' => 'profession'])
-                            </label>
-                            <input type="text" class="form-control" id="account-profession"
-                                   name="profession" value="{{ old('profession') ?? $user->profession }}" />
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                            <label for="account-gender">
-                                @lang('field.gender') <span class="text-danger">*</span>
-                                @include('partials.feedbacks.validation', ['field' => 'gender'])
-                            </label>
+                            @include('partials.input.label', [
+                                'label' => __('field.gender'),
+                                'required' => true,
+                                'field' => 'gender',
+                            ])
                             <select class="select2 form-control" id="account-gender" name="gender">
                                 @foreach(\App\Enums\GenderEnum::values() as $gender)
                                     <option value="{{ $gender }}"
@@ -88,26 +77,17 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                            <label for="account-birthdate">
-                                @lang('field.birthdate')
-                                @include('partials.feedbacks.validation', ['field' => 'birthdate'])
-                            </label>
-                            <input type="text" id="account-birthdate" class="form-control flatpickr-basic"
-                                   name="birthdate" value="{{ old('birthdate') ?? $user->birthdate }}" />
-                        </div>
+                        @include('partials.input.date', [
+                            'value' => $user->birthdate,
+                            'label' => __('field.birthdate'),
+                            'field' => 'birthdate',
+                        ])
                     </div>
                     <div class="col-12">
-                        <div class="form-group">
-                            <label for="account-description">
-                                @lang('field.description')
-                                @include('partials.feedbacks.validation', ['field' => 'description'])
-                            </label>
-                            <textarea class="form-control" id="account-description" name="description" rows="3">{{ old('description') ?? $user->description }}</textarea>
-                        </div>
+                        @include('partials.input.textarea', ['value' => $user->description])
                     </div>
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary mt-50">@lang('field.save')</button>
+                        @include('partials.input.button')
                     </div>
                 </div>
             </form>

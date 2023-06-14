@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backoffice\Admin\OrganisationController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
+use App\Http\Controllers\Backoffice\Admin\StateController;
 use App\Http\Controllers\Backoffice\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,10 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::put('{country}/change-flag', 'changeFlag')->name('flag.change');
             Route::delete('{country}/remove-flag', 'removeFlag')->name('flag.remove');
         });
+        /**
+         * @resource states
+         */
+        Route::resource('states', StateController::class);
         /**
          * @resource organisations
          */

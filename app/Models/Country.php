@@ -67,8 +67,19 @@ class Country extends Model
      */
     public function scopeSearch(Builder $query, string $q): void
     {
-        $query->where('name', 'LIKE', "%$q%")
-            ->orWhere('phone_code', 'LIKE', "%$q%");
+        $chainedBuilder = $query;
+        $needles = explode(' ', $q);
+
+        foreach ($needles as $key => $needle)
+        {
+            if($key === 0) {
+                $chainedBuilder = $chainedBuilder->where('name', 'LIKE', "%$needle%")
+                    ->orWhere('phone_code', 'LIKE', "%$needle%");
+            } else {
+                $chainedBuilder = $chainedBuilder->orWhere('name', 'LIKE', "%$needle%")
+                    ->orWhere('phone_code', 'LIKE', "%$needle%");
+            }
+        }
     }
 
     /**

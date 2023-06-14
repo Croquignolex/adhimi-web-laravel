@@ -20,7 +20,7 @@ use App\Events\LogEvent;
 use App\Models\Country;
 use App\Models\User;
 
-class CountryController extends Controller
+class StateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +36,7 @@ class CountryController extends Controller
 
         $countries = ($q)
             ? $query->search($q)->orderBy('name')->paginate()
-            : $query->orderBy('updated_at', 'desc')->paginate();
+            : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.countries.index', compact('countries', 'q'));
     }
@@ -75,23 +75,16 @@ class CountryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
      * @param Country $country
      * @return View
      */
-    public function show(Request $request, Country $country): View
+    public function show(Country $country): View
     {
-        $sq = $request->query('sq');
-
         $country->load(['states', 'flag']);
 
-        $query = $country->states();
+        $states = $country->states()->paginate(pageName: 'states');
 
-        $states = ($sq)
-            ? $query->search($sq)->orderBy('name')->paginate(pageName: 's-page')
-            : $query->orderBy('updated_at', 'desc')->paginate(pageName: 's-page');
-
-        return view('backoffice.admin.countries.show', compact('country', 'states', 'sq'));
+        return view('backoffice.admin.countries.show', compact('country', 'states'));
     }
 
     /**
