@@ -37,6 +37,7 @@
                             'value' => $user->first_name,
                             'label' => __('field.first_name'),
                             'field' => 'first_name',
+                            'required' => true,
                         ])
                     </div>
                     <div class="col-12 col-sm-6">
@@ -66,7 +67,7 @@
                                 'required' => true,
                                 'field' => 'gender',
                             ])
-                            <select class="select2 form-control" id="account-gender" name="gender">
+                            <select class="select2 form-control" id="gender" name="gender">
                                 @foreach(\App\Enums\GenderEnum::values() as $gender)
                                     <option value="{{ $gender }}"
                                             {{ (old('gender') ?? $user->gender->value) == $gender ? 'selected' : '' }}>

@@ -24,40 +24,21 @@
 
                                 <form class="auth-login-form mt-2" action="" method="POST">
                                     @csrf
-                                    <div class="form-group">
-                                        <label class="form-label" for="login-email">
-                                            @lang('field.email') <span class="text-danger">*</span>
-                                            @include('partials.feedbacks.validation', ['field' => 'email'])
-                                        </label>
-                                        <input class="form-control" id="login-email" type="email" name="email"
-                                               autofocus="" tabindex="1" value="{{ old('email') }}"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="login-password">
-                                            @lang('field.password') <span class="text-danger">*</span>
-                                            @include('partials.feedbacks.validation', ['field' => 'password'])
-                                        </label>
-                                        <div class="input-group input-group-merge form-password-toggle">
-                                            <input class="form-control form-control-merge" id="login-password"
-                                                   type="password" name="password" tabindex="2"/>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text cursor-pointer">
-                                                    <i data-feather="eye"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" id="remember-me" name="remember"
-                                                   type="checkbox"
-                                                   tabindex="3" {{ old('remember') ? 'checked' : '' }} />
-                                            <label class="custom-control-label" for="remember-me">
-                                                @lang('general.login.remember_me')
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-block" tabindex="4" type="submit">
+                                    @include('partials.input.text', [
+                                        'label' => __('field.email'),
+                                        'field' => 'email',
+                                        'required' => true,
+                                    ])
+                                    @include('partials.input.password', [
+                                       'label' => __('field.password'),
+                                       'field' => 'password',
+                                       'required' => true,
+                                   ])
+                                    @include('partials.input.checkbox', [
+                                       'label' => __('general.login.remember_me'),
+                                       'field' => 'remember',
+                                   ])
+                                    <button class="btn btn-primary btn-block" type="submit">
                                         @lang('field.login')
                                     </button>
                                 </form>

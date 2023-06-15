@@ -18,11 +18,12 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
-                            <label for="account-language">
-                                @lang('field.language') <span class="text-danger">*</span>
-                                @include('partials.feedbacks.validation', ['field' => 'language'])
-                            </label>
-                            <select class="select2 form-control" id="account-language" name="language">
+                            @include('partials.input.label', [
+                               'label' => __('field.language'),
+                               'required' => true,
+                               'field' => 'language',
+                           ])
+                            <select class="select2 form-control" id="language" name="language">
                                 @foreach($languageService->availableLanguages(true) as $language)
                                     <option value="{{ $language['value'] }}"
                                             {{ (old('language') ?? $setting->language) == $language['value'] ? 'selected' : '' }}>
@@ -34,11 +35,12 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
-                            <label for="account-timezone">
-                                @lang('field.timezone') <span class="text-danger">*</span>
-                                @include('partials.feedbacks.validation', ['field' => 'timezone'])
-                            </label>
-                            <select class="select2 form-control" id="account-timezone" name="timezone">
+                            @include('partials.input.label', [
+                               'label' => __('field.timezone'),
+                               'required' => true,
+                               'field' => 'timezone',
+                           ])
+                            <select class="select2 form-control" id="timezone" name="timezone">
                                 @foreach(DateTimeZone::listIdentifiers() as $timezone)
                                     <option value="{{ $timezone }}"
                                             {{ (old('timezone') ?? $setting->timezone) == $timezone ? 'selected' : '' }}
@@ -54,101 +56,101 @@
                     </div>
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-super-admin" name="enable_super_admin"
-                                        {{ (old('enable_super_admin') ?? $setting->enable_action_on_super_admin_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-super-admin">
-                                    @lang('field.notification.enable_super_admin')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_action_on_super_admin_notification,
+                                'label' => __('field.notification.enable_super_admin'),
+                                'field' => 'enable_super_admin',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-admin" name="enable_admin"
-                                        {{ (old('enable_admin') ?? $setting->enable_action_on_admin_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-admin">
-                                    @lang('field.notification.enable_admin')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_action_on_admin_notification,
+                                'label' => __('field.notification.enable_admin'),
+                                'field' => 'enable_admin',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-merchant" name="enable_merchant"
-                                        {{ (old('enable_merchant') ?? $setting->enable_action_on_merchant_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-merchant">
-                                    @lang('field.notification.enable_merchant')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_action_on_merchant_notification,
+                                'label' => __('field.notification.enable_merchant'),
+                                'field' => 'enable_merchant',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-manager" name="enable_manager"
-                                        {{ (old('enable_manager') ?? $setting->enable_action_on_manager_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-manager">
-                                    @lang('field.notification.enable_manager')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_action_on_manager_notification,
+                                'label' => __('field.notification.enable_manager'),
+                                'field' => 'enable_manager',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-saler" name="enable_saler"
-                                        {{ (old('enable_saler') ?? $setting->enable_action_on_saler_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-saler">
-                                    @lang('field.notification.enable_saler')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_action_on_saler_notification,
+                                'label' => __('field.notification.enable_saler'),
+                                'field' => 'enable_saler',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-customer" name="enable_customer"
-                                        {{ (old('enable_customer') ?? $setting->enable_action_on_customer_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-customer">
-                                    @lang('field.notification.enable_customer')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                               'value' => $setting->enable_action_on_customer_notification,
+                                'label' => __('field.notification.enable_customer'),
+                                'field' => 'enable_customer',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-product" name="enable_product"
-                                        {{ (old('enable_product') ?? $setting->enable_product_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-product">
-                                    @lang('field.notification.enable_product')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                 'value' => $setting->enable_product_notification,
+                                'label' => __('field.notification.enable_product'),
+                                'field' => 'enable_product',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-purchase" name="enable_purchase"
-                                        {{ (old('enable_purchase') ?? $setting->enable_purchase_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-purchase">
-                                    @lang('field.notification.enable_purchase')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_purchase_notification,
+                                'label' => __('field.notification.enable_purchase'),
+                                'field' => 'enable_purchase',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                         <div class="col-12 col-sm-6 mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="account-payement" name="enable_payement"
-                                        {{ (old('enable_payement') ?? $setting->enable_payment_notification) ? 'checked' : '' }} />
-                                <label class="custom-control-label" for="account-payement">
-                                    @lang('field.notification.enable_payement')
-                                </label>
-                            </div>
+                            @include('partials.input.checkbox', [
+                                'value' => $setting->enable_payment_notification,
+                                'label' => __('field.notification.enable_payement'),
+                                'field' => 'enable_payement',
+                                'toggle' => true,
+                                'required' => true,
+                            ])
                         </div>
                     @endif
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary mt-50">@lang('field.save')</button>
+                        @include('partials.input.button')
                     </div>
                 </div>
             </form>
