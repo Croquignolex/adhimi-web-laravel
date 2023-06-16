@@ -293,16 +293,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
-     * Get logs associated with the user.
-     *
-     * @return HasMany
-     */
-    public function logs(): HasMany
-    {
-        return $this->hasMany(Log::class, 'creator_id');
-    }
-
-    /**
      * Get ratings associated with the user.
      *
      * @return HasMany

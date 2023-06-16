@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Models\HasManyInventoryHistoriesTrait;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\SlugFromNameTrait;
@@ -31,8 +31,8 @@ class Country extends Model
         NameInitialsTrait,
         SlugFromNameTrait,
         MorphManyLogsTrait,
-        HasManyProductsTrait,
-        BelongsToCreatorTrait;
+        BelongsToCreatorTrait,
+        HasManyInventoryHistoriesTrait;
 
     /**
      * The attributes that are mass assignable.

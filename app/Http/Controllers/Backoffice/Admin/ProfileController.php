@@ -68,7 +68,7 @@ class ProfileController extends Controller
      */
     public function showLogsForm(): View
     {
-        $logs = Auth::user()->load('logs')->logs()->orderBy('created_at', 'desc')->paginate();
+        $logs = Auth::user()->load('createdLogs')->createdLogs()->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.profile.logs', compact('logs'));
     }

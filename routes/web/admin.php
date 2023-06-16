@@ -62,6 +62,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          * @controller countries
          */
         Route::controller(CountryController::class)->prefix('countries')->name('countries.')->group(function () {
+            Route::get('{country}/logs', 'showLogs')->name('show.logs');
             Route::put('{country}/change-flag', 'changeFlag')->name('flag.change');
             Route::delete('{country}/remove-flag', 'removeFlag')->name('flag.remove');
         });

@@ -13,9 +13,13 @@
                 @include('partials.backoffice.round-image', ['url' => auth()->user()->avatar?->url, 'initials' => auth()->user()->initials, 'class' => 'mb-1'])
                 @include('partials.feedbacks.validation', ['field' => 'avatar'])
                 <div class="mt-2">
-                    <button class="btn btn-primary" id="avatar-change">@lang('field.change')</button>
+                    <button class="btn btn-primary" id="avatar-change">
+                        <i data-feather="copy"></i>
+                        @lang('field.change')
+                    </button>
                     @if(!is_null($avatar))
                         <button class="btn btn-danger" id="avatar-delete" data-toggle="modal" data-target="#toggle-avatar-delete-modal">
+                            <i data-feather="trash"></i>
                             @lang('field.delete')
                         </button>
                     @endif

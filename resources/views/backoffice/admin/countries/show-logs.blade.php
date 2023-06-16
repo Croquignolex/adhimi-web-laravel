@@ -1,0 +1,5 @@
+@extends('layouts.backoffice.admin.country-show')
+
+@section('country.content')
+    @include('partials.backoffice.admin.logs', compact('logs'))
+@endsection

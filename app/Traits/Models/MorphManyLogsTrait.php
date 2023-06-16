@@ -12,7 +12,7 @@ trait MorphManyLogsTrait
      *
      * @return MorphMany
      */
-    public function loggers(): MorphMany
+    public function logs(): MorphMany
     {
         return $this->morphMany(Log::class, 'loggable');
     }

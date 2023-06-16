@@ -13,6 +13,7 @@ return [
     'email' => 'Email',
     'type' => 'Type',
     'creation' => 'Création',
+    'creator' => 'Créateur',
     'name' => 'Name',
     'phone' => 'Téléphone',
     'status' => 'Status',

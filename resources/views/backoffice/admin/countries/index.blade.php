@@ -29,83 +29,97 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>
-                                    <tr>
-                                        <th>@lang('field.creation')</th>
-                                        <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
-                                        <th>@lang('field.phone_code') <i data-feather="search" class="text-secondary"></i></th>
-                                        <th>@lang('field.status')</th>
-                                        <th>@lang('field.states')</th>
-                                        <th>@lang('field.actions')</th>
-                                    </tr>
+                                        <tr>
+                                            <th>@lang('field.creation')</th>
+                                            <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
+                                            <th>@lang('field.phone_code') <i data-feather="search" class="text-secondary"></i></th>
+                                            <th>@lang('field.status')</th>
+                                            <th>@lang('field.states')</th>
+                                            <th>@lang('field.creator')</th>
+                                            <th>@lang('field.actions')</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($countries as $country)
-                                        <tr>
-                                            <td>
-                                                <span class="badge badge-light-secondary">
-                                                    {{ format_date($country->created_at) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    @include('partials.backoffice.round-image', ['url' => $country->flag?->url, 'initials' => $country->initials, 'size' => 'xs'])
-                                                    <div class="ml-50 mt-25">
-                                                        {{ $country->name }}
+                                        @forelse($countries as $country)
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-light-secondary">
+                                                        {{ format_date($country->created_at) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        @include('partials.backoffice.round-image', ['url' => $country->flag?->url, 'initials' => $country->initials, 'size' => 'xs'])
+                                                        <div class="ml-50 mt-25">
+                                                            {{ $country->name }}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-right">{{ $country->phone_code }}</td>
-                                            <td>
-                                                <span class="badge badge-light-{{ $country->status_badge['color'] }}">
-                                                    {{ $country->status_badge['value'] }}
-                                                </span>
-                                            </td>
-                                            <td class="text-right">{{ $country->states_count }}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                                                        <i data-feather="more-vertical"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{ route('admin.countries.show', [$country]) }}">
-                                                            <i data-feather="eye" class="mr-50 text-success"></i>
-                                                            @lang('general.action.detail')
-                                                        </a>
-                                                        <a class="dropdown-item" href="{{ route('admin.countries.edit', [$country]) }}">
-                                                            <i data-feather="edit" class="mr-50 text-warning"></i>
-                                                            @lang('general.action.update')
-                                                        </a>
-                                                        <hr>
-                                                        {{--                                                            TODO: add countries links --}}
+                                                </td>
+                                                <td class="text-right">{{ $country->phone_code }}</td>
+                                                <td>
+                                                    <span class="badge badge-light-{{ $country->status_badge['color'] }}">
+                                                        {{ $country->status_badge['value'] }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-right">{{ $country->states_count }}</td>
+                                                <td class="text-right">
+                                                    @if($country->creator))
+                                                        <a href="{{ $log->detail_url }}" class="font-small-1">Detail...</a>
+                                                    @endif
 
-                                                        {{--<a class="dropdown-item" href="{{ route('admin.organisations.add.store', [$organisation]) }}">
-                                                            <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                            <span>@lang('general.action.add_store')</span>
-                                                        </a>
-                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
-                                                            <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                            <span>@lang('general.action.add_vendor')</span>
-                                                        </a>--}}
+
+                                                    @if($country->creator)
+                                                        <a href=""></a>
+                                                    @endif
+                                                    {{ $country->creator?->name }}
+                                                </td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="{{ route('admin.countries.show', [$country]) }}">
+                                                                <i data-feather="eye" class="mr-50 text-success"></i>
+                                                                @lang('general.action.detail')
+                                                            </a>
+                                                            <a class="dropdown-item" href="{{ route('admin.countries.edit', [$country]) }}">
+                                                                <i data-feather="edit" class="mr-50 text-warning"></i>
+                                                                @lang('general.action.update')
+                                                            </a>
+                                                            <hr>
+                                                            {{--                                                            TODO: add countries links --}}
+
+                                                            {{--<a class="dropdown-item" href="{{ route('admin.organisations.add.store', [$organisation]) }}">
+                                                                <i data-feather="plus-square" class="mr-50 text-primary"></i>
+                                                                <span>@lang('general.action.add_store')</span>
+                                                            </a>
+                                                            <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
+                                                                <i data-feather="plus-square" class="mr-50 text-primary"></i>
+                                                                <span>@lang('general.action.add_vendor')</span>
+                                                            </a>--}}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="7">
-                                                <div class="alert alert-primary fade show" role="alert">
-                                                    <div class="alert-body text-center">
-                                                        @lang('general.no_records')
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7">
+                                                    <div class="alert alert-primary fade show" role="alert">
+                                                        <div class="alert-body text-center">
+                                                            @lang('general.no_records')
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
                             <div class="card-body">
-                                {{ $countries->links('partials.backoffice.pagination') }}
+                                @if(is_null($q))
+                                    {{ $countries->links('partials.backoffice.pagination') }}
+                                @endif
                             </div>
                         </div>
                     </div>

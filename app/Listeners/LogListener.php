@@ -21,7 +21,7 @@ class LogListener
             ToastEvent::dispatch($event->description, ToastTypeEnum::Success);
         }
 
-        $event->model->loggers()->create([
+        $event->model->logs()->create([
             'creator_id' => Auth::id(),
             'action' => $event->action,
             'ip' => client_ip_address(),

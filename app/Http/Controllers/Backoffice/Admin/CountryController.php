@@ -32,10 +32,10 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Country::withCount('states');
+        $query = Country::with('creator')->withCount('states');
 
         $countries = ($q)
-            ? $query->search($q)->orderBy('name')->paginate()
+            ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('updated_at', 'desc')->paginate();
 
         return view('backoffice.admin.countries.index', compact('countries', 'q'));
@@ -61,10 +61,10 @@ class CountryController extends Controller
     {
         $validated = $request->validated();
 
-        $country = Country::create([
+        $country = Auth::user()->createdCountries()->create([
             'name' => $validated['name'],
             'phone_code' => $validated['phone_code'],
-            'description' => $validated['description']
+            'description' => $validated['description'],
         ]);
 
         LogEvent::dispatch($country, LogActionEnum::Create, __('general.country.created', ['name' => $country->name]));
@@ -81,17 +81,35 @@ class CountryController extends Controller
      */
     public function show(Request $request, Country $country): View
     {
-        $sq = $request->query('sq');
+        $q = $request->query('q');
 
-        $country->load(['states', 'flag']);
+        $country->load(['states', 'flag'])->loadCount('states');
 
         $query = $country->states();
+        $flag = $country->flag;
 
-        $states = ($sq)
-            ? $query->search($sq)->orderBy('name')->paginate(pageName: 's-page')
-            : $query->orderBy('updated_at', 'desc')->paginate(pageName: 's-page');
+        $states = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('updated_at', 'desc')->paginate();
 
-        return view('backoffice.admin.countries.show', compact('country', 'states', 'sq'));
+        return view('backoffice.admin.countries.show', compact('country', 'states', 'flag', 'q'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Country $country
+     * @return View
+     */
+    public function showLogs(Request $request, Country $country): View
+    {
+        $country->load(['loggers', 'flag'])->loadCount('states');
+
+        $logs = $country->loggers()->orderBy('updated_at', 'desc')->paginate();
+        $flag = $country->flag;
+
+        return view('backoffice.admin.countries.show-logs', compact('country', 'logs', 'flag'));
     }
 
     /**
@@ -102,7 +120,10 @@ class CountryController extends Controller
      */
     public function edit(Country $country): View|RedirectResponse
     {
-        return view('backoffice.admin.countries.edit', compact('country'));
+        $country->load('flag');
+        $flag = $country->flag;
+
+        return view('backoffice.admin.countries.edit', compact('country', 'flag'));
     }
 
     /**

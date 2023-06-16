@@ -2,22 +2,32 @@
 
 namespace App\Traits\Models;
 
-use App\Models\Address;
-use App\Models\Attribute;
-use App\Models\Country;
-use App\Models\Group;
-use App\Models\InventoryHistory;
-use App\Models\Log;
-use App\Models\Media;
-use App\Models\Organisation;
-use App\Models\Shop;
-use App\Models\State;
-use App\Models\User;
-use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\InventoryHistory;
+use App\Models\Organisation;
+use App\Models\Attribute;
+use App\Models\Address;
+use App\Models\Country;
+use App\Models\Vendor;
+use App\Models\Group;
+use App\Models\Media;
+use App\Models\State;
+use App\Models\Shop;
+use App\Models\User;
+use App\Models\Log;
 
 trait UserCreationsTrait
 {
+    /**
+     * Get created logs associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdLogs(): HasMany
+    {
+        return $this->hasMany(Log::class, 'creator_id');
+    }
+
     /**
      * Get created organisations associated with the user.
      *
@@ -25,7 +35,7 @@ trait UserCreationsTrait
      */
     public function createdOrganisations(): HasMany
     {
-        return $this->hasMany(Organisation::class);
+        return $this->hasMany(Organisation::class, 'creator_id');
     }
 
     /**
@@ -35,7 +45,7 @@ trait UserCreationsTrait
      */
     public function createdShops(): HasMany
     {
-        return $this->hasMany(Shop::class);
+        return $this->hasMany(Shop::class, 'creator_id');
     }
 
     /**
@@ -45,7 +55,7 @@ trait UserCreationsTrait
      */
     public function createdVendors(): HasMany
     {
-        return $this->hasMany(Vendor::class);
+        return $this->hasMany(Vendor::class, 'creator_id');
     }
 
     /**
@@ -55,7 +65,7 @@ trait UserCreationsTrait
      */
     public function createdAttributes(): HasMany
     {
-        return $this->hasMany(Attribute::class);
+        return $this->hasMany(Attribute::class, 'creator_id');
     }
 
     /**
@@ -65,17 +75,7 @@ trait UserCreationsTrait
      */
     public function createdUsers(): HasMany
     {
-        return $this->hasMany(User::class);
-    }
-
-    /**
-     * Get created logs associated with the user.
-     *
-     * @return HasMany
-     */
-    public function createdLogs(): HasMany
-    {
-        return $this->hasMany(Log::class);
+        return $this->hasMany(User::class, 'creator_id');
     }
 
     /**
@@ -85,7 +85,7 @@ trait UserCreationsTrait
      */
     public function createdCountries(): HasMany
     {
-        return $this->hasMany(Country::class);
+        return $this->hasMany(Country::class, 'creator_id');
     }
 
     /**
@@ -95,7 +95,7 @@ trait UserCreationsTrait
      */
     public function createdStates(): HasMany
     {
-        return $this->hasMany(State::class);
+        return $this->hasMany(State::class, 'creator_id');
     }
 
     /**
@@ -105,7 +105,7 @@ trait UserCreationsTrait
      */
     public function createdMedias(): HasMany
     {
-        return $this->hasMany(Media::class);
+        return $this->hasMany(Media::class, 'creator_id');
     }
 
     /**
@@ -115,7 +115,7 @@ trait UserCreationsTrait
      */
     public function createdAddresses(): HasMany
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(Address::class, 'creator_id');
     }
 
     /**
@@ -125,7 +125,7 @@ trait UserCreationsTrait
      */
     public function createdGroups(): HasMany
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(Group::class, 'creator_id');
     }
 
     /**
@@ -135,6 +135,6 @@ trait UserCreationsTrait
      */
     public function createdInventoryHistories(): HasMany
     {
-        return $this->hasMany(InventoryHistory::class);
+        return $this->hasMany(InventoryHistory::class, 'creator_id');
     }
 }

@@ -4,7 +4,6 @@
 
     @include('partials.input.label', compact('label', 'required', 'field'))
 
-    <textarea rows="{{ $row }}" id="{{ $field }}" name="{{ $field }}" class="form-control"
-    >{{ isset($value) ? (old($field) ?? $value) : old($field) }}</textarea>
+    <textarea rows="{{ $row }}" id="{{ $field }}" name="{{ $field }}" class="form-control">{{ old($field, $value ?? null) }}</textarea>
 
 </div>

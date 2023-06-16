@@ -16,7 +16,7 @@ class UserObserver
      */
     public function creating(User $user): void
     {
-        $user->password = Hash::make($user->password ?: config('app.default_password'));
+        $user->password = Hash::make($user->password ?? config('app.default_password'));
         $user->remember_token = Str::random(60);
     }
 
