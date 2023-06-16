@@ -54,12 +54,7 @@
                                         <tr>
                                             <th>Creation</th>
                                             <td style="white-space: nowrap;">
-                                            <span class="badge badge-light-secondary">
-                                                {{ format_date($country->created_at) }}
-                                            </span>
-                                                <span class="badge badge-light-secondary">
-                                                {{ format_time($country->created_at) }}
-                                            </span>
+                                                @include('partials.backoffice.date-badge', ['model' => $country])
                                             </td>
                                         </tr>
                                         <tr>
@@ -85,7 +80,7 @@
                                         <tr>
                                             <th>@lang('field.creator')</th>
                                             <td>
-                                                {{ $country->creator->firstname }}
+                                                @include('partials.backoffice.admin.creator-data', ['model' => $country])
                                             </td>
                                         </tr>
                                         <tr>

@@ -34,7 +34,7 @@ class ProfileController extends Controller
 
         $setting = $user->setting;
 
-        return view('backoffice.admin.profile.settings', compact('setting', 'user'));
+        return view('backoffice.admin.profile.settings', compact(['setting', 'user']));
     }
 
     /**

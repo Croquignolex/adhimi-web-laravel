@@ -12,9 +12,11 @@ return [
 
     'email' => 'Email',
     'type' => 'Type',
+    'entity' => 'Entité',
     'creation' => 'Création',
     'creator' => 'Créateur',
     'name' => 'Name',
+    'user' => 'Utilisateur',
     'phone' => 'Téléphone',
     'status' => 'Status',
     'merchant' => 'Marchand',

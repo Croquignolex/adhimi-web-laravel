@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\UserStatusEnum;
 use App\Enums\GenderEnum;
 use App\Models\User;
 
@@ -30,7 +29,6 @@ class UserFactory extends Factory
             'description' => $this->faker->text(),
             'first_purchase' => $this->faker->boolean,
             'default_password' => $this->faker->boolean,
-            'status' => UserStatusEnum::randomValue(),
             'birthdate' => now()->subYears(fake()->randomNumber(2)),
         ];
     }

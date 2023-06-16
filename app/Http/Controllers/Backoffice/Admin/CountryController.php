@@ -32,13 +32,13 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Country::with('creator')->withCount('states');
+        $query = Country::with('creator.avatar');
 
         $countries = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('updated_at', 'desc')->paginate();
 
-        return view('backoffice.admin.countries.index', compact('countries', 'q'));
+        return view('backoffice.admin.countries.index', compact(['countries', 'q']));
     }
 
     /**
@@ -83,16 +83,17 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $country->load(['states', 'flag'])->loadCount('states');
+        $country->load(['creator.avatar', 'states', 'flag'])->loadCount('states');
 
-        $query = $country->states();
+        $query = $country->states()->with('creator.avatar');
+        $creator = $country->creator;
         $flag = $country->flag;
 
         $states = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('updated_at', 'desc')->paginate();
 
-        return view('backoffice.admin.countries.show', compact('country', 'states', 'flag', 'q'));
+        return view('backoffice.admin.countries.show', compact(['country', 'states', 'flag', 'creator', 'q']));
     }
 
     /**
@@ -104,9 +105,9 @@ class CountryController extends Controller
      */
     public function showLogs(Request $request, Country $country): View
     {
-        $country->load(['loggers', 'flag'])->loadCount('states');
+        $country->load(['logs', 'flag'])->loadCount('states');
 
-        $logs = $country->loggers()->orderBy('updated_at', 'desc')->paginate();
+        $logs = $country->logs()->with('creator.avatar')->orderBy('updated_at', 'desc')->paginate();
         $flag = $country->flag;
 
         return view('backoffice.admin.countries.show-logs', compact('country', 'logs', 'flag'));
@@ -123,7 +124,7 @@ class CountryController extends Controller
         $country->load('flag');
         $flag = $country->flag;
 
-        return view('backoffice.admin.countries.edit', compact('country', 'flag'));
+        return view('backoffice.admin.countries.edit', compact(['country', 'flag']));
     }
 
     /**

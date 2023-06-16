@@ -34,7 +34,6 @@
                                             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
                                             <th>@lang('field.phone_code') <i data-feather="search" class="text-secondary"></i></th>
                                             <th>@lang('field.status')</th>
-                                            <th>@lang('field.states')</th>
                                             <th>@lang('field.creator')</th>
                                             <th>@lang('field.actions')</th>
                                         </tr>
@@ -42,10 +41,8 @@
                                     <tbody>
                                         @forelse($countries as $country)
                                             <tr>
-                                                <td>
-                                                    <span class="badge badge-light-secondary">
-                                                        {{ format_date($country->created_at) }}
-                                                    </span>
+                                                <td style="white-space: nowrap;">
+                                                    @include('partials.backoffice.date-badge', ['model' => $country])
                                                 </td>
                                                 <td>
                                                     <div class="d-flex">
@@ -61,17 +58,8 @@
                                                         {{ $country->status_badge['value'] }}
                                                     </span>
                                                 </td>
-                                                <td class="text-right">{{ $country->states_count }}</td>
-                                                <td class="text-right">
-                                                    @if($country->creator))
-                                                        <a href="{{ $log->detail_url }}" class="font-small-1">Detail...</a>
-                                                    @endif
-
-
-                                                    @if($country->creator)
-                                                        <a href=""></a>
-                                                    @endif
-                                                    {{ $country->creator?->name }}
+                                                <td>
+                                                    @include('partials.backoffice.admin.creator-data', ['model' => $country])
                                                 </td>
                                                 <td>
                                                     <div class="dropdown">

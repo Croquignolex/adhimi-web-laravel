@@ -85,11 +85,11 @@ class Log extends Model
     }
 
     /**
-     * Determine detail URL, magic attribute $this->detail_url.
+     * Determine entity, magic attribute $this->entity.
      *
      * @return Attribute
      */
-    protected function detailUrl(): Attribute
+    protected function entity(): Attribute
     {
         return new Attribute(
             get: function () {
@@ -100,10 +100,32 @@ class Log extends Model
                 }
 
                 return match (Relation::getMorphedModel($this->loggable_type)) {
-                    Organisation::class => route('admin.organisations.show', [$model]),
-                    Country::class => route('admin.countries.show', [$model]),
-                    State::class => route('admin.states.show', [$model]),
-                    User::class => route('admin.users.show', [$model]),
+                    Organisation::class => [
+                        'url' => route('admin.organisations.show', [$model]),
+                        'image' => $model->load('logo')->logo?->url,
+                        'name' => $model->name,
+                        'initials' => $model->initials,
+                        'has_image' => true,
+                    ],
+                    Country::class => [
+                        'url' => route('admin.countries.show', [$model]),
+                        'image' => $model->load('flag')->flag?->url,
+                        'name' => $model->name,
+                        'initials' => $model->initials,
+                        'has_image' => true,
+                    ],
+                    State::class => [
+                        'url' => route('admin.states.show', [$model]),
+                        'name' => $model->name,
+                        'has_image' => false,
+                    ],
+                    User::class => [
+                        'url' => route('admin.users.show', [$model]),
+                        'image' => $model->load('avatar')->avatar?->url,
+                        'name' => $model->first_name,
+                        'initials' => $model->initials,
+                        'has_image' => true,
+                    ],
                     default => null,
                 };
             }

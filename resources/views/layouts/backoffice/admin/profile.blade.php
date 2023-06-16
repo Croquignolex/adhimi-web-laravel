@@ -8,7 +8,7 @@
             <div class="content-body">
                 <div class="row">
                     <!-- left menu section -->
-                    <div class="col-md-3 mb-2 mb-md-0">
+                    <div class="col-md-2 m-0">
                         <ul class="nav nav-pills flex-column nav-left">
                             <!-- general -->
                             <li class="nav-item">
@@ -57,7 +57,7 @@
                     <!--/ left menu section -->
 
                     <!-- right content section -->
-                    <div class="col-md-9">
+                    <div class="col-md-10 m-0">
                         @yield('profile.content')
                     </div>
                     <!--/ right content section -->

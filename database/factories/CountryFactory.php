@@ -25,7 +25,6 @@ class CountryFactory extends Factory
             'name' => $this->faker->country(),
             'slug' => $this->faker->unique()->slug,
             'description' => $this->faker->text(),
-            'status' => GeneralStatusEnum::randomValue(),
         ];
     }
 }

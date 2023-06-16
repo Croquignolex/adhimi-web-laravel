@@ -19,22 +19,24 @@
                     <th>@lang('field.creation')</th>
                     <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
                     <th>@lang('field.status')</th>
+                    <th>@lang('field.creator')</th>
                     <th>@lang('field.actions')</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($states as $state)
                     <tr>
-                        <td>
-                            <span class="badge badge-light-secondary">
-                                {{ format_date($state->created_at) }}
-                            </span>
+                        <td style="white-space: nowrap;">
+                            @include('partials.backoffice.date-badge', ['model' => $state])
                         </td>
                         <td>{{ $state->name }}</td>
                         <td>
                             <span class="badge badge-light-{{ $state->status_badge['color'] }}">
                                 {{ $state->status_badge['value'] }}
                             </span>
+                        </td>
+                        <td>
+                            @include('partials.backoffice.admin.creator-data', ['model' => $state])
                         </td>
                         <td>
                             <div class="dropdown">

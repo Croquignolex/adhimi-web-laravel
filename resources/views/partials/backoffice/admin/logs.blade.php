@@ -1,14 +1,17 @@
-@props(['creator' => false])
+@props(['creator' => false, 'entity' => true])
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>@lang('field.creation')</th>
+                @if($entity)
+                    <th>@lang('field.entity')</th>
+                @endif
                 <th>@lang('field.type')</th>
                 <th>@IP</th>
                 @if($creator)
-                    <th>@lang('field.creator')</th>
+                    <th>@lang('field.user')</th>
                 @endif
                 <th>@lang('field.description')</th>
             </tr>
@@ -16,11 +19,14 @@
         <tbody>
             @forelse($logs as $log)
                 <tr>
-                    <td>
-                        <span class="badge badge-light-secondary">
-                            {{ format_datetime($log->created_at) }}
-                        </span>
+                    <td style="white-space: nowrap;">
+                        @include('partials.backoffice.date-badge', ['model' => $log])
                     </td>
+                    @if($entity)
+                        <td>
+                            @include('partials.backoffice.admin.entity-data', ['model' => $log])
+                        </td>
+                    @endif
                     <td>
                         <span class="badge badge-light-{{ $log->action_badge['color'] }}">
                             {{ $log->action_badge['value'] }}
@@ -32,18 +38,11 @@
                         </span>
                     </td>
                     @if($creator)
-                        @if($log->creator)
-                            <a href="{{ route('admin.users.show', ['creator' => $log->creator]) }}">
-                                {{ $log->creator->full_name }}
-                            </a>
-                        @endif
+                        <td>
+                            @include('partials.backoffice.admin.creator-data', ['model' => $log])
+                        </td>
                     @endif
-                    <td>
-                        {{ $log->description }}
-                        @if($log->detail_url)
-                            <a href="{{ $log->detail_url }}" class="font-small-1">Detail...</a>
-                        @endif
-                    </td>
+                    <td>{{ $log->description }}</td>
                 </tr>
             @empty
                 <tr>

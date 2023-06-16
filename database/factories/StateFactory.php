@@ -24,7 +24,6 @@ class StateFactory extends Factory
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),
             'description' => $this->faker->text(),
-            'status' => GeneralStatusEnum::randomValue(),
         ];
     }
 }
