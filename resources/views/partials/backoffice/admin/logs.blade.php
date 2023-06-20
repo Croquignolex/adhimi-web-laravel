@@ -29,7 +29,7 @@
                     @endif
                     <td>
                         <span class="badge badge-light-{{ $log->action_badge['color'] }}">
-                            {{ $log->action_badge['value'] }}
+                            @lang('general.action.' . $log->action_badge['value'])
                         </span>
                     </td>
                     <td>

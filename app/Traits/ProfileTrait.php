@@ -12,8 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Enums\MediaTypeEnum;
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
+use Illuminate\Http\Request;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
 
@@ -29,9 +28,9 @@ trait ProfileTrait
     {
         $validated = $request->validated();
 
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        $user->update([
+        $authUser->update([
             'slug' => $validated['first_name'],
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
@@ -41,7 +40,7 @@ trait ProfileTrait
             'description' => $validated['description'],
         ]);
 
-        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_updated'));
+        LogEvent::dispatchUpdate($authUser, $request, __('general.profile.profile_updated'));
 
         return back();
     }
@@ -60,20 +59,20 @@ trait ProfileTrait
         $password = $validated['password'];
 
         if ($password === $old_password) {
-            ToastEvent::dispatch(__('general.profile.identical_passwords'), ToastTypeEnum::Danger);
+            ToastEvent::dispatchDanger(__('general.profile.identical_passwords'));
         }
         else
         {
-            $user = Auth::user();
+            $authUser = Auth::user();
 
-            if (Hash::check($old_password, $user->password))
+            if (Hash::check($old_password, $authUser->password))
             {
-                $user->update(['password' => Hash::make($password)]);
+                $authUser->update(['password' => Hash::make($password)]);
 
-                LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.password_updated'));
+                LogEvent::dispatchUpdate($authUser, $request, __('general.profile.password_updated'));
             }
             else {
-                ToastEvent::dispatch(__('general.profile.incorrect_old_password'), ToastTypeEnum::Danger);
+                ToastEvent::dispatchDanger(__('general.profile.incorrect_old_password'));
             }
         }
 
@@ -100,9 +99,9 @@ trait ProfileTrait
         $enable_admin = nullable_params_value('enable_admin', $validated);
         $enable_super_admin = nullable_params_value('enable_super_admin', $validated);
 
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        $user->setting()->update([
+        $authUser->setting()->update([
             'language' => $validated['language'],
             'timezone' => $validated['timezone'],
 
@@ -118,7 +117,7 @@ trait ProfileTrait
             'enable_payment_notification' => $enable_payement,
         ]);
 
-        LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.settings_updated'));
+        LogEvent::dispatchUpdate($authUser, $request, __('general.profile.settings_updated'));
 
         return back();
     }
@@ -133,9 +132,9 @@ trait ProfileTrait
     {
         $validated = $request->validated();
 
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        $address = $user->defaultAddress;
+        $address = $authUser->defaultAddress;
 
         if($address)
         {
@@ -149,22 +148,22 @@ trait ProfileTrait
                 'state_id' => $validated['state'],
             ]);
 
-            LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_default_address_updated'));
+            LogEvent::dispatchUpdate($authUser, $request, __('general.profile.profile_default_address_updated'));
         }
         else
         {
-            $user->defaultAddress()->create([
+            $authUser->defaultAddress()->create([
                 'street_address' => $validated['street_address'],
                 'street_address_plus' => $validated['street_address_plus'],
                 'zipcode' => $validated['zipcode'],
                 'phone_number_one' => $validated['phone_number_one'],
                 'phone_number_two' => $validated['phone_number_two'],
                 'description' => $validated['description'],
-                'creator_id' => $user->id,
                 'state_id' => $validated['state'],
+                'creator_id' => $authUser->id,
             ]);
 
-            LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_default_address_created'));
+            LogEvent::dispatchCreate($authUser, $request, __('general.profile.profile_default_address_created'));
         }
 
         return back();
@@ -180,9 +179,9 @@ trait ProfileTrait
     {
         $validated = $request->validated();
 
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        $avatar = $user->avatar;
+        $avatar = $authUser->avatar;
 
         $avatarName = Storage::disk('public')->put(MediaTypeEnum::Avatar->value, $validated['avatar']);
 
@@ -192,20 +191,20 @@ trait ProfileTrait
             {
                 $avatar->update(['name' => $avatarName]);
 
-                LogEvent::dispatch($user, LogActionEnum::Update, __('general.profile.profile_avatar_updated'));
+                LogEvent::dispatchUpdate($authUser, $request, __('general.profile.profile_avatar_updated'));
             }
             else
             {
-                $user->avatar()->create([
+                $authUser->avatar()->create([
                     'name' => $avatarName,
                     'type' => MediaTypeEnum::Avatar,
-                    'creator_id' => $user->id,
+                    'creator_id' => $authUser->id,
                 ]);
 
-                LogEvent::dispatch($user, LogActionEnum::Create, __('general.profile.profile_avatar_created'));
+                LogEvent::dispatchCreate($authUser, $request, __('general.profile.profile_avatar_created'));
             }
         } else {
-            ToastEvent::dispatch(__('general.upload_error'), ToastTypeEnum::Danger);
+            ToastEvent::dispatchDanger(__('general.upload_error'));
         }
 
         return back();
@@ -214,15 +213,16 @@ trait ProfileTrait
     /**
      * Delete profile avatar
      *
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function avatarDelete(): RedirectResponse
+    public function avatarDelete(Request $request): RedirectResponse
     {
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        $user->avatar()->delete();
+        $authUser->avatar()->delete();
 
-        LogEvent::dispatch($user, LogActionEnum::Delete, __('general.profile.profile_avatar_deleted'));
+        LogEvent::dispatchDelete($authUser, $request, __('general.profile.profile_avatar_deleted'));
 
         return back();
     }

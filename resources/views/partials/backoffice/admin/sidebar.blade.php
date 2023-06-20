@@ -26,6 +26,10 @@
                 </a>
             </li>
 
+            <li class="navigation-header">
+                <span>@lang('general.settings')</span>
+            </li>
+
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value]))
                 {{-- Organisations menu --}}
                 <li class="nav-item">
@@ -50,7 +54,9 @@
                         </li>
                     </ul>
                 </li>
+            @endif
 
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))
                 <li class="navigation-header">
                     <span>@lang('general.settings')</span>
                 </li>
@@ -78,22 +84,6 @@
                         </li>
                     </ul>
                 </li>
-            @endif
-
-            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Admin->value]))
-
-            @endif
-
-            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Merchant->value]))
-
-            @endif
-
-            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::ShopManager->value]))
-
-            @endif
-
-            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::Saler->value]))
-
             @endif
         </ul>
     </div>

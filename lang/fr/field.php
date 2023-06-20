@@ -15,7 +15,7 @@ return [
     'entity' => 'Entité',
     'creation' => 'Création',
     'creator' => 'Créateur',
-    'name' => 'Name',
+    'name' => 'Nom',
     'user' => 'Utilisateur',
     'phone' => 'Téléphone',
     'status' => 'Status',

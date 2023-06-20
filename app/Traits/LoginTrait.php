@@ -4,9 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use App\Enums\LogActionEnum;
 use Illuminate\Http\Request;
-use App\Enums\ToastTypeEnum;
 use App\Enums\LanguageEnum;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
@@ -29,9 +27,9 @@ trait LoginTrait
 
         $request->session()->put('language', $user->setting->language);
 
-        LogEvent::dispatch($user, LogActionEnum::Auth, __('page.login'), false);
+        LogEvent::dispatchAuth($user, $request, __('page.login'));
 
-        ToastEvent::dispatch(__('general.login.welcome_name', ['name' => $user->first_name]), ToastTypeEnum::Success);
+        ToastEvent::dispatchSuccess(__('general.login.welcome_name', ['name' => $user->first_name]));
 
         return null;
     }
@@ -43,7 +41,7 @@ trait LoginTrait
      */
     protected function sendFailedLoginResponse(): RedirectResponse
     {
-        ToastEvent::dispatch(__('general.login.invalid_credentials'), ToastTypeEnum::Danger);
+        ToastEvent::dispatchDanger(__('general.login.invalid_credentials'));
 
         return back();
     }
@@ -58,7 +56,7 @@ trait LoginTrait
     {
         $user = Auth::user();
 
-        LogEvent::dispatch($user, LogActionEnum::Auth, __('page.logout'), false);
+        LogEvent::dispatchAuth($user, $request, __('page.logout'));
 
         $this->guard()->logout();
 

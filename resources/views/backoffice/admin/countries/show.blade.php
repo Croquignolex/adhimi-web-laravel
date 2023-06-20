@@ -2,13 +2,13 @@
 
 @section('country.content')
     <div class="card-body">
-        {{--<a href="{{ route('admin.countries.edit', [$country]) }}" class="btn btn-warning mr-0 mr-sm-1 mb-1 mb-sm-0">
-            <i data-feather="edit"></i>
-            <span>@lang('general.action.update')</span>
-        </a>--}}
+        <a href="{{ route('admin.countries.add.state', [$country]) }}" class="btn btn-primary">
+            <i data-feather="plus-square"></i>
+            @lang('page.countries.add_state')
+        </a>
         <form action="" method="GET" class="w-50 float-right">
             <div class="form-group">
-                <input type="search" class="form-control" name="sq" value="{{ $q }}" placeholder="@lang('field.search')..." />
+                <input type="search" class="form-control" name="q" value="{{ $q }}" placeholder="@lang('field.search')..." />
             </div>
         </form>
     </div>

@@ -30,8 +30,6 @@ return new class extends Migration
             $table->decimal('longitude', 10, 5)->nullable();
             $table->text('description')->nullable();
             $table->string('status')->default(GeneralStatusEnum::Enable->value);
-
-            $table->unique(['country_id', 'name']);
         });
     }
 

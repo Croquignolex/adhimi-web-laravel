@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\MiddlewareTypeEnum;
 use Illuminate\Http\Response;
-use App\Enums\ToastTypeEnum;
 use Illuminate\Http\Request;
 use App\Enums\UserRoleEnum;
 use App\Events\ToastEvent;
@@ -35,7 +34,7 @@ class RoleMiddleware
 
         if(Auth::check() && !Auth::user()->hasRole($mappedTypes))
         {
-            ToastEvent::dispatch(__('general.permission_denied'), ToastTypeEnum::Warning);
+            ToastEvent::dispatchWarning(__('general.permission_denied'));
             return back();
         }
 

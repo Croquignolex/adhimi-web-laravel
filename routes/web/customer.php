@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 /**
- * @middleware auth customer
+ * @middleware auth,customer
  */
-Route::middleware('redirect:auth')->middleware('allow:customer')->prefix('account')->name('customer.')->group(function () {
+Route::middleware(['redirect:auth', 'allow:customer'])->prefix('account')->name('customer.')->group(function () {
     /**
      * @view home
      */

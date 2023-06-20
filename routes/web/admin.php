@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(function () {
     /**
-     * @middleware super admin merchant manager saler
+     * @middleware super,admin,merchant,manager,saler
      */
     Route::middleware('allow:super,admin,merchant,manager,saler')->group(function () {
         /**
@@ -51,25 +51,30 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
     });
 
     /**
-     * @middleware super admin
+     * @middleware super,admin,merchant
      */
-    Route::middleware('allow:super,admin')->group(function () {
+    Route::middleware('allow:super,admin,merchant')->group(function () {
         /**
          * @resource countries
-         */
-        Route::resource('countries', CountryController::class);
-        /**
          * @controller countries
          */
+        Route::resource('countries', CountryController::class)->except('destroy');
         Route::controller(CountryController::class)->prefix('countries')->name('countries.')->group(function () {
             Route::get('{country}/logs', 'showLogs')->name('show.logs');
             Route::put('{country}/change-flag', 'changeFlag')->name('flag.change');
             Route::delete('{country}/remove-flag', 'removeFlag')->name('flag.remove');
+            Route::post('{country}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{country}/add-state', 'showAddStateForm')->name('add.state');
+            Route::post('{country}/add-state', 'addState');
         });
+
+        /////////////////////////////////////////////////////////////////////////////////////////
+        ///
         /**
          * @resource states
          */
         Route::resource('states', StateController::class);
+
         /**
          * @resource organisations
          */
@@ -82,6 +87,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{organisation}/add-vendor', 'addVendor')->name('add.vendor');
             Route::get('{organisation}/add-merchant', 'addMerchant')->name('add.merchant');
         });
+
         /**
          * @resource users
          */

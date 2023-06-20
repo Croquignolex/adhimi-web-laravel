@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use Illuminate\Support\Facades\Auth;
-use App\Enums\ToastTypeEnum;
-use App\Events\ToastEvent;
 use App\Events\LogEvent;
 
 class LogListener
@@ -17,14 +15,10 @@ class LogListener
      */
     public function handle(LogEvent $event): void
     {
-        if($event->toast) {
-            ToastEvent::dispatch($event->description, ToastTypeEnum::Success);
-        }
-
         $event->model->logs()->create([
             'creator_id' => Auth::id(),
             'action' => $event->action,
-            'ip' => client_ip_address(),
+            'ip' => $event->request->ip(),
             'description' => $event->description,
         ]);
     }

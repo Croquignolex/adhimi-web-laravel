@@ -97,6 +97,18 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $with = ['roles'];
 
     /**
+     * Determine if user admin, magic attribute $this->is_admin.
+     *
+     * @return Attribute
+     */
+    protected function isAdmin(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->hasRole([UserRoleEnum::SuperAdmin->value, UserRoleEnum::Admin->value])
+        );
+    }
+
+    /**
      * Manage first name, attribute $this->first_name.
      *
      * @return Attribute

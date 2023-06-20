@@ -35,4 +35,31 @@ trait StatusBadgeTrait
             }
         );
     }
+
+    /**
+     * Determine model's status toggle, magic attribute $this->status_toggle.
+     *
+     * @return Attribute
+     */
+    protected function statusToggle(): Attribute
+    {
+        return new Attribute(
+            get: fn () => match ($this->status) {
+                GeneralStatusEnum::Enable => [
+                    'label' => __('general.action.disable'),
+                    'message' => __('general.enable_toggle', ['name' => $this->name]),
+                    'color' => 'danger',
+                    'icon' => 'lock',
+                    'next' => GeneralStatusEnum::Disable,
+                ],
+                default => [
+                    'label' => __('general.action.enable'),
+                    'message' => __('general.disable_toggle', ['name' => $this->name]),
+                    'color' => 'success',
+                    'icon' => 'unlock',
+                    'next' => GeneralStatusEnum::Enable,
+                ]
+            }
+        );
+    }
 }

@@ -8,9 +8,9 @@ enum LogActionEnum: string
 {
     use EnumToolsTrait;
 
-    case Create = 'Create';
-    case Update = 'Update';
-    case Auth = 'Auth';
-    case Delete = 'Delete';
-    case Other = 'Other';
+    case Create = 'create';
+    case Update = 'update';
+    case Auth = 'auth';
+    case Delete = 'delete';
+    case Other = 'other';
 }

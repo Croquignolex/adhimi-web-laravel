@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.countries.detail', ['name' => $country->name]),
+    'title' => __('page.countries.detail'),
     'breadcrumb_items' => [
         ['url' => route('admin.home'), 'label' => __('page.home')],
         ['url' => route('admin.countries.index'), 'label' => __('page.countries.countries')]
@@ -20,34 +20,42 @@
                                 <div class="text-center">
                                     @include('partials.backoffice.round-image', ['url' => $flag?->url, 'initials' => $country->initials])
                                     @include('partials.feedbacks.validation', ['field' => 'flag'])
-                                    <div class="mt-2">
-                                        <button class="btn btn-primary" id="flag-change">
-                                            <i data-feather="copy"></i>
-                                            @lang('field.change')
-                                        </button>
-                                        @if(!is_null($flag))
-                                            <button class="btn btn-danger" id="flag-delete" data-toggle="modal" data-target="#toggle-flag-delete-modal">
-                                                <i data-feather="trash"></i>
-                                                @lang('field.delete')
+                                    @if(auth()->user()->is_admin)
+                                        <div class="mt-2">
+                                            <button class="btn btn-primary" id="flag-change">
+                                                <i data-feather="copy"></i>
+                                                @lang('field.change')
                                             </button>
-                                        @endif
-                                        <p class="mt-1">@lang('general.image_recommendation')</p>
-                                        <form action="{{ route('admin.countries.flag.change', [$country]) }}" method="POST" hidden enctype="multipart/form-data" id="flag-change-form">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="file" id="flag-upload" hidden accept="image/jpg,image/jpeg,image/png" name="flag" />
-                                        </form>
-                                    </div>
+                                            @if(!is_null($flag))
+                                                <button class="btn btn-danger" id="flag-delete" data-toggle="modal" data-target="#toggle-flag-delete-modal">
+                                                    <i data-feather="trash"></i>
+                                                    @lang('field.delete')
+                                                </button>
+                                            @endif
+                                            <p class="mt-1">@lang('general.image_recommendation')</p>
+                                            <form action="{{ route('admin.countries.flag.change', [$country]) }}" method="POST" hidden enctype="multipart/form-data" id="flag-change-form">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="file" id="flag-upload" hidden accept="image/jpg,image/jpeg,image/png" name="flag" />
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-12 col-md-8">
-                                <div class="mb-1">
-                                    <a href="{{ route('admin.countries.edit', [$country]) }}" class="btn btn-warning mr-0 mr-sm-1 mb-1 mb-sm-0">
-                                        <i data-feather="edit"></i>
-                                        @lang('general.action.update')
-                                    </a>
-                                </div>
+                                @if(auth()->user()->is_admin)
+                                    <div class="mb-1">
+                                        <a href="{{ route('admin.countries.edit', [$country]) }}" class="btn btn-warning">
+                                            <i data-feather="edit"></i>
+                                            @lang('general.action.update')
+                                        </a>
+                                        <button class="btn btn-{{ $country->status_toggle['color'] }}"  data-toggle="modal" data-target="#toggle-status-modal">
+                                            <i data-feather="{{ $country->status_toggle['icon'] }}"></i>
+                                            {{ $country->status_toggle['label'] }}
+                                        </button>
+                                    </div>
+                                @endif
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <tbody>
@@ -127,16 +135,33 @@
     </div>
 
     @component('components.modal', [
-            'color' => 'danger',
-            'id' => "toggle-flag-delete-modal",
-            'size' => 'modal-sm',
-            'title' => __('general.country.delete_flag'),
-        ])
+        'color' => 'danger',
+        'id' => "toggle-flag-delete-modal",
+        'size' => 'modal-sm',
+        'title' => __('general.country.delete_flag'),
+    ])
         <p>@lang('general.country.delete_flag_question')?</p>
         <form action="{{ route('admin.countries.flag.remove', [$country]) }}" method="POST" class="text-right mt-50">
             @csrf
             @method('delete')
-            <button type="submit" class="btn btn-danger">@lang('general.yes')</button>
+            <button type="submit" class="btn btn-danger">
+                @lang('general.yes')
+            </button>
+        </form>
+    @endcomponent
+
+    @component('components.modal', [
+        'color' => $country->status_toggle['color'],
+        'id' => "toggle-status-modal",
+        'size' => 'modal-sm',
+        'title' => $country->status_toggle['label'],
+    ])
+        <p>@lang('general.change_status_question', ['name' => $country->name, 'action' => $country->status_toggle['label']])?</p>
+        <form action="{{ route('admin.countries.status.toggle', [$country]) }}" method="POST" class="text-right mt-50">
+            @csrf
+            <button type="submit" class="btn btn-{{ $country->status_toggle['color'] }}">
+                @lang('general.yes')
+            </button>
         </form>
     @endcomponent
 @endsection

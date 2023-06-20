@@ -26,8 +26,9 @@ return [
         'countries' => 'Pays',
         'new' => 'Nouveau pays',
         'all' => 'Tous les Pays',
-        'detail' => 'Détail du pays :name',
-        'edit' => 'Modifier le pays :name',
+        'detail' => 'Détail du pays',
+        'edit' => 'Modifier le pays',
+        'add_state' => 'Ajouter une région',
     ],
 
     'states' => [

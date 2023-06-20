@@ -68,24 +68,27 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ route('admin.countries.show', [$country]) }}">
-                                                                <i data-feather="eye" class="mr-50 text-success"></i>
+                                                                <i data-feather="eye" class="mr-50 text-primary"></i>
                                                                 @lang('general.action.detail')
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('admin.countries.edit', [$country]) }}">
-                                                                <i data-feather="edit" class="mr-50 text-warning"></i>
-                                                                @lang('general.action.update')
-                                                            </a>
+                                                            @if(auth()->user()->is_admin)
+                                                                <a class="dropdown-item" href="{{ route('admin.countries.edit', [$country]) }}">
+                                                                    <i data-feather="edit" class="mr-50 text-warning"></i>
+                                                                    @lang('general.action.update')
+                                                                </a>
+                                                                <hr>
+                                                                <a href="javascript:void(0);" class="dropdown-item"
+                                                                   data-toggle="modal" data-target="#toggle-status-modal-{{ $country->id }}"
+                                                                >
+                                                                    <i data-feather="{{ $country->status_toggle['icon'] }}" class="mr-50 text-{{ $country->status_toggle['color'] }}"></i>
+                                                                    <span>{{ $country->status_toggle['label'] }}</span>
+                                                                </a>
+                                                            @endif
                                                             <hr>
-                                                            {{--                                                            TODO: add countries links --}}
-
-                                                            {{--<a class="dropdown-item" href="{{ route('admin.organisations.add.store', [$organisation]) }}">
-                                                                <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                                <span>@lang('general.action.add_store')</span>
+                                                            <a class="dropdown-item" href="{{ route('admin.countries.add.state', [$country]) }}">
+                                                                <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                                <span>@lang('general.action.add_state')</span>
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
-                                                                <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                                <span>@lang('general.action.add_vendor')</span>
-                                                            </a>--}}
                                                         </div>
                                                     </div>
                                                 </td>
@@ -115,4 +118,21 @@
             </div>
         </div>
     </div>
+
+    @foreach($countries as $country)
+        @component('components.modal', [
+            'color' => $country->status_toggle['color'],
+            'id' => "toggle-status-modal-" . $country->id,
+            'size' => 'modal-sm',
+            'title' => $country->status_toggle['label'],
+        ])
+            <p>@lang('general.change_status_question', ['name' => $country->name, 'action' => $country->status_toggle['label']])?</p>
+            <form action="{{ route('admin.countries.status.toggle', [$country]) }}" method="POST" class="text-right mt-50">
+                @csrf
+                <button type="submit" class="btn btn-{{ $country->status_toggle['color'] }}">
+                    @lang('general.yes')
+                </button>
+            </form>
+        @endcomponent
+    @endforeach
 @endsection
