@@ -98,15 +98,13 @@ class CountryController extends Controller
 
         $country->load(['flag', 'creator.avatar', 'states.creator.avatar'])->loadCount('states');
 
-        $creator = $country->creator;
         $query = $country->states();
-        $flag = $country->flag;
 
         $states = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.countries.show', compact(['country', 'states', 'flag', 'creator', 'q']));
+        return view('backoffice.admin.countries.show', compact(['country', 'states', 'q']));
     }
 
     /**
@@ -118,9 +116,8 @@ class CountryController extends Controller
     public function edit(Country $country): View
     {
         $country->load('flag');
-        $flag = $country->flag;
 
-        return view('backoffice.admin.countries.edit', compact(['country', 'flag']));
+        return view('backoffice.admin.countries.edit', compact('country'));
     }
 
     /**
@@ -143,63 +140,6 @@ class CountryController extends Controller
         LogEvent::dispatchUpdate($country, $request, __('general.country.updated', ['name' => $country->name]));
 
         return redirect(route('admin.countries.show', [$country]));
-    }
-
-    /**
-     * Show the form for adding a state.
-     *
-     * @param Country $country
-     * @return View
-     */
-    public function showAddStateForm(Country $country): View
-    {
-        $country->load('flag');
-        $flag = $country->flag;
-
-        return view('backoffice.admin.countries.add-state', compact(['country', 'flag']));
-    }
-
-    /**
-     * Add a state.
-     *
-     * @param StoreAddStateRequest $request
-     * @param Country $country
-     * @return RedirectResponse
-     */
-    public function addState(StoreAddStateRequest $request, Country $country): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $authUser = Auth::user();
-
-        $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
-
-        $state = $country->states()->create([
-            'status' => $status,
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'creator_id' => $authUser->id,
-        ]);
-
-        LogEvent::dispatchCreate($state, $request, __('general.state.created', ['name' => $state->name]));
-
-        return redirect(route('admin.countries.show', [$country]));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Country $country
-     * @return View
-     */
-    public function showLogs(Country $country): View
-    {
-        $country->load(['flag', 'creator.avatar', 'logs.creator.avatar'])->loadCount('states');
-
-        $logs = $country->logs()->orderBy('created_at', 'desc')->paginate();
-        $flag = $country->flag;
-
-        return view('backoffice.admin.countries.show-logs', compact('country', 'logs', 'flag'));
     }
 
     /**
@@ -273,5 +213,60 @@ class CountryController extends Controller
         LogEvent::dispatchDelete($country, $request, __('general.country.flag_deleted', ['name' => $country->name]));
 
         return back();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Country $country
+     * @return View
+     */
+    public function showLogs(Country $country): View
+    {
+        $country->load(['flag', 'creator.avatar', 'logs.creator.avatar'])->loadCount('states');
+
+        $logs = $country->logs()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.countries.show-logs', compact(['country', 'logs']));
+    }
+
+    /**
+     * Show the form for adding a state.
+     *
+     * @param Country $country
+     * @return View
+     */
+    public function showAddStateForm(Country $country): View
+    {
+        $country->load('flag');
+
+        return view('backoffice.admin.countries.add-state', compact('country'));
+    }
+
+    /**
+     * Add a state.
+     *
+     * @param StoreAddStateRequest $request
+     * @param Country $country
+     * @return RedirectResponse
+     */
+    public function addState(StoreAddStateRequest $request, Country $country): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $authUser = Auth::user();
+
+        $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
+
+        $state = $country->states()->create([
+            'status' => $status,
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'creator_id' => $authUser->id,
+        ]);
+
+        LogEvent::dispatchCreate($state, $request, __('general.state.created', ['name' => $state->name]));
+
+        return redirect(route('admin.countries.show', [$country]));
     }
 }

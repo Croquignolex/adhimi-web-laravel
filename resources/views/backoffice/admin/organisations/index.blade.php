@@ -1,7 +1,7 @@
 @extends('layouts.admin', [
     'title' => __('page.shops.all'),
     'breadcrumb_items' => [
-        ['url' => route('home'), 'label' => __('page.home')]
+        ['url' => route('admin.home'), 'label' => __('page.home')]
     ]
 ])
 
@@ -15,8 +15,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('admin.organisations.create') }}" class="mb-1 btn btn-primary">
-                                    @lang('page.shops.new')
+                                <a href="{{ route('admin.organisations.create') }}" class="btn btn-primary">
+                                    <i data-feather="plus"></i>
+                                    @lang('page.organisations.new')
                                 </a>
                                 <form action="" method="GET" class="w-50 float-right">
                                     <div class="form-group">
@@ -33,22 +34,20 @@
                                         <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
                                         <th>@lang('field.phone') <i data-feather="search" class="text-secondary"></i></th>
                                         <th>@lang('field.status')</th>
-                                        <th>@lang('field.merchant')</th>
+                                        <th>@lang('field.creator')</th>
                                         <th>@lang('field.actions')</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @forelse($organisations as $organisation)
                                         <tr>
-                                            <td>
-                                                <span class="badge badge-light-secondary">
-                                                    {{ format_date($organisation->created_at) }}
-                                                </span>
+                                            <td style="white-space: nowrap;">
+                                                @include('partials.backoffice.date-badge', ['model' => $organisation])
                                             </td>
                                             <td>
                                                 <div class="d-flex">
-                                                    @include('partials.backoffice.round-image', ['url' => $organisation->avatar?->url, 'initials' => $organisation->initials, 'size' => 'xs'])
-                                                    <div class="ml-25 mt-25">
+                                                    @include('partials.backoffice.round-image', ['url' => $organisation->logo?->url, 'initials' => $organisation->initials, 'size' => 'xs'])
+                                                    <div class="ml-50 mt-25">
                                                         {{ $organisation->name }}
                                                     </div>
                                                 </div>
@@ -60,16 +59,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if($organisation?->merchant)
-                                                    <div class="d-flex">
-                                                        @include('partials.backoffice.round-image', ['url' => $organisation->merchant->avatar?->url, 'initials' => $organisation->merchant->initials, 'size' => 'xs'])
-                                                        <div class="ml-25 mt-25">
-                                                            <a href="{{ route('admin.users.show', [$organisation]) }}">
-                                                                {{ $organisation->merchant->full_name }}
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                @endif
+                                                @include('partials.backoffice.admin.creator-data', ['model' => $organisation])
                                             </td>
                                             <td>
                                                 <div class="dropdown">
@@ -78,28 +68,25 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.show', [$organisation]) }}">
-                                                            <i data-feather="eye" class="mr-50 text-success"></i>
-                                                            <span>@lang('general.action.detail')</span>
+                                                            <i data-feather="eye" class="mr-50 text-primary"></i>
+                                                            @lang('general.action.detail')
                                                         </a>
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.edit', [$organisation]) }}">
-                                                            <i data-feather="edit-2" class="mr-50 text-warning"></i>
-                                                            <span>@lang('general.action.update')</span>
+                                                            <i data-feather="edit" class="mr-50 text-warning"></i>
+                                                            @lang('general.action.update')
                                                         </a>
                                                         <hr>
-                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.store', [$organisation]) }}">
-                                                            <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                            <span>@lang('general.action.add_store')</span>
+                                                        <a href="javascript:void(0);" class="dropdown-item"
+                                                           data-toggle="modal" data-target="#toggle-status-modal-{{ $organisation->id }}"
+                                                        >
+                                                            <i data-feather="{{ $organisation->status_toggle['icon'] }}" class="mr-50 text-{{ $organisation->status_toggle['color'] }}"></i>
+                                                            <span>{{ $organisation->status_toggle['label'] }}</span>
                                                         </a>
-                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
-                                                            <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                            <span>@lang('general.action.add_vendor')</span>
-                                                        </a>
-                                                        @if(!$organisation?->merchant)
-                                                            <a class="dropdown-item" href="{{ route('admin.organisations.add.merchant', [$organisation]) }}">
-                                                                <i data-feather="plus-square" class="mr-50 text-primary"></i>
-                                                                <span>@lang('general.action.add_merchant')</span>
-                                                            </a>
-                                                        @endif
+                                                        <hr>
+                                                        {{--<a class="dropdown-item" href="{{ route('admin.countries.add.state', [$country]) }}">
+                                                            <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                            <span>@lang('general.action.add_state')</span>
+                                                        </a>--}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -119,7 +106,9 @@
                                 </table>
                             </div>
                             <div class="card-body">
-                                {{ $organisations->links('partials.backoffice.pagination') }}
+                                @if(is_null($q))
+                                    {{ $organisations->links('partials.backoffice.pagination') }}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -127,4 +116,21 @@
             </div>
         </div>
     </div>
+
+    @foreach($organisations as $organisation)
+        @component('components.modal', [
+            'color' => $organisation->status_toggle['color'],
+            'id' => "toggle-status-modal-" . $organisation->id,
+            'size' => 'modal-sm',
+            'title' => $organisation->status_toggle['label'],
+        ])
+            <p>@lang('general.change_status_question', ['name' => $organisation->name, 'action' => $organisation->status_toggle['label']])?</p>
+            <form action="{{ route('admin.organisations.status.toggle', [$organisation]) }}" method="POST" class="text-right mt-50">
+                @csrf
+                <button type="submit" class="btn btn-{{ $organisation->status_toggle['color'] }}">
+                    @lang('general.yes')
+                </button>
+            </form>
+        @endcomponent
+    @endforeach
 @endsection

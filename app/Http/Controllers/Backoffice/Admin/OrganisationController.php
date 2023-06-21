@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Organisation\StoreCountryRequest;
+use App\Http\Requests\Organisation\UpdateOrganisationRequest;
 use App\Http\Requests\Organisation\StoreOrganisationRequest;
+use App\Http\Requests\Organisation\StoreAddShopRequest;
+use App\Http\Requests\UpdateBannerRequest;
+use App\Http\Requests\UpdateLogoRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
-use Spatie\Permission\Models\Role;
-use App\Enums\UserStatusEnum;
+use App\Enums\MediaTypeEnum;
 use App\Models\Organisation;
 use Illuminate\Http\Request;
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
-use Illuminate\Support\Str;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
-use App\Models\User;
 
 class OrganisationController extends Controller
 {
@@ -31,11 +30,13 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $organisations = ($q)
-            ? Organisation::search($q)->orderBy('name')->paginate()
-            : Organisation::orderBy('created_at', 'desc')->paginate();
+        $query = Organisation::with(['logo', 'creator.avatar']);
 
-        return view('backoffice.admin.organisations.index', compact('organisations', 'q'));
+        $organisations = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.index', compact(['organisations', 'q']));
     }
 
     /**
@@ -58,7 +59,7 @@ class OrganisationController extends Controller
     {
         $validated = $request->validated();
 
-        $organisation = Organisation::create([
+        $organisation = Auth::user()->createdOrganisations()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'website' => $validated['website'],
@@ -66,9 +67,198 @@ class OrganisationController extends Controller
             'description' => $validated['description']
         ]);
 
-        LogEvent::dispatch($organisation, LogActionEnum::Create, "User $organisation->name created");
+        LogEvent::dispatchCreate($organisation, $request, __('general.organisation.created', ['name' => $organisation->name]));
 
         return redirect(route('admin.organisations.show', [$organisation]));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function show(Request $request, Organisation $organisation): View
+    {
+        $q = $request->query('q');
+
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'shops.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
+
+        $query = $organisation->shops();
+
+        $shops = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show', compact(['organisation', 'shops', 'q']));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Organisation $organisation
+     * @return View|RedirectResponse
+     */
+    public function edit(Organisation $organisation): View|RedirectResponse
+    {
+        $organisation->load('logo');
+
+        return view('backoffice.admin.organisations.edit', compact(['organisation']));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateOrganisationRequest $request
+     * @param Organisation $organisation
+     * @return RedirectResponse
+     */
+    public function update(UpdateOrganisationRequest $request, Organisation $organisation): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $organisation->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'website' => $validated['website'],
+            'phone' => $validated['phone'],
+            'description' => $validated['description']
+        ]);
+
+        LogEvent::dispatchUpdate($organisation, $request, __('general.organisation.updated', ['name' => $organisation->name]));
+
+        return redirect(route('admin.organisations.show', [$organisation]));
+    }
+
+    /**
+     * Toggle organisation status.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return RedirectResponse
+     */
+    public function statusToggle(Request $request, Organisation $organisation): RedirectResponse
+    {
+        $message = $organisation->status_toggle['message'];
+        $organisation->update(['status' => $organisation->status_toggle['next']]);
+
+        LogEvent::dispatchUpdate($organisation, $request, $message);
+
+        return back();
+    }
+
+    /**
+     * Update organisation logo.
+     *
+     * @param UpdateLogoRequest $request $
+     * @param Organisation $organisation
+     * @return RedirectResponse
+     */
+    public function changeLogo(UpdateLogoRequest $request, Organisation $organisation): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $logo = $organisation->logo;
+
+        $logoName = Storage::disk('public')->put(MediaTypeEnum::Banner->value, $validated['logo']);
+
+        if($logoName)
+        {
+            if($logo)
+            {
+                $logo->update(['name' => $logoName]);
+
+                LogEvent::dispatchUpdate($organisation, $request, __('general.organisation.logo_updated', ['name' => $organisation->name]));
+            }
+            else
+            {
+                $organisation->logo()->create([
+                    'name' => $logoName,
+                    'type' => MediaTypeEnum::Logo,
+                    'creator_id' => Auth::id(),
+                ]);
+
+                LogEvent::dispatchCreate($organisation, $request, __('general.organisation.logo_created', ['name' => $organisation->name]));
+            }
+        } else {
+            ToastEvent::dispatchDanger(__('general.upload_error'));
+        }
+
+        return back();
+    }
+
+    /**
+     * Delete organisation logo.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return RedirectResponse
+     */
+    public function removeLogo(Request $request, Organisation $organisation): RedirectResponse
+    {
+        $organisation->logo()->delete();
+
+        LogEvent::dispatchDelete($organisation, $request, __('general.organisation.logo_deleted', ['name' => $organisation->name]));
+
+        return back();
+    }
+
+    /**
+     * Update organisation banner.
+     *
+     * @param UpdateBannerRequest $request $
+     * @param Organisation $organisation
+     * @return RedirectResponse
+     */
+    public function changeBanner(UpdateBannerRequest $request, Organisation $organisation): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $banner = $organisation->banner;
+
+        $bannerName = Storage::disk('public')->put(MediaTypeEnum::Banner->value, $validated['banner']);
+
+        if($bannerName)
+        {
+            if($banner)
+            {
+                $banner->update(['name' => $bannerName]);
+
+                LogEvent::dispatchUpdate($organisation, $request, __('general.organisation.banner_updated', ['name' => $organisation->name]));
+            }
+            else
+            {
+                $organisation->banner()->create([
+                    'name' => $bannerName,
+                    'type' => MediaTypeEnum::Banner,
+                    'creator_id' => Auth::id(),
+                ]);
+
+                LogEvent::dispatchCreate($organisation, $request, __('general.organisation.banner_created', ['name' => $organisation->name]));
+            }
+        } else {
+            ToastEvent::dispatchDanger(__('general.upload_error'));
+        }
+
+        return back();
+    }
+
+    /**
+     * Delete organisation banner.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return RedirectResponse
+     */
+    public function removeBanner(Request $request, Organisation $organisation): RedirectResponse
+    {
+        $organisation->banner()->delete();
+
+        LogEvent::dispatchDelete($organisation, $request, __('general.organisation.banner_deleted', ['name' => $organisation->name]));
+
+        return back();
     }
 
     /**
@@ -77,90 +267,146 @@ class OrganisationController extends Controller
      * @param Organisation $organisation
      * @return View
      */
-    public function show(Organisation $organisation): View
+    public function showLogs(Organisation $organisation): View
     {
-//        $organisation = $organisation->load(['shops', 'vendors', 'merchant', 'creator', 'banner', 'logo', 'users']);
-        $organisation = $organisation->load(['shops']);
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
 
-        return view('backoffice.admin.organisations.create.show', compact('organisation'));
+        $logs = $organisation->logs()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-logs', compact(['organisation', 'logs']));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
      *
-     * @param User $user
-     * @return View|RedirectResponse
+     * @param Organisation $organisation
+     * @return View
      */
-    public function edit(User $user): View|RedirectResponse
+    public function showShops(Organisation $organisation): View
     {
-        if(!$this->authorized($user)) return back();
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'shops.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
 
-        return view('users.edit', compact('user'));
+        $shops = $organisation->shops()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-shops', compact(['organisation', 'shops']));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Display the specified resource.
      *
-     * @param UpdateUserRequest $request
-     * @param User $user
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showVendors(Organisation $organisation): View
+    {
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'vendors.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
+
+        $vendors = $organisation->vendors()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-vendors', compact(['organisation', 'vendors']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showManagers(Organisation $organisation): View
+    {
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
+
+        $managers = $organisation->managers()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-managers', compact(['organisation', 'managers']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showSellers(Organisation $organisation): View
+    {
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
+
+        $sellers = $organisation->salers()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-sellers', compact(['organisation', 'sellers']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showProducts(Organisation $organisation): View
+    {
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
+
+        $products = $organisation->products()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-products', compact(['organisation', 'products']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showCoupons(Organisation $organisation): View
+    {
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
+
+        $coupons = $organisation->coupons()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-coupons', compact(['organisation', 'coupons']));
+    }
+
+    /**
+     * Show the form for adding a state.
+     *
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showAddShopForm(Organisation $organisation): View
+    {
+        $organisation->load('logo');
+
+        return view('backoffice.admin.countries.add-state', compact('organisation'));
+    }
+
+    /**
+     * Add a state.
+     *
+     * @param StoreAddShopRequest $request
+     * @param Organisation $organisation
      * @return RedirectResponse
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function addShop(StoreAddShopRequest $request, Organisation $organisation): RedirectResponse
     {
-        if(!$this->authorized($user)) return back();
-
         $validated = $request->validated();
 
-        $user->update([
+        $authUser = Auth::user();
+
+        $shop = $organisation->shops()->create([
             'name' => $validated['name'],
-            'username' => Str::slug($validated['name']),
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
+            'description' => $validated['description'],
+            'creator_id' => $authUser->id,
         ]);
 
-        $user->syncRoles([Role::findOrCreate($validated['role'], 'web')]);
+        LogEvent::dispatchCreate($shop, $request, __('general.shop.created', ['name' => $shop->name]));
 
-        LogEvent::dispatch($user, LogActionEnum::Update, "User $user->name updated");
-
-        return redirect(route('users.show', [$user]));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param User $user
-     * @return RedirectResponse
-     */
-    public function destroy(User $user): RedirectResponse
-    {
-        if(!$this->authorized($user)) return back();
-
-        $nextStatus = enums_equals($user->status, UserStatusEnum::Active)
-            ? UserStatusEnum::Blocked
-            : UserStatusEnum::Active;
-
-        $user->update(['status' => $nextStatus]);
-
-        $user->notify(new AccountDeactivatedNotification());
-
-        LogEvent::dispatch($user, LogActionEnum::Custom, "User $user->name status toggled");
-
-        return back();
-    }
-
-    /**
-     * @param User $user
-     * @return bool
-     */
-    private function authorized(User $user): bool
-    {
-        if(Auth::id() === $user->id)
-        {
-            ToastEvent::dispatch("You are not allow to perform this action", ToastTypeEnum::Warning);
-            return false;
-        }
-
-        return true;
+        return redirect(route('admin.organisations.show', [$organisation]));
     }
 }

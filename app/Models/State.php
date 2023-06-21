@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
-use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\SlugFromNameTrait;
+use App\Traits\Models\SearchScopeTrait;
 use App\Traits\Models\StatusBadgeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +22,7 @@ class State extends Model
         HasFactory,
         SoftDeletes,
         UniqueSlugTrait,
+        SearchScopeTrait,
         StatusBadgeTrait,
         EnableScopeTrait,
         SlugFromNameTrait,
@@ -58,20 +59,9 @@ class State extends Model
     ];
 
     /**
-     * Scope a query to only include search model.
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
      */
-    public function scopeSearch(Builder $query, string $q): void
-    {
-        $chainedBuilder = $query;
-        $needles = explode(' ', $q);
-
-        foreach ($needles as $key => $needle)
-        {
-            if($key === 0) {
-                $chainedBuilder = $chainedBuilder->where('name', 'LIKE', "%$needle%");
-            } else {
-                $chainedBuilder = $chainedBuilder->orWhere('name', 'LIKE', "%$needle%");
-            }
-        }
-    }
+    protected array $searchFields = ['name'];
 }

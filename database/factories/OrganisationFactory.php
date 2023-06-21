@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\GeneralStatusEnum;
 use App\Models\Organisation;
 
 /**
@@ -24,7 +23,6 @@ class OrganisationFactory extends Factory
             'email' => $this->faker->safeEmail(),
             'website' => $this->faker->url,
             'phone' => $this->faker->phoneNumber,
-            'status' => GeneralStatusEnum::randomValue(),
             'description' => $this->faker->text(),
         ];
     }

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AttributeAndAttributesValuesSeeder::class);
         $this->call(RolesAndPermissionsSeeder::class);
+        $this->call(OrganisationSeeder::class);
         $this->call(CountrySeeder::class);
         $this->call(BrandSeeder::class);
         $this->call(StateSeeder::class);

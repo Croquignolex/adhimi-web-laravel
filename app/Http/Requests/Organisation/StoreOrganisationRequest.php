@@ -24,7 +24,7 @@ class StoreOrganisationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string",
+            'name' => "required|string|unique:organisations,name",
             'email' => "nullable|email",
             'website' => "nullable|string",
             'phone' => "nullable|string",

@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphManyLogsTrait;
-use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\NameInitialsTrait;
+use App\Traits\Models\SearchScopeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\StatusBadgeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +26,7 @@ class Country extends Model
         HasFactory,
         SoftDeletes,
         UniqueSlugTrait,
+        SearchScopeTrait,
         StatusBadgeTrait,
         EnableScopeTrait,
         NameInitialsTrait,
@@ -63,24 +64,11 @@ class Country extends Model
     ];
 
     /**
-     * Scope a query to only include search model.
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
      */
-    public function scopeSearch(Builder $query, string $q): void
-    {
-        $chainedBuilder = $query;
-        $needles = explode(' ', $q);
-
-        foreach ($needles as $key => $needle)
-        {
-            if($key === 0) {
-                $chainedBuilder = $chainedBuilder->where('name', 'LIKE', "%$needle%")
-                    ->orWhere('phone_code', 'LIKE', "%$needle%");
-            } else {
-                $chainedBuilder = $chainedBuilder->orWhere('name', 'LIKE', "%$needle%")
-                    ->orWhere('phone_code', 'LIKE', "%$needle%");
-            }
-        }
-    }
+    protected array $searchFields = ['name', 'phone_code'];
 
     /**
      * Get the states for the country.

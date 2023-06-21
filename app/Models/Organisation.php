@@ -8,14 +8,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\HasManyProductsTrait;
+use App\Traits\Models\HasManySellersTrait;
 use App\Traits\Models\MorphOneBannerTrait;
+use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\HasManyUsersTrait;
 use App\Traits\Models\MorphOneLogoTrait;
+use App\Traits\Models\SearchScopeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\StatusBadgeTrait;
+use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
 use App\Enums\UserRoleEnum;
 
@@ -24,12 +30,18 @@ class Organisation extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        UniqueSlugTrait,
+        SearchScopeTrait,
         StatusBadgeTrait,
         EnableScopeTrait,
         HasManyUsersTrait,
         MorphOneLogoTrait,
+        SlugFromNameTrait,
         NameInitialsTrait,
+        MorphManyLogsTrait,
+        HasManySellersTrait,
         MorphOneBannerTrait,
+        HasManyProductsTrait,
         BelongsToCreatorTrait;
 
     /**
@@ -59,13 +71,11 @@ class Organisation extends Model
     ];
 
     /**
-     * Scope a query to only include search model.
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
      */
-    public function scopeSearch(Builder $query, string $q): void
-    {
-        $query->where('name', 'LIKE', "%$q%")
-            ->orWhere('phone', 'LIKE', "%$q%");
-    }
+    protected array $searchFields = ['name', 'phone'];
 
     /**
      * Get merchant associated with the organisation.
@@ -80,7 +90,19 @@ class Organisation extends Model
     }
 
     /**
-     * Get shops associated with the organisations.
+     * Get managers associated with the organisation.
+     *
+     * @return HasMany
+     */
+    public function managers(): HasMany
+    {
+        return $this->hasMany(User::class)->whereHas('roles', function (Builder $query) {
+            $query->where('name', UserRoleEnum::ShopManager->value);
+        });
+    }
+
+    /**
+     * Get shops associated with the organisation.
      *
      * @return HasMany
      */
@@ -90,12 +112,22 @@ class Organisation extends Model
     }
 
     /**
-     * Get vendors associated with the organisations.
+     * Get vendors associated with the organisation.
      *
      * @return HasMany
      */
     public function vendors(): HasMany
     {
         return $this->hasMany(Vendor::class);
+    }
+
+    /**
+     * Get coupons associated with the organisation.
+     *
+     * @return HasMany
+     */
+    public function coupons(): HasMany
+    {
+        return $this->hasMany(Coupon::class);
     }
 }

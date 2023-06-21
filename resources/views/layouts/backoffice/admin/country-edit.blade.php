@@ -21,7 +21,7 @@
                                 <h4>{{ $country->name }}</h4>
                             </div>
                             <div class="text-center">
-                                @include('partials.backoffice.round-image', ['url' => $flag?->url, 'initials' => $country->initials])
+                                @include('partials.backoffice.round-image', ['url' => $country->flag?->url, 'initials' => $country->initials])
                             </div>
                         </div>
                         <div class="col-12 col-md-8">

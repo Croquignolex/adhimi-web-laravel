@@ -2,8 +2,8 @@
 
 namespace App\Traits\Models;
 
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Product;
 
 trait HasManyProductsTrait
 {

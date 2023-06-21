@@ -18,7 +18,7 @@
                         <div class="row">
                             <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
                                 <div class="text-center">
-                                    @include('partials.backoffice.round-image', ['url' => $flag?->url, 'initials' => $country->initials])
+                                    @include('partials.backoffice.round-image', ['url' => $country->flag?->url, 'initials' => $country->initials])
                                     @include('partials.feedbacks.validation', ['field' => 'flag'])
                                     @if(auth()->user()->is_admin)
                                         <div class="mt-2">
@@ -26,7 +26,7 @@
                                                 <i data-feather="copy"></i>
                                                 @lang('field.change')
                                             </button>
-                                            @if(!is_null($flag))
+                                            @if(!is_null($country->flag))
                                                 <button class="btn btn-danger" id="flag-delete" data-toggle="modal" data-target="#toggle-flag-delete-modal">
                                                     <i data-feather="trash"></i>
                                                     @lang('field.delete')

@@ -51,6 +51,39 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
     });
 
     /**
+     * @middleware super,admin
+     */
+    Route::middleware('allow:super,admin')->group(function () {
+        /**
+         * @resource organisations
+         * @controller organisations
+         */
+        Route::resource('organisations', OrganisationController::class)->except('destroy');
+        Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
+            Route::get('{country}/logs', 'showLogs')->name('show.logs');
+            Route::put('{country}/change-logo', 'changeLogo')->name('logo.change');
+            Route::delete('{country}/remove-logo', 'removeLogo')->name('logo.remove');
+            Route::put('{country}/change-banner', 'changeBanner')->name('banner.change');
+            Route::delete('{country}/remove-banner', 'removeBanner')->name('banner.remove');
+            Route::post('{country}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{country}/add-shop', 'showAddShopForm')->name('add.shop');
+            Route::post('{country}/add-shop', 'addShop');
+            Route::get('{country}/add-vendor', 'showAddVendorForm')->name('add.vendor');
+            Route::post('{country}/add-vendor', 'addVendor');
+            Route::get('{country}/add-merchant', 'showAddMerchantForm')->name('add.merchant');
+            Route::post('{country}/add-merchant', 'addMerchant');
+            Route::get('{country}/add-manager', 'showAddManagerForm')->name('add.manager');
+            Route::post('{country}/add-manager', 'addManager');
+            Route::get('{country}/add-saler', 'showAddSalerForm')->name('add.saler');
+            Route::post('{country}/add-saler', 'addSaler');
+            Route::get('{country}/add-product', 'showAddProductForm')->name('add.product');
+            Route::post('{country}/add-product', 'addProduct');
+            Route::get('{country}/add-coupon', 'showAddCouponForm')->name('add.coupon');
+            Route::post('{country}/add-coupon', 'addCoupon');
+        });
+    });
+
+    /**
      * @middleware super,admin,merchant
      */
     Route::middleware('allow:super,admin,merchant')->group(function () {
@@ -78,23 +111,9 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::post('{state}/status-toggle', 'statusToggle')->name('status.toggle');
         });
 
-        /////////////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * @resource organisations
-         */
-        Route::resource('organisations', OrganisationController::class);
-        /**
-         * @controller organisation
-         */
-        Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
-            Route::get('{organisation}/add-store', 'addStore')->name('add.store');
-            Route::get('{organisation}/add-vendor', 'addVendor')->name('add.vendor');
-            Route::get('{organisation}/add-merchant', 'addMerchant')->name('add.merchant');
-        });
-
         /**
          * @resource users
+         * @controller users
          */
         Route::resource('users', UserController::class);
     });

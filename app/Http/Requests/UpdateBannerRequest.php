@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\State;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateStateRequest extends FormRequest
+class UpdateBannerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +24,7 @@ class UpdateStateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string",
-            'country' => "required|string|exists:countries,id",
-            'description' => "nullable|string",
+            'banner' => "required|file|mimetypes:image/jpg,image/jpeg,image/png|max:1024",
         ];
     }
 }

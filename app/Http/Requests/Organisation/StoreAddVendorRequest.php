@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\State;
+namespace App\Http\Requests\Organisation;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateStateRequest extends FormRequest
+class StoreAddVendorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +25,6 @@ class UpdateStateRequest extends FormRequest
     {
         return [
             'name' => "required|string",
-            'country' => "required|string|exists:countries,id",
             'description' => "nullable|string",
         ];
     }

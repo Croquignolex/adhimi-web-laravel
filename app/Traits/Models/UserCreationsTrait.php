@@ -9,6 +9,7 @@ use App\Models\Attribute;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Vendor;
+use App\Models\Coupon;
 use App\Models\Group;
 use App\Models\Media;
 use App\Models\State;
@@ -136,5 +137,15 @@ trait UserCreationsTrait
     public function createdInventoryHistories(): HasMany
     {
         return $this->hasMany(InventoryHistory::class, 'creator_id');
+    }
+
+    /**
+     * Get created coupons associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdCoupons(): HasMany
+    {
+        return $this->hasMany(Coupon::class, 'creator_id');
     }
 }

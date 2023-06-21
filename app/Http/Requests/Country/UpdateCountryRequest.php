@@ -25,7 +25,7 @@ class UpdateCountryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', Rule::unique('countries')->ignore($this->country)],
+            'name' => ['required', 'string', Rule::unique('countries', 'name')->ignore($this->country)],
             'phone_code' => "nullable|string",
             'description' => "nullable|string",
         ];

@@ -40,7 +40,7 @@ return [
 
     'role' => [
         'customer' => 'Client',
-        'saler' => 'Vendeur',
+        'seller' => 'Vendeur',
         'admin' => 'Admin',
         'merchant' => 'Marchand',
         'shop_manager' => 'Gestionnaire',
@@ -88,14 +88,29 @@ return [
         'identical_passwords' => "Mot de passes identiques, merci de donner un nouveau mot de passe différent de l'ancien mot de passe ",
     ],
 
+    'organisation' => [
+        'created' => 'Magasin :name créer',
+        'updated' => 'Magasin :name mis à jour',
+        'logo_deleted' => 'Logo du magasin :name supprimé avec succès',
+        'logo_created' => 'Logo du magasin :name ajouté avec succès',
+        'logo_updated' => 'Logo du magasin :name mis à jour avec succès',
+        'delete_logo_question' => 'Voulez-vous vraiment supprimer le logo de ce magasin',
+        'delete_logo' => 'Supprimer le logo du magasin',
+        'banner_deleted' => 'Bannière du magasin :name supprimée avec succès',
+        'banner_created' => 'Bannière du magasin :name ajoutée avec succès',
+        'banner_updated' => 'Bannière du magasin :name mise à jour avec succès',
+        'delete_banner_question' => 'Voulez-vous vraiment supprimer la bannière de ce magasin',
+        'delete_banner' => 'Supprimer la bannière du magasin',
+    ],
+
     'country' => [
         'created' => 'Pays :name créer',
         'updated' => 'Pays :name mis à jour',
         'flag_deleted' => 'Drapeau du pays :name supprimé avec succès',
         'flag_created' => 'Drapeau du pays :name ajouté avec succès',
         'flag_updated' => 'Drapeau du pays :name mis à jour avec succès',
-        'delete_flag_question' => 'Voulez-vous vraiment supprimer le drapeau',
-        'delete_flag' => 'Supprimer le drapeau',
+        'delete_flag_question' => 'Voulez-vous vraiment supprimer le drapeau de ce pays',
+        'delete_flag' => 'Supprimer le drapeau du pays',
     ],
 
     'state' => [
