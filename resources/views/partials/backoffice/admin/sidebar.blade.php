@@ -84,6 +84,30 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- States menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="map"></i>
+                        <span class="menu-title text-truncate">@lang('page.states.states')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All states menu item --}}
+                        <li class="{{ active_page('admin.states.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.states.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.states.all')</span>
+                            </a>
+                        </li>
+                        {{-- New state menu item --}}
+                        <li class="{{ active_page('admin.states.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.states.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.states.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
         </ul>
     </div>

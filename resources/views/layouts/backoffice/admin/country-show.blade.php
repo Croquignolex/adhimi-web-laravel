@@ -118,7 +118,6 @@
                                         </span>
                                     </a>
                                 </li>
-{{--                                TODO: Show products inventories --}}
                                 <li class="nav-item">
                                     <a class="nav-link {{ active_page('admin.countries.show.logs') }}" href="{{ route('admin.countries.show.logs', [$country]) }}">
                                         <i data-feather="file-text" class="font-medium-3"></i>

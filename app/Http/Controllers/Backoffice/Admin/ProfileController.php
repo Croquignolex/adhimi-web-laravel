@@ -44,7 +44,7 @@ class ProfileController extends Controller
      */
     public function showAddressForm(): View
     {
-        $address = Auth::user()->load('defaultAddress')->defaultAddress;
+        $address = Auth::user()->load('defaultAddress.state.country')->defaultAddress;
 
         return view('backoffice.admin.profile.address', compact('address'));
     }

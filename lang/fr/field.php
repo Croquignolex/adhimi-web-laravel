@@ -38,7 +38,7 @@ return [
     'language' => 'Default language',
     'timezone' => 'Default timezone',
     'state' => 'Ville',
-    'country' => 'Country',
+    'country' => 'Pays',
     'phone_number_one' => 'Numéro de téléphone principal',
     'phone_number_two' => 'Numéro de téléphone secondaire',
     'zipcode' => 'Code postal',

@@ -1,4 +1,4 @@
-@props(['creator' => false, 'entity' => true])
+@props(['creator' => true, 'entity' => true])
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
@@ -23,9 +23,7 @@
                         @include('partials.backoffice.date-badge', ['model' => $log])
                     </td>
                     @if($entity)
-                        <td>
-                            @include('partials.backoffice.admin.entity-data', ['model' => $log])
-                        </td>
+                        <td>@include('partials.backoffice.admin.entity-data', ['model' => $log])</td>
                     @endif
                     <td>
                         <span class="badge badge-light-{{ $log->action_badge['color'] }}">
@@ -38,9 +36,7 @@
                         </span>
                     </td>
                     @if($creator)
-                        <td>
-                            @include('partials.backoffice.admin.creator-data', ['model' => $log])
-                        </td>
+                        <td>@include('partials.backoffice.admin.creator-data', ['model' => $log])</td>
                     @endif
                     <td>{{ $log->description }}</td>
                 </tr>

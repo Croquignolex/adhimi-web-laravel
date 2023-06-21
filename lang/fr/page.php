@@ -35,8 +35,8 @@ return [
         'states' => 'Régions',
         'new' => 'Nouvelle région',
         'all' => 'Toutes les régions',
-        'detail' => 'Détail de la region :name',
-        'edit' => 'Modifier de la region :name',
+        'detail' => 'Détail de la région',
+        'edit' => 'Modifier la région',
     ],
 
     'shops' => [

@@ -19,12 +19,10 @@
     stateSelectArea.hide();
 
     const countriesUrl = countrySelect.data('url');
-    const oldCountryId = countrySelect.data('old');
-    const optionCountryId = countrySelect.data('option');
+    const selectedCountryId = countrySelect.data('old');
 
     const statesUrl = stateSelect.data('url');
-    const oldStateId = stateSelect.data('old');
-    const optionSateId = stateSelect.data('option');
+    const selectedStateId = stateSelect.data('old');
 
     countrySelect.on('change', () => {
         const selectedCountryId = countrySelect.val();
@@ -34,13 +32,11 @@
     ajaxRequest(countriesUrl)
         .then((response)  => {
             countries = response;
-            const selectedCountryId = oldCountryId || optionCountryId;
             loadCountrySelect(selectedCountryId);
 
             ajaxRequest(statesUrl)
                 .then((response) => {
                     states = response;
-                    const selectedStateId = oldStateId || optionSateId;
                     loadStateSelect(selectedCountryId, selectedStateId);
                 })
                 .catch((error) => {

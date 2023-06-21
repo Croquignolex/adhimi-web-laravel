@@ -40,7 +40,7 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Country::with('creator.avatar');
+        $query = Country::with(['flag', 'creator.avatar']);
 
         $countries = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -96,10 +96,10 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $country->load(['creator.avatar', 'states', 'flag'])->loadCount('states');
+        $country->load(['flag', 'creator.avatar', 'states.creator.avatar'])->loadCount('states');
 
-        $query = $country->states()->with('creator.avatar');
         $creator = $country->creator;
+        $query = $country->states();
         $flag = $country->flag;
 
         $states = ($q)
@@ -113,9 +113,9 @@ class CountryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Country $country
-     * @return View|RedirectResponse
+     * @return View
      */
-    public function edit(Country $country): View|RedirectResponse
+    public function edit(Country $country): View
     {
         $country->load('flag');
         $flag = $country->flag;
@@ -149,9 +149,9 @@ class CountryController extends Controller
      * Show the form for adding a state.
      *
      * @param Country $country
-     * @return View|RedirectResponse
+     * @return View
      */
-    public function showAddStateForm(Country $country): View|RedirectResponse
+    public function showAddStateForm(Country $country): View
     {
         $country->load('flag');
         $flag = $country->flag;
@@ -194,9 +194,9 @@ class CountryController extends Controller
      */
     public function showLogs(Country $country): View
     {
-        $country->load(['logs', 'flag'])->loadCount('states');
+        $country->load(['flag', 'creator.avatar', 'logs.creator.avatar'])->loadCount('states');
 
-        $logs = $country->logs()->with('creator.avatar')->orderBy('created_at', 'desc')->paginate();
+        $logs = $country->logs()->orderBy('created_at', 'desc')->paginate();
         $flag = $country->flag;
 
         return view('backoffice.admin.countries.show-logs', compact('country', 'logs', 'flag'));

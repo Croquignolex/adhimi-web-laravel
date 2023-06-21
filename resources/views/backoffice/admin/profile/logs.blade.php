@@ -10,6 +10,6 @@
         <div class="card-body">
             @include('partials.feedbacks.alert')
         </div>
-        @include('partials.backoffice.admin.logs', compact('logs'))
+        @include('partials.backoffice.admin.logs', ['logs' => $logs, 'creator' => false])
     </div>
 @endsection

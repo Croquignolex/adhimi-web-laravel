@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Country\UpdateCountryRequest;
-use App\Http\Requests\Country\StoreCountryRequest;
-use App\Http\Requests\Country\UpdateFlagRequest;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\State\UpdateStateRequest;
+use App\Http\Requests\State\StoreStateRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
-use App\Enums\UserStatusEnum;
-use App\Enums\MediaTypeEnum;
+use App\Enums\GeneralStatusEnum;
 use Illuminate\Http\Request;
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
-use App\Events\ToastEvent;
 use App\Events\LogEvent;
-use App\Models\Country;
-use App\Models\User;
+use App\Models\State;
 
 class StateController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('allow:super,admin')->only([
+            'edit', 'update', 'statusToggle'
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -32,13 +35,13 @@ class StateController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Country::withCount('states');
+        $query = State::with(['country.flag', 'creator.avatar']);
 
-        $countries = ($q)
-            ? $query->search($q)->orderBy('name')->paginate()
+        $states = ($q)
+            ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.countries.index', compact('countries', 'q'));
+        return view('backoffice.admin.states.index', compact(['states', 'q']));
     }
 
     /**
@@ -48,152 +51,98 @@ class StateController extends Controller
      */
     public function create(): View
     {
-        return view('backoffice.admin.countries.create');
+        return view('backoffice.admin.states.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreCountryRequest $request
+     * @param StoreStateRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreCountryRequest $request): RedirectResponse
+    public function store(StoreStateRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $country = Country::create([
+        $authUser = Auth::user();
+
+        $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
+
+        $state = $authUser->createdStates()->create([
+            'status' => $status,
             'name' => $validated['name'],
-            'phone_code' => $validated['phone_code'],
-            'description' => $validated['description']
+            'description' => $validated['description'],
+            'country_id' => $validated['country'],
         ]);
 
-        LogEvent::dispatch($country, LogActionEnum::Create, __('general.country.created', ['name' => $country->name]));
+        LogEvent::dispatchCreate($state, $request, __('general.state.created', ['name' => $state->name]));
 
-        return redirect(route('admin.countries.show', [$country]));
+        return redirect(route('admin.states.show', [$state]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Country $country
+     * @param State $state
      * @return View
      */
-    public function show(Country $country): View
+    public function show(State $state): View
     {
-        $country->load(['states', 'flag']);
+        $state->load(['country.flag', 'creator.avatar', 'logs.creator.avatar']);
 
-        $states = $country->states()->paginate(pageName: 'states');
+        $logs = $state->logs()->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.countries.show', compact('country', 'states'));
+        return view('backoffice.admin.states.show', compact(['state', 'logs']));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Country $country
-     * @return View|RedirectResponse
+     * @param State $state
+     * @return View
      */
-    public function edit(Country $country): View|RedirectResponse
+    public function edit(State $state): View
     {
-        return view('backoffice.admin.countries.edit', compact('country'));
+        $state->load('country');
+
+        return view('backoffice.admin.states.edit', compact('state'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateCountryRequest $request
-     * @param Country $country
+     * @param UpdateStateRequest $request
+     * @param State $state
      * @return RedirectResponse
      */
-    public function update(UpdateCountryRequest $request, Country $country): RedirectResponse
+    public function update(UpdateStateRequest $request, State $state): RedirectResponse
     {
         $validated = $request->validated();
 
-        $country->update([
+        $state->update([
             'name' => $validated['name'],
-            'phone_code' => $validated['phone_code'],
             'description' => $validated['description'],
+            'country_id' => $validated['country'],
         ]);
 
-        LogEvent::dispatch($country, LogActionEnum::Update, __('general.country.updated', ['name' => $country->name]));
+        LogEvent::dispatchUpdate($state, $request, __('general.state.updated', ['name' => $state->name]));
 
-        return redirect(route('admin.countries.show', [$country]));
+        return redirect(route('admin.states.show', [$state]));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Toggle state status.
      *
-     * @param User $user
+     * @param Request $request
+     * @param State $state
      * @return RedirectResponse
      */
-    public function destroy(User $user): RedirectResponse
+    public function statusToggle(Request $request, State $state): RedirectResponse
     {
-        if(!$this->authorized($user)) return back();
+        $message = $state->status_toggle['message'];
+        $state->update(['status' => $state->status_toggle['next']]);
 
-        $nextStatus = enums_equals($user->status, UserStatusEnum::Active)
-            ? UserStatusEnum::Blocked
-            : UserStatusEnum::Active;
-
-        $user->update(['status' => $nextStatus]);
-
-        $user->notify(new AccountDeactivatedNotification());
-
-        LogEvent::dispatch($user, LogActionEnum::Custom, "User $user->name status toggled");
-
-        return back();
-    }
-
-    /**
-     * Update country flag
-     *
-     * @param UpdateFlagRequest $request $
-     * @param Country $country
-     * @return RedirectResponse
-     */
-    public function changeFlag(UpdateFlagRequest $request, Country $country): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $flag = $country->flag;
-
-        $flagName = Storage::disk('public')->put(MediaTypeEnum::Flag->value, $validated['flag']);
-
-        if($flagName)
-        {
-            if($flag)
-            {
-                $flag->update(['name' => $flagName]);
-
-                LogEvent::dispatch($country, LogActionEnum::Update, __('general.country.flag_updated', ['name' => $country->name]));
-            }
-            else
-            {
-                $country->flag()->create([
-                    'name' => $flagName,
-                    'type' => MediaTypeEnum::Flag,
-                    'creator_id' => Auth::id(),
-                ]);
-
-                LogEvent::dispatch($country, LogActionEnum::Create, __('general.country.flag_created', ['name' => $country->name]));
-            }
-        } else {
-            ToastEvent::dispatch(__('general.upload_error'), ToastTypeEnum::Danger);
-        }
-
-        return back();
-    }
-
-    /**
-     * Delete country flag
-     *
-     * @param Country $country
-     * @return RedirectResponse
-     */
-    public function removeFlag(Country $country): RedirectResponse
-    {
-        $country->flag()->delete();
-
-        LogEvent::dispatch($country, LogActionEnum::Delete, __('general.country.flag_deleted', ['name' => $country->name]));
+        LogEvent::dispatchUpdate($state, $request, $message);
 
         return back();
     }

@@ -68,12 +68,17 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::post('{country}/add-state', 'addState');
         });
 
-        /////////////////////////////////////////////////////////////////////////////////////////
-        ///
         /**
          * @resource states
+         * @controller states
          */
-        Route::resource('states', StateController::class);
+        Route::resource('states', StateController::class)->except('destroy');
+        Route::controller(StateController::class)->prefix('states')->name('states.')->group(function () {
+            Route::get('{state}/logs', 'showLogs')->name('show.logs');
+            Route::post('{state}/status-toggle', 'statusToggle')->name('status.toggle');
+        });
+
+        /////////////////////////////////////////////////////////////////////////////////////////
 
         /**
          * @resource organisations

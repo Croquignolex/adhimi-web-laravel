@@ -51,30 +51,22 @@
                         ])
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="spinner-border text-primary mt-2" id="country-loader"></div>
-                        <div class="form-group" id="country-area" style="display: none">
-                            @include('partials.input.label', [
-                               'label' => __('field.country'),
-                               'required' => true,
-                               'field' => 'country',
-                            ])
-                            <select class="select2 form-control" id="country" name="country"
-                                    data-option="{{ $address?->state->country->id }}" data-old="{{ old('country') }}" data-url="{{ route('api.countries.index') }}">
-                            </select>
-                        </div>
+                        @include('partials.input.ajax-select', [
+                            'label' => __('field.country'),
+                            'required' => true,
+                            'field' => 'country',
+                            'value' => $address?->state->country->id,
+                            'route' => route('api.countries.index'),
+                        ])
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="spinner-border text-primary mt-2" id="state-loader"></div>
-                        <div class="form-group" id="state-area" style="display: none">
-                            @include('partials.input.label', [
-                               'label' => __('field.state'),
-                               'required' => true,
-                               'field' => 'state',
-                            ])
-                            <select class="select2 form-control" id="state" name="state"
-                                    data-option="{{ $address?->state->id }}" data-old="{{ old('state') }}" data-url="{{ route('api.states.index') }}">
-                            </select>
-                        </div>
+                        @include('partials.input.ajax-select', [
+                            'label' => __('field.state'),
+                            'required' => true,
+                            'field' => 'state',
+                            'value' => $address?->state->id,
+                            'route' => route('api.states.index'),
+                        ])
                     </div>
                     <div class="col-12">
                         @include('partials.input.textarea', ['value' => $address?->description])
