@@ -16,7 +16,6 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <!-- form -->
                                 @include('partials.feedbacks.alert')
                                 <form class="validate-form mt-1" method="POST" action="{{ route('admin.countries.store') }}">
                                     @csrf
@@ -42,7 +41,6 @@
                                         </div>
                                     </div>
                                 </form>
-                                <!--/ form -->
                             </div>
                         </div>
                     </div>

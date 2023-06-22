@@ -118,7 +118,7 @@
                             ])
                         </div>
                     @endif
-                    @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
+                    @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Seller->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
                                  'value' => $setting->enable_product_notification,

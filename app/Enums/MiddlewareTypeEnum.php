@@ -15,5 +15,5 @@ enum MiddlewareTypeEnum: string
     case Customer = 'customer';
     case ShopManager = 'manager';
     case Merchant = 'merchant';
-    case Saler = 'saler';
+    case Seller = 'seller';
 }

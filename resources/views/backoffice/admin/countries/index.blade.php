@@ -59,7 +59,7 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    @include('partials.backoffice.admin.creator-data', ['model' => $country])
+                                                    @include('partials.backoffice.admin.user-data', ['user' => $country->creator])
                                                 </td>
                                                 <td>
                                                     <div class="dropdown">

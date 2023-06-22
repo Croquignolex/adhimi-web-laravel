@@ -57,6 +57,8 @@
                             'field' => 'country',
                             'value' => $address?->state->country->id,
                             'route' => route('api.countries.index'),
+                            'add_url' => route('admin.countries.create'),
+                            'add_text' => __('general.action.add_country'),
                         ])
                     </div>
                     <div class="col-12 col-sm-6">
@@ -66,6 +68,8 @@
                             'field' => 'state',
                             'value' => $address?->state->id,
                             'route' => route('api.states.index'),
+                            'add_url' => route('admin.states.create'),
+                            'add_text' => __('general.action.add_state'),
                         ])
                     </div>
                     <div class="col-12">

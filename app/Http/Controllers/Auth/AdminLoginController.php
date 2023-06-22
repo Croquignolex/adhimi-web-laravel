@@ -45,7 +45,7 @@ class AdminLoginController extends Controller
                 UserRoleEnum::SuperAdmin->value,
                 UserRoleEnum::Merchant->value,
                 UserRoleEnum::Admin->value,
-                UserRoleEnum::Saler->value,
+                UserRoleEnum::Seller->value,
             ])
         );
 

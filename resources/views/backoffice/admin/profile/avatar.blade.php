@@ -23,7 +23,7 @@
                             @lang('field.delete')
                         </button>
                     @endif
-                    <p class="mt-1">@lang('general.image_recommendation')</p>
+                    <p class="mt-1">@lang('general.square_image_recommendation')</p>
                     <form action="" method="POST" hidden enctype="multipart/form-data" id="avatar-change-form">
                         @csrf
                         @method('PUT')

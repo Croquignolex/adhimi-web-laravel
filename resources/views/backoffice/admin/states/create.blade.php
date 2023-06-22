@@ -33,6 +33,8 @@
                                                'required' => true,
                                                'field' => 'country',
                                                'route' => route('api.countries.index'),
+                                               'add_url' => route('admin.countries.create'),
+                                               'add_text' => __('general.action.add_country'),
                                             ])
                                         </div>
                                         <div class="col-12">

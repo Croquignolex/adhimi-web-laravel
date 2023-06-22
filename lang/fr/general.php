@@ -16,7 +16,9 @@ return [
     'settings' => 'Paramètres',
     'upload_error' => "Une erreur s'est l'ors du stockage du fichier",
     'permission_denied' => "Vous n'êtes pas autorisé à effectué cette action",
-    'image_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 1Mo',
+    'square_image_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 1Mo. Image carré',
+    'portrait_image_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 1Mo. Image en portrait',
+    'landscape_image_recommendation' => 'Extensions autorisées JPG et PNG. Taille maximale 1Mo. Image en paysage',
     'no_records' => "Pas de données",
     'change_status' => "Changer le status",
     'change_status_question' => "Voulez-vous vraiment :action :name",
@@ -32,10 +34,11 @@ return [
         'auth' => 'Authentifier',
         'delete' => 'Supprimer',
         'other' => 'Autre',
-        'add_store' => 'Ajouter une boutique',
+        'add_shop' => 'Ajouter une boutique',
         'add_vendor' => 'Ajouter un fournisseur',
         'add_merchant' => 'Ajouter un marchand',
         'add_state' => 'Ajouter une région',
+        'add_country' => 'Ajouter un pays',
     ],
 
     'role' => [
@@ -116,6 +119,10 @@ return [
     'state' => [
         'created' => 'Région :name créer',
         'updated' => 'Région :name mise à jour',
+    ],
+
+    'user' => [
+        'merchant_created' => 'Marchand :name créer',
     ],
 
     'footer' => [

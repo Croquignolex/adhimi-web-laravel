@@ -28,7 +28,7 @@ class RoleMiddleware
             MiddlewareTypeEnum::Admin->value => UserRoleEnum::Admin->value,
             MiddlewareTypeEnum::Merchant->value => UserRoleEnum::Merchant->value,
             MiddlewareTypeEnum::ShopManager->value => UserRoleEnum::ShopManager->value,
-            MiddlewareTypeEnum::Saler->value => UserRoleEnum::Saler->value,
+            MiddlewareTypeEnum::Seller->value => UserRoleEnum::Seller->value,
             default => UserRoleEnum::SuperAdmin->value,
         })->all();
 

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Enums\UserRoleEnum;
-use App\Http\Requests\Organisation\StoreAddMerchantRequest;
 use App\Http\Requests\Organisation\UpdateOrganisationRequest;
 use App\Http\Requests\Organisation\StoreOrganisationRequest;
 use App\Http\Requests\Organisation\StoreAddShopRequest;
@@ -20,7 +18,7 @@ use Illuminate\Http\Request;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
 
-class OrganisationController extends Controller
+class ShopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -89,7 +87,6 @@ class OrganisationController extends Controller
             ->loadCount(['shops', 'vendors', 'managers', 'sellers', 'products', 'coupons']);
 
         $query = $organisation->shops();
-        //dd($organisation->merchant);
 
         $shops = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -374,55 +371,6 @@ class OrganisationController extends Controller
         $coupons = $organisation->coupons()->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.organisations.show-coupons', compact(['organisation', 'coupons']));
-    }
-
-    /**
-     * Show the form for adding a merchant.
-     *
-     * @param Organisation $organisation
-     * @return View|RedirectResponse
-     */
-    public function showAddMerchantForm(Organisation $organisation): View|RedirectResponse
-    {
-        if(!is_null($organisation->merchant)) {
-            ToastEvent::dispatchWarning(__('general.permission_denied'));
-            return back();
-        }
-
-        $organisation->load('logo');
-
-        return view('backoffice.admin.organisations.add-merchant', compact('organisation'));
-    }
-
-    /**
-     * Add a merchant.
-     *
-     * @param StoreAddMerchantRequest $request
-     * @param Organisation $organisation
-     * @return RedirectResponse
-     */
-    public function addMerchant(StoreAddMerchantRequest $request, Organisation $organisation): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $authUser = Auth::user();
-
-        $merchant = $organisation->users()->create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
-            'email' => $validated['email'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
-            'description' => $validated['description'],
-            'creator_id' => $authUser->id,
-        ]);
-
-        $merchant->syncRoles([UserRoleEnum::Merchant->value]);
-
-        LogEvent::dispatchCreate($merchant, $request, __('general.user.merchant_created', ['name' => $merchant->name]));
-
-        return redirect(route('admin.organisations.show', [$organisation]));
     }
 
     /**

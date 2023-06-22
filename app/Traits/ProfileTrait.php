@@ -31,7 +31,6 @@ trait ProfileTrait
         $authUser = Auth::user();
 
         $authUser->update([
-            'slug' => $validated['first_name'],
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
             'profession' => $validated['profession'],

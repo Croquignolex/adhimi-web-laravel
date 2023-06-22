@@ -19,12 +19,14 @@ use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\UserCreationsTrait;
 use Illuminate\Notifications\Notifiable;
-use App\Traits\Models\UniqueSlugTrait;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\Models\UniqueSlugTrait;
+use Illuminate\Support\Facades\Hash;
 use App\Enums\AddressTypeEnum;
 use App\Enums\UserStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Enums\UserRoleEnum;
+use Illuminate\Support\Str;
 use App\Enums\GenderEnum;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
@@ -95,6 +97,36 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      * @var array
      */
     protected $with = ['roles'];
+
+    /**
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            $user->slug = $user->first_name;
+            $user->remember_token = Str::random(60);
+            $user->password = Hash::make($user->password ?? config('app.default_password'));
+        });
+
+        static::created(function (User $user) {
+            $user->setting()->create();
+        });
+
+        static::updating(function (User $user) {
+            $user->slug = $user->first_name;
+        });
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     /**
      * Determine if user admin, magic attribute $this->is_admin.
@@ -220,8 +252,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                     'value' => __('general.role.' . UserRoleEnum::ShopManager->value),
                     'color' => 'info',
                 ],
-                UserRoleEnum::Saler->value => [
-                    'value' => __('general.role.' . UserRoleEnum::Saler->value),
+                UserRoleEnum::Seller->value => [
+                    'value' => __('general.role.' . UserRoleEnum::Seller->value),
                     'color' => 'secondary',
                 ],
                 UserRoleEnum::Customer->value => [

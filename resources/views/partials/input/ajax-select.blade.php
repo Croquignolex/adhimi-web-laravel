@@ -1,4 +1,4 @@
-@props(['required' => false, 'value' => null])
+@props(['required' => false, 'value' => null, 'add_url' => null])
 
 <div class="spinner-border text-primary mt-2" id="{{ $field }}-loader"></div>
 
@@ -8,4 +8,11 @@
 
     <select class="select2 form-control" id="{{ $field }}" name="{{ $field }}" data-url="{{ $route }}" data-old="{{ old($field, $value) }}"></select>
 
+    @if($add_url)
+        <div class="text-right">
+            <a href="{{ $add_url }}">
+                {{ $add_text }}
+            </a>
+        </div>
+    @endif
 </div>

@@ -32,7 +32,7 @@
                     <td>@include('partials.backoffice.admin.country-data', ['model' => $state])</td>
                 @endif
                 @if($creator)
-                    <td>@include('partials.backoffice.admin.creator-data', ['model' => $state])</td>
+                    <td>@include('partials.backoffice.admin.user-data', ['user' => $state->creator])</td>
                 @endif
                 <td>
                     <div class="dropdown">

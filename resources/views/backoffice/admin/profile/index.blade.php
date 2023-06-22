@@ -8,13 +8,12 @@
 @section('profile.content')
     <div class="card">
         <div class="card-body">
-            <!-- form -->
             @include('partials.feedbacks.alert')
             <form class="validate-form mt-1" method="POST" action="">
                 @csrf
                 @method('put')
                 <div class="row">
-                    @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
+                    @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Seller->value]))
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 @include('partials.input.label', ['label' => __('field.store'), 'field' => 'store'])
@@ -22,7 +21,7 @@
                             </div>
                         </div>
                     @endif
-                    @if($user->hasRole([\App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Saler->value]))
+                    @if($user->hasRole([\App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Seller->value]))
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 @include('partials.input.label', ['label' => __('field.shop'), 'field' => 'shop'])
@@ -92,7 +91,6 @@
                     </div>
                 </div>
             </form>
-            <!--/ form -->
         </div>
     </div>
 @endsection

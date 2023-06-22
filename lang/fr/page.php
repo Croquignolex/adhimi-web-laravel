@@ -22,6 +22,16 @@ return [
     'update_my_settings' => 'Modifier mes paramètres',
     'update_my_avatar' => 'Modifier mon avatar',
 
+    'organisations' => [
+        'organisations' => 'Magasins',
+        'new' => 'Nouveau magasin',
+        'all' => 'Tous les magasins',
+        'detail' => 'Détail du magasin',
+        'edit' => 'Modifier le magasin',
+        'add_shop' => 'Ajouter une boutique',
+        'add_merchant' => 'Ajouter un marchant',
+    ],
+
     'countries' => [
         'countries' => 'Pays',
         'new' => 'Nouveau pays',
@@ -40,9 +50,9 @@ return [
     ],
 
     'shops' => [
-        'shops' => 'Magasins',
-        'new' => 'Nouveau magasin',
-        'all' => 'Tous les Magasins',
+        'shops' => 'Boutiques',
+        'new' => 'Nouvelle boutiques',
+        'all' => 'Tous les boutiques',
     ],
 
 ];

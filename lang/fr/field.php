@@ -12,6 +12,8 @@ return [
 
     'email' => 'Email',
     'type' => 'Type',
+    'website' => 'Site web',
+    'shops' => 'Boutiques',
     'entity' => 'Entité',
     'creation' => 'Création',
     'creator' => 'Créateur',
@@ -37,7 +39,7 @@ return [
     'password_confirmation' => 'Confirmation du mot de passe',
     'language' => 'Default language',
     'timezone' => 'Default timezone',
-    'state' => 'Ville',
+    'state' => 'Region',
     'country' => 'Pays',
     'phone_number_one' => 'Numéro de téléphone principal',
     'phone_number_two' => 'Numéro de téléphone secondaire',

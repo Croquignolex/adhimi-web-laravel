@@ -32,7 +32,7 @@
                                                     @lang('field.delete')
                                                 </button>
                                             @endif
-                                            <p class="mt-1">@lang('general.image_recommendation')</p>
+                                            <p class="mt-1">@lang('general.square_image_recommendation')</p>
                                             <form action="{{ route('admin.countries.flag.change', [$country]) }}" method="POST" hidden enctype="multipart/form-data" id="flag-change-form">
                                                 @csrf
                                                 @method('PUT')
@@ -46,11 +46,11 @@
                             <div class="col-12 col-md-8">
                                 @if(auth()->user()->is_admin)
                                     <div class="mb-1">
-                                        <a href="{{ route('admin.countries.edit', [$country]) }}" class="btn btn-warning">
+                                        <a href="{{ route('admin.countries.edit', [$country]) }}" class="btn btn-warning mb-50">
                                             <i data-feather="edit"></i>
                                             @lang('general.action.update')
                                         </a>
-                                        <button class="btn btn-{{ $country->status_toggle['color'] }}"  data-toggle="modal" data-target="#toggle-status-modal">
+                                        <button class="btn btn-{{ $country->status_toggle['color'] }} mb-50"  data-toggle="modal" data-target="#toggle-status-modal">
                                             <i data-feather="{{ $country->status_toggle['icon'] }}"></i>
                                             {{ $country->status_toggle['label'] }}
                                         </button>
@@ -74,10 +74,6 @@
                                             <td>{{ $country->phone_code }}</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('field.states')</th>
-                                            <td>{{ $country->states_count }}</td>
-                                        </tr>
-                                        <tr>
                                             <th>@lang('field.status')</th>
                                             <td>
                                             <span class="badge badge-light-{{ $country->status_badge['color'] }}">
@@ -88,7 +84,7 @@
                                         <tr>
                                             <th>@lang('field.creator')</th>
                                             <td>
-                                                @include('partials.backoffice.admin.creator-data', ['model' => $country])
+                                                @include('partials.backoffice.admin.user-data', ['user' => $country->creator])
                                             </td>
                                         </tr>
                                         <tr>

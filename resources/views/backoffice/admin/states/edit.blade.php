@@ -37,6 +37,8 @@
                                                'field' => 'country',
                                                'value' => $state->country->id,
                                                'route' => route('api.countries.index'),
+                                               'add_url' => route('admin.countries.create'),
+                                               'add_text' => __('general.action.add_country'),
                                             ])
                                         </div>
                                         <div class="col-12">

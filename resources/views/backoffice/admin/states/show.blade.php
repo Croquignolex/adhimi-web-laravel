@@ -19,11 +19,11 @@
                             <div class="col-12">
                                 @if(auth()->user()->is_admin)
                                     <div class="mb-1">
-                                        <a href="{{ route('admin.states.edit', [$state]) }}" class="btn btn-warning">
+                                        <a href="{{ route('admin.states.edit', [$state]) }}" class="btn btn-warning mb-50">
                                             <i data-feather="edit"></i>
                                             @lang('general.action.update')
                                         </a>
-                                        <button class="btn btn-{{ $state->status_toggle['color'] }}"  data-toggle="modal" data-target="#toggle-status-modal">
+                                        <button class="btn btn-{{ $state->status_toggle['color'] }} mb-50"  data-toggle="modal" data-target="#toggle-status-modal">
                                             <i data-feather="{{ $state->status_toggle['icon'] }}"></i>
                                             {{ $state->status_toggle['label'] }}
                                         </button>
@@ -59,7 +59,7 @@
                                         <tr>
                                             <th>@lang('field.creator')</th>
                                             <td>
-                                                @include('partials.backoffice.admin.creator-data', ['model' => $state])
+                                                @include('partials.backoffice.admin.user-data', ['user' => $state->creator])
                                             </td>
                                         </tr>
                                         <tr>

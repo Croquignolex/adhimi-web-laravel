@@ -1,8 +1,8 @@
 @extends('layouts.admin', [
-    'title' => __('page.shops.new'),
+    'title' => __('page.organisations.new'),
     'breadcrumb_items' => [
         ['url' => route('home'), 'label' => __('page.home')],
-        ['url' => route('admin.organisations.index'), 'label' => __('page.shops.shops')]
+        ['url' => route('admin.organisations.index'), 'label' => __('page.organisations.organisations')]
     ]
 ])
 
@@ -16,66 +16,43 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <!-- form -->
                                 @include('partials.feedbacks.alert')
                                 <form class="validate-form mt-1" method="POST" action="{{ route('admin.organisations.store') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-name">
-                                                    @lang('field.name') <span class="text-danger">*</span>
-                                                    @include('partials.feedbacks.validation', ['field' => 'name'])
-                                                </label>
-                                                <input type="text" class="form-control" id="account-name"
-                                                       name="name" value="{{ old('name') }}" />
-                                            </div>
+                                            @include('partials.input.text', [
+                                                'label' => __('field.name'),
+                                                'field' => 'name',
+                                                'required' => true,
+                                            ])
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-email">
-                                                    @lang('field.email')
-                                                    @include('partials.feedbacks.validation', ['field' => 'email'])
-                                                </label>
-                                                <input type="text" class="form-control" id="account-email"
-                                                       name="email" value="{{ old('email') }}" />
-                                            </div>
+                                            @include('partials.input.text', [
+                                                'label' => __('field.email'),
+                                                'field' => 'email',
+                                            ])
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-website">
-                                                    @lang('field.website')
-                                                    @include('partials.feedbacks.validation', ['field' => 'website'])
-                                                </label>
-                                                <input type="text" class="form-control" id="account-website"
-                                                       name="website" value="{{ old('website') }}" />
-                                            </div>
+                                            @include('partials.input.text', [
+                                                'label' => __('field.website'),
+                                                'field' => 'website',
+                                            ])
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label for="account-phone">
-                                                    @lang('field.phone')
-                                                    @include('partials.feedbacks.validation', ['field' => 'phone'])
-                                                </label>
-                                                <input type="text" class="form-control" id="account-phone"
-                                                       name="phone" value="{{ old('phone') }}" />
-                                            </div>
+                                            @include('partials.input.text', [
+                                                'label' => __('field.phone'),
+                                                'field' => 'phone',
+                                            ])
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="account-description">
-                                                    @lang('field.description')
-                                                    @include('partials.feedbacks.validation', ['field' => 'description'])
-                                                </label>
-                                                <textarea class="form-control" id="account-description" name="description" rows="3">{{ old('description') }}</textarea>
-                                            </div>
+                                            @include('partials.input.textarea')
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary mt-50">@lang('field.save')</button>
+                                            @include('partials.input.button')
                                         </div>
                                     </div>
                                 </form>
-                                <!--/ form -->
                             </div>
                         </div>
                     </div>

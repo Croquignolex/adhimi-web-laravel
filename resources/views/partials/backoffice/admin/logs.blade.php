@@ -36,7 +36,7 @@
                         </span>
                     </td>
                     @if($creator)
-                        <td>@include('partials.backoffice.admin.creator-data', ['model' => $log])</td>
+                        <td>@include('partials.backoffice.admin.user-data', ['user' => $log->creator])</td>
                     @endif
                     <td>{{ $log->description }}</td>
                 </tr>

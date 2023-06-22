@@ -59,7 +59,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @include('partials.backoffice.admin.creator-data', ['model' => $organisation])
+                                                @include('partials.backoffice.admin.user-data', ['user' => $organisation->creator])
                                             </td>
                                             <td>
                                                 <div class="dropdown">
@@ -83,10 +83,16 @@
                                                             <span>{{ $organisation->status_toggle['label'] }}</span>
                                                         </a>
                                                         <hr>
-                                                        {{--<a class="dropdown-item" href="{{ route('admin.countries.add.state', [$country]) }}">
+                                                        @if(is_null($organisation->merchant))
+                                                            <a class="dropdown-item" href="{{ route('admin.organisations.add.merchant', [$organisation]) }}">
+                                                                <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                                <span>@lang('page.organisations.add_merchant')</span>
+                                                            </a>
+                                                        @endif
+                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.shop', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-secondary"></i>
-                                                            <span>@lang('general.action.add_state')</span>
-                                                        </a>--}}
+                                                            <span>@lang('general.action.add_shop')</span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
