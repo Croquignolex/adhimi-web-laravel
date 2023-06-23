@@ -32,6 +32,9 @@ return [
         'add_merchant' => 'Ajouter un marchant',
         'add_vendor' => 'Ajouter un fournisseur',
         'add_coupon' => 'Ajouter un coupon',
+        'add_manager' => 'Ajouter un gestionnaire',
+        'add_seller' => 'Ajouter un vendeur',
+        'add_product' => 'Ajouter un product',
     ],
 
     'countries' => [
@@ -67,6 +70,12 @@ return [
         'coupons' => 'Coupons',
         'new' => 'Nouveau coupon',
         'all' => 'Tous les coupons',
+    ],
+
+    'staffs' => [
+        'staffs' => 'Membres',
+        'new' => 'Nouveau membre',
+        'all' => 'Tous les membres',
     ],
 
 ];

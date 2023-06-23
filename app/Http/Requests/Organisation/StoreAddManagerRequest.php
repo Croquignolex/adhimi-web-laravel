@@ -4,8 +4,9 @@ namespace App\Http\Requests\Organisation;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Enums\GenderEnum;
 
-class StoreAddShopRequest extends FormRequest
+class StoreAddManagerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +25,20 @@ class StoreAddShopRequest extends FormRequest
      */
     public function rules(): array
     {
+        $genders = GenderEnum::stringify();
+
         return [
-            'name' => [
-                'required', 'string',
-                Rule::unique('shops', 'name')
+            'shop' => [
+                'required',
+                Rule::exists('shops', 'id')
                     ->where('organisation_id', $this->organisation->id)
             ],
+            'first_name' => "required|string",
+            'last_name' => "nullable|string",
+            'email' => "required|email|unique:users,email",
+            'profession' => "nullable|string",
+            'gender' => "required|in:$genders",
+            'birthdate' => "nullable|string",
             'description' => "nullable|string",
         ];
     }

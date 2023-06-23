@@ -1,4 +1,4 @@
-@props(['creator' => true, 'organisation' => true])
+@props(['creator' => true, 'organisation' => true, 'manager' => true])
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover mb-2">
@@ -9,6 +9,9 @@
             <th>@lang('field.status')</th>
             @if($organisation)
                 <th>@lang('field.organisation')</th>
+            @endif
+            @if($manager)
+                <th>@lang('field.manager')</th>
             @endif
             @if($creator)
                 <th>@lang('field.creator')</th>
@@ -30,6 +33,9 @@
                 </td>
                 @if($organisation)
                     <td>@include('partials.backoffice.admin.organisation-data', ['model' => $shop])</td>
+                @endif
+                @if($manager)
+                    <td>@include('partials.backoffice.admin.user-data', ['user' => $shop->manager])</td>
                 @endif
                 @if($creator)
                     <td>@include('partials.backoffice.admin.user-data', ['user' => $shop->creator])</td>

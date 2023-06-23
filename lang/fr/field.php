@@ -47,15 +47,17 @@ return [
     'street_address_plus' => 'Plus de detail',
     'street_address' => 'Adresse',
     'store' => 'Boutique',
-    'shop' => 'Agence',
+    'shop' => 'Boutique',
     'phone_code' => 'Indice tel.',
     'states' => 'Regions',
     'search' => 'Rechercher',
     'code' => 'Code',
+    'role' => 'Role',
     'discount' => 'Reduction',
     'uses' => 'Utilisations',
     'promotion_started_at' => 'Debut de la promo',
     'promotion_ended_at' => 'Fin de la promo',
+    'manager' => 'Gestionnaire',
 
     'notification' => [
         'enable_super_admin' => "Me notifier l'ors d'une action sur un super admin",

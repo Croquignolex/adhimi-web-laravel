@@ -37,9 +37,7 @@
                     <div class="user-nav d-sm-flex d-none">
                         <span class="user-name font-weight-bolder">{{ auth()->user()->first_name }}</span>
                         <div class="font-small-3">
-                            <span class="badge badge-light-{{ auth()->user()->roles_badge['color'] }} ml-25">
-                                {{ auth()->user()->roles_badge['value'] }}
-                            </span>
+                            @include('partials.backoffice.role-badge')
                         </div>
                     </div>
                     @include('partials.backoffice.round-image', ['url' => auth()->user()->avatar?->url, 'initials' => auth()->user()->initials, 'size' => 'sm'])

@@ -83,7 +83,7 @@
                                         <i data-feather="{{ $organisation->status_toggle['icon'] }}"></i>
                                         {{ $organisation->status_toggle['label'] }}
                                     </button>
-                                    @if(is_null($organisation->merchant))
+                                    @if($organisation->can_add_merchant)
                                         <a href="{{ route('admin.organisations.add.merchant', [$organisation]) }}" class="btn btn-primary mb-50">
                                             <i data-feather="plus-square"></i>
                                             @lang('page.organisations.add_merchant')
@@ -162,6 +162,15 @@
                                 <span class="font-weight-bold">
                                     @lang('page.shops.shops')
                                     ({{ $organisation->shops_count }})
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_page('admin.organisations.show.users') }}" href="{{ route('admin.organisations.show.users', [$organisation]) }}">
+                                <i data-feather="users" class="font-medium-3"></i>
+                                <span class="font-weight-bold">
+                                    @lang('page.staffs.staffs')
+                                    ({{ $organisation->users_count }})
                                 </span>
                             </a>
                         </li>

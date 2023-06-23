@@ -79,12 +79,22 @@
                                                             <span>{{ $organisation->status_toggle['label'] }}</span>
                                                         </a>
                                                         <hr>
-                                                        @if(is_null($organisation->merchant))
+                                                        @if($organisation->can_add_merchant)
                                                             <a class="dropdown-item" href="{{ route('admin.organisations.add.merchant', [$organisation]) }}">
                                                                 <i data-feather="plus-square" class="mr-50 text-secondary"></i>
                                                                 <span>@lang('page.organisations.add_merchant')</span>
                                                             </a>
                                                         @endif
+                                                        @if($organisation->can_add_manager)
+                                                            <a class="dropdown-item" href="{{ route('admin.organisations.add.manager', [$organisation]) }}">
+                                                                <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                                <span>@lang('page.organisations.add_manager')</span>
+                                                            </a>
+                                                        @endif
+                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.seller', [$organisation]) }}">
+                                                            <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                            <span>@lang('page.organisations.add_seller')</span>
+                                                        </a>
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.add.shop', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-secondary"></i>
                                                             <span>@lang('general.action.add_shop')</span>
@@ -92,6 +102,10 @@
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-secondary"></i>
                                                             <span>@lang('general.action.add_vendor')</span>
+                                                        </a>
+                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.product', [$organisation]) }}">
+                                                            <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                            <span>@lang('page.organisations.add_product')</span>
                                                         </a>
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.add.coupon', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-secondary"></i>

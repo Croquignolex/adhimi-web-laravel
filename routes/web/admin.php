@@ -64,6 +64,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{organisation}/logs', 'showLogs')->name('show.logs');
             Route::get('{organisation}/vendors', 'showVendors')->name('show.vendors');
             Route::get('{organisation}/coupons', 'showCoupons')->name('show.coupons');
+            Route::get('{organisation}/users', 'showUsers')->name('show.users');
             Route::put('{organisation}/change-logo', 'changeLogo')->name('logo.change');
             Route::delete('{organisation}/remove-logo', 'removeLogo')->name('logo.remove');
             Route::put('{organisation}/change-banner', 'changeBanner')->name('banner.change');

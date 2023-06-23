@@ -19,6 +19,7 @@ use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\UserCreationsTrait;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\Models\SearchScopeTrait;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Traits\Models\RouteSlugTrait;
@@ -39,6 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         SoftDeletes,
         RouteSlugTrait,
         UniqueSlugTrait,
+        SearchScopeTrait,
         MorphManyLogsTrait,
         BelongsToShopTrait,
         UserCreationsTrait,
@@ -154,7 +156,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return Attribute::make(
             get: fn (string $value) => mb_strtoupper($value, 'UTF-8'),
-            set: fn (string $value) => mb_strtolower($value, 'UTF-8'),
+            set: fn (string|null $value) => mb_strtolower($value, 'UTF-8'),
         );
     }
 
@@ -280,6 +282,33 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                 default => [
                     'value' => __('general.status.unknown'),
                     'color' => 'secondary',
+                ]
+            }
+        );
+    }
+
+    /**
+     * Determine model's status toggle, magic attribute $this->status_toggle.
+     *
+     * @return Attribute
+     */
+    protected function statusToggle(): Attribute
+    {
+        return new Attribute(
+            get: fn () => match ($this->status) {
+                UserStatusEnum::Active => [
+                    'label' => __('general.action.disable'),
+                    'message' => __('general.enable_toggle', ['name' => $this->full_name]),
+                    'color' => 'danger',
+                    'icon' => 'lock',
+                    'next' => UserStatusEnum::Blocked,
+                ],
+                default => [
+                    'label' => __('general.action.enable'),
+                    'message' => __('general.disable_toggle', ['name' => $this->full_name]),
+                    'color' => 'success',
+                    'icon' => 'unlock',
+                    'next' => UserStatusEnum::Active,
                 ]
             }
         );

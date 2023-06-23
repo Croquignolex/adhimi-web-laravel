@@ -7,6 +7,7 @@ use App\Traits\Models\HasManyInventoryHistoriesTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
@@ -73,6 +74,18 @@ class Shop extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Determine if manager can be added to shop, magic attribute $this->can_add_manager.
+     *
+     * @return Attribute
+     */
+    protected function canAddManager(): Attribute
+    {
+        return new Attribute(
+            get: fn () => is_null($this->manager)
+        );
+    }
 
     /**
      * Get manager associated with the organisation.

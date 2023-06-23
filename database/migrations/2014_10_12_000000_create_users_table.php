@@ -39,8 +39,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('status')->default(UserStatusEnum::Active->value);
 
-            $table->unique(['organisation_id', 'first_name', 'last_name']);
-
             $table->rememberToken();
         });
     }

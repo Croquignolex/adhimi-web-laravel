@@ -21,13 +21,6 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
-                                            @include('partials.input.text', [
-                                                'label' => __('field.name'),
-                                                'field' => 'name',
-                                                'required' => true,
-                                            ])
-                                        </div>
-                                        <div class="col-12 col-sm-6">
                                             @include('partials.input.ajax-select', [
                                                'label' => __('field.country'),
                                                'required' => true,
@@ -35,6 +28,13 @@
                                                'route' => route('api.countries.index'),
                                                'add_url' => route('admin.countries.create'),
                                                'add_text' => __('general.action.add_country'),
+                                            ])
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            @include('partials.input.text', [
+                                                'label' => __('field.name'),
+                                                'field' => 'name',
+                                                'required' => true,
                                             ])
                                         </div>
                                         <div class="col-12">

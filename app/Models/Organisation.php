@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
@@ -78,6 +79,30 @@ class Organisation extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name', 'phone'];
+
+    /**
+     * Determine if merchant can be added to organisation, magic attribute $this->can_add_merchant.
+     *
+     * @return Attribute
+     */
+    protected function canAddMerchant(): Attribute
+    {
+        return new Attribute(
+            get: fn () => is_null($this->merchant)
+        );
+    }
+
+    /**
+     * Determine if merchant can be added to organisation, magic attribute $this->can_add_manager.
+     *
+     * @return Attribute
+     */
+    protected function canAddManager(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->shops()->whereDoesntHave('manager')->count() > 0
+        );
+    }
 
     /**
      * Get merchant associated with the organisation.

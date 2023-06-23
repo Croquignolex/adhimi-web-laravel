@@ -2,7 +2,7 @@
     'title' => $title,
     'breadcrumb_items' => [
         ['url' => route('admin.home'), 'label' => __('page.home')],
-        ['url' => route('admin.organisations.index'), 'label' => __('page.organisations.countries')],
+        ['url' => route('admin.organisations.index'), 'label' => __('page.organisations.organisations')],
         ['url' => route('admin.organisations.show', [$organisation]), 'label' => $organisation->name]
     ]
 ])
@@ -47,4 +47,8 @@
     <script src="{{ asset("app-assets/vendors/js/forms/select/select2.full.min.js") }}"></script>
     <script src="{{ asset("app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js") }}"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
+@endpush
+
+@push('custom.scripts')
+    @stack('organisation.custom.scripts')
 @endpush

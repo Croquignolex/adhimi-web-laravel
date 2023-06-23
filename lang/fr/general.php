@@ -134,6 +134,8 @@ return [
 
     'user' => [
         'merchant_created' => 'Marchand :name créer',
+        'manager_created' => 'Gestionnaire de boutique :name créer',
+        'seller_created' => 'Vendeur :name créer',
     ],
 
     'footer' => [

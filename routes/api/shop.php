@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\OrganisationController;
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\StateController;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,10 @@ Route::resource('countries', CountryController::class)->only('index');
  * @sstate state
  */
 Route::resource('states', StateController::class)->only('index');
+
+/**
+ * @controller organisations
+ */
+Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
+    Route::get('{organisation}/free-shops', 'freeShops')->name('shops.free');
+});
