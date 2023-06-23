@@ -16,7 +16,7 @@ class CountryController extends Controller
      */
     public function index() : JsonResponse
     {
-        $countries = Country::enable()->orderBy('name')->get();
+        $countries = Country::orderBy('name')->get();
 
         return response()->json(CountryResource::collection($countries));
     }

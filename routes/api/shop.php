@@ -30,5 +30,6 @@ Route::resource('states', StateController::class)->only('index');
  * @controller organisations
  */
 Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
+    Route::get('{organisation}/shops', 'shops')->name('shops');
     Route::get('{organisation}/free-shops', 'freeShops')->name('shops.free');
 });

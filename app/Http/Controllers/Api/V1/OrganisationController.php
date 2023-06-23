@@ -15,9 +15,22 @@ class OrganisationController extends Controller
      * @param Organisation $organisation
      * @return JsonResponse
      */
+    public function shops(Organisation $organisation) : JsonResponse
+    {
+        $shops = $organisation->shops()->orderBy('name')->get();
+
+        return response()->json(ShopResource::collection($shops));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Organisation $organisation
+     * @return JsonResponse
+     */
     public function freeShops(Organisation $organisation) : JsonResponse
     {
-        $shops = $organisation->shops()->enable()->whereDoesntHave('manager')->orderBy('name')->get();
+        $shops = $organisation->shops()->whereDoesntHave('manager')->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }
