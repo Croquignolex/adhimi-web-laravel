@@ -107,4 +107,5 @@
 @push('profile.vendor.scripts')
     <script src="{{ asset("app-assets/vendors/js/forms/select/select2.full.min.js") }}"></script>
     <script src="{{ asset("app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js") }}"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 @endpush

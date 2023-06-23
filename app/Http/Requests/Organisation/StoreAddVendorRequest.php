@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Organisation;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAddVendorRequest extends FormRequest
 {
@@ -24,7 +25,10 @@ class StoreAddVendorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string",
+            'name' => [
+                'required', 'string',
+                Rule::unique('vendors', 'name')->where('organisation_id', $this->organisation->id)
+            ],
             'description' => "nullable|string",
         ];
     }

@@ -6,11 +6,7 @@
             <i data-feather="plus-square"></i>
             @lang('page.countries.add_state')
         </a>
-        <form action="" method="GET" class="w-50 float-right">
-            <div class="form-group">
-                <input type="search" class="form-control" name="q" value="{{ $q }}" placeholder="@lang('field.search')..." />
-            </div>
-        </form>
+        @include('partials.input.search')
     </div>
     @include('partials.backoffice.admin.states', ['states' => $states, 'country' => false])
 @endsection

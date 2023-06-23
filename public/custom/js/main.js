@@ -40,9 +40,16 @@ function ajaxRequest(url, type = 'GET', data = null)
     // Date picker
     const basicPicker = $('.flatpickr-basic');
     if (basicPicker.length) {
-        basicPicker.flatpickr({
-            maxDate: 'today',
-            // dateFormat: 'd-m-Y'
+        basicPicker.each(function () {
+            const $this = $(this);
+            const locale = $this.data('locale');
+            const altFormat = (locale === 'fr') ? 'd-m-Y' : 'Y-m-d';
+            $this.flatpickr({
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat,
+                locale
+            });
         });
     }
 

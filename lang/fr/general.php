@@ -39,6 +39,7 @@ return [
         'add_merchant' => 'Ajouter un marchand',
         'add_state' => 'Ajouter une région',
         'add_country' => 'Ajouter un pays',
+        'add_coupon' => 'Ajouter un coupon',
     ],
 
     'role' => [
@@ -119,6 +120,16 @@ return [
     'state' => [
         'created' => 'Région :name créer',
         'updated' => 'Région :name mise à jour',
+    ],
+
+    'vendor' => [
+        'created' => 'Fournisseur :name créer',
+        'updated' => 'Fournisseur :name mis à jour',
+    ],
+
+    'coupon' => [
+        'created' => 'Coupon :code créer',
+        'updated' => 'Coupon :code mis à jour',
     ],
 
     'user' => [

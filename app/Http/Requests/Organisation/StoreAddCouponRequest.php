@@ -24,7 +24,10 @@ class StoreAddCouponRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string",
+            'code' => "required|string|unique:coupons,code",
+            'discount' => "required|integer|min:1|max:100",
+            'promotion_started_at' => "required|date",
+            'promotion_ended_at' => "required|date|after:promotion_started_at",
             'description' => "nullable|string",
         ];
     }

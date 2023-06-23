@@ -19,11 +19,7 @@
                                     <i data-feather="plus"></i>
                                     @lang('page.organisations.new')
                                 </a>
-                                <form action="" method="GET" class="w-50 float-right">
-                                    <div class="form-group">
-                                        <input type="search" class="form-control" name="q" value="{{ $q }}" placeholder="@lang('field.search')..." />
-                                    </div>
-                                </form>
+                                @include('partials.input.search')
                                 @include('partials.feedbacks.alert')
                             </div>
                             <div class="table-responsive">
@@ -92,6 +88,14 @@
                                                         <a class="dropdown-item" href="{{ route('admin.organisations.add.shop', [$organisation]) }}">
                                                             <i data-feather="plus-square" class="mr-50 text-secondary"></i>
                                                             <span>@lang('general.action.add_shop')</span>
+                                                        </a>
+                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.vendor', [$organisation]) }}">
+                                                            <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                            <span>@lang('general.action.add_vendor')</span>
+                                                        </a>
+                                                        <a class="dropdown-item" href="{{ route('admin.organisations.add.coupon', [$organisation]) }}">
+                                                            <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                                            <span>@lang('general.action.add_coupon')</span>
                                                         </a>
                                                     </div>
                                                 </div>

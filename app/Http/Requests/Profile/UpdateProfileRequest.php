@@ -31,7 +31,7 @@ class UpdateProfileRequest extends FormRequest
             'last_name' => "nullable|string",
             'profession' => "nullable|string",
             'gender' => "required|in:$genders",
-            'birthdate' => "nullable|string",
+            'birthdate' => "nullable|date",
             'description' => "nullable|string",
         ];
     }

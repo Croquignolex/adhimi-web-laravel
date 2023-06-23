@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('status')->default(GeneralStatusEnum::StandBy->value);
+            $table->string('status')->default(GeneralStatusEnum::Enable->value);
 
             $table->unique(['organisation_id', 'name']);
         });

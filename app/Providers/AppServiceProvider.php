@@ -8,8 +8,11 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Organisation;
 use App\Models\Country;
+use App\Models\Vendor;
+use App\Models\Coupon;
 use App\Models\State;
 use App\Models\User;
+use App\Models\Shop;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,7 +38,10 @@ class AppServiceProvider extends ServiceProvider
         // Morph names mapping
         Relation::enforceMorphMap([
             'user' => User::class,
+            'shop' => Shop::class,
             'state' => State::class,
+            'vendor' => Vendor::class,
+            'coupon' => Coupon::class,
             'country' => Country::class,
             'organisation' => Organisation::class,
         ]);

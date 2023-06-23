@@ -21,6 +21,7 @@ use App\Traits\Models\SearchScopeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\StatusBadgeTrait;
+use App\Traits\Models\MorphToManyTags;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
 use App\Enums\UserRoleEnum;
@@ -30,6 +31,7 @@ class Organisation extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        MorphToManyTags,
         UniqueSlugTrait,
         SearchScopeTrait,
         StatusBadgeTrait,

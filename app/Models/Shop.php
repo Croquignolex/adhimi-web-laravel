@@ -6,27 +6,38 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Models\HasManyInventoryHistoriesTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\MorphOneBannerTrait;
+use App\Traits\Models\HasManySellersTrait;
+use App\Traits\Models\MorphManyLogsTrait;
+use Illuminate\Database\Eloquent\Builder;
+use App\Traits\Models\SlugFromNameTrait;
+use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\HasManyUsersTrait;
-use App\Traits\Models\MorphOneLogoTrait;
+use App\Traits\Models\SearchScopeTrait;
+use App\Traits\Models\StatusBadgeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Models\MorphToManyTags;
+use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
+use App\Enums\UserRoleEnum;
 
 class Shop extends Model
 {
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphToManyTags,
+        UniqueSlugTrait,
         EnableScopeTrait,
-        MorphOneLogoTrait,
+        SearchScopeTrait,
+        StatusBadgeTrait,
         HasManyUsersTrait,
-        MorphOneBannerTrait,
+        SlugFromNameTrait,
+        NameInitialsTrait,
+        MorphManyLogsTrait,
+        HasManySellersTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
         MorphOneDefaultAddressTrait,
@@ -55,4 +66,23 @@ class Shop extends Model
     protected $casts = [
         'status' => GeneralStatusEnum::class,
     ];
+
+    /**
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
+     */
+    protected array $searchFields = ['name'];
+
+    /**
+     * Get manager associated with the organisation.
+     *
+     * @return HasOne
+     */
+    public function manager(): HasOne
+    {
+        return $this->hasOne(User::class)->whereHas('roles', function (Builder $query) {
+            $query->where('name', UserRoleEnum::ShopManager->value);
+        });
+    }
 }

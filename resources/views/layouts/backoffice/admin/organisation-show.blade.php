@@ -166,6 +166,24 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ active_page('admin.organisations.show.vendors') }}" href="{{ route('admin.organisations.show.vendors', [$organisation]) }}">
+                                <i data-feather="truck" class="font-medium-3"></i>
+                                <span class="font-weight-bold">
+                                    @lang('page.vendors.vendors')
+                                    ({{ $organisation->vendors_count }})
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_page('admin.organisations.show.coupons') }}" href="{{ route('admin.organisations.show.coupons', [$organisation]) }}">
+                                <i data-feather="percent" class="font-medium-3"></i>
+                                <span class="font-weight-bold">
+                                    @lang('page.coupons.coupons')
+                                    ({{ $organisation->coupons_count }})
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ active_page('admin.organisations.show.logs') }}" href="{{ route('admin.organisations.show.logs', [$organisation]) }}">
                                 <i data-feather="file-text" class="font-medium-3"></i>
                                 <span class="font-weight-bold">@lang('general.profile.logs')</span>

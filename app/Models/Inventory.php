@@ -48,7 +48,7 @@ class Inventory extends Model
         'promotion_ended_at',
         'condition',
 
-        'shop_id',
+        'organisation_id',
         'product_id',
         'creator_id',
         'vendor_id',

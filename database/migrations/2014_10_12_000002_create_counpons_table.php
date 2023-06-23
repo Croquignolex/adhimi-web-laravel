@@ -25,6 +25,7 @@ return new class extends Migration
             $this->addForeignKey(table: $table, foreignModelFqn: Organisation::class);
 
             $table->string('code')->unique();
+            $table->string('slug')->unique();
             $table->integer('discount');
             $table->unsignedInteger('total_use')->default(0);
             $table->timestamp('promotion_started_at')->nullable();

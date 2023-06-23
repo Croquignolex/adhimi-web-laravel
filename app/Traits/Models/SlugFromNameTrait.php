@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 trait SlugFromNameTrait
 {
+    use RouteSlugTrait;
+
     /**
      * @return void
      */
@@ -18,15 +20,5 @@ trait SlugFromNameTrait
         static::updating(function (Model $model) {
             $model->slug = $model->name;
         });
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
     }
 }

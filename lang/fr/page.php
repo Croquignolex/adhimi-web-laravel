@@ -30,6 +30,8 @@ return [
         'edit' => 'Modifier le magasin',
         'add_shop' => 'Ajouter une boutique',
         'add_merchant' => 'Ajouter un marchant',
+        'add_vendor' => 'Ajouter un fournisseur',
+        'add_coupon' => 'Ajouter un coupon',
     ],
 
     'countries' => [
@@ -53,6 +55,18 @@ return [
         'shops' => 'Boutiques',
         'new' => 'Nouvelle boutiques',
         'all' => 'Tous les boutiques',
+    ],
+
+    'vendors' => [
+        'vendors' => 'Fournisseurs',
+        'new' => 'Nouveau fournisseur',
+        'all' => 'Tous les fournisseurs',
+    ],
+
+    'coupons' => [
+        'coupons' => 'Coupons',
+        'new' => 'Nouveau coupon',
+        'all' => 'Tous les coupons',
     ],
 
 ];

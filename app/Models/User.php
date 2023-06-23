@@ -21,6 +21,7 @@ use App\Traits\Models\UserCreationsTrait;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\Models\UniqueSlugTrait;
+use App\Traits\Models\RouteSlugTrait;
 use Illuminate\Support\Facades\Hash;
 use App\Enums\AddressTypeEnum;
 use App\Enums\UserStatusEnum;
@@ -36,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         HasFactory,
         Notifiable,
         SoftDeletes,
+        RouteSlugTrait,
         UniqueSlugTrait,
         MorphManyLogsTrait,
         BelongsToShopTrait,
@@ -116,16 +118,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         static::updating(function (User $user) {
             $user->slug = $user->first_name;
         });
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
     }
 
     /**

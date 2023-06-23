@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Organisation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,9 +24,9 @@ return new class extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $this->addCommonFields($table);
 
-            $this->addForeignKey(table: $table, nullable:true, foreignKey: 'shop_id');
             $this->addForeignKey(table: $table, nullable:true, foreignKey: 'vendor_id');
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
+            $this->addForeignKey(table: $table, foreignModelFqn: Organisation::class);
             $this->addForeignKey(table: $table, foreignModelFqn: Country::class);
             $this->addForeignKey(table: $table, foreignModelFqn: Product::class);
 

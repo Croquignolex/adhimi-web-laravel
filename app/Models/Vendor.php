@@ -9,9 +9,15 @@ use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
+use App\Traits\Models\MorphManyLogsTrait;
+use App\Traits\Models\NameInitialsTrait;
+use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\MorphOneLogoTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\SearchScopeTrait;
+use App\Traits\Models\StatusBadgeTrait;
+use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
 
 class Vendor extends Model
@@ -19,8 +25,14 @@ class Vendor extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        UniqueSlugTrait,
         EnableScopeTrait,
+        SearchScopeTrait,
+        StatusBadgeTrait,
         MorphOneLogoTrait,
+        SlugFromNameTrait,
+        NameInitialsTrait,
+        MorphManyLogsTrait,
         HasManyProductsTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
@@ -49,4 +61,11 @@ class Vendor extends Model
     protected $casts = [
         'status' => GeneralStatusEnum::class,
     ];
+
+    /**
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
+     */
+    protected array $searchFields = ['name'];
 }

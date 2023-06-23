@@ -62,6 +62,8 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::resource('organisations', OrganisationController::class)->except('destroy');
         Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
             Route::get('{organisation}/logs', 'showLogs')->name('show.logs');
+            Route::get('{organisation}/vendors', 'showVendors')->name('show.vendors');
+            Route::get('{organisation}/coupons', 'showCoupons')->name('show.coupons');
             Route::put('{organisation}/change-logo', 'changeLogo')->name('logo.change');
             Route::delete('{organisation}/remove-logo', 'removeLogo')->name('logo.remove');
             Route::put('{organisation}/change-banner', 'changeBanner')->name('banner.change');
@@ -120,6 +122,14 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(ShopController::class)->prefix('shops')->name('shops.')->group(function () {
             Route::get('{shop}/logs', 'showLogs')->name('show.logs');
             Route::post('{shop}/status-toggle', 'statusToggle')->name('status.toggle');
+//            Route::get('{organisation}/add-manager', 'showAddManagerForm')->name('add.manager');
+//            Route::post('{organisation}/add-manager', 'addManager');
+//            Route::get('{organisation}/add-seller', 'showAddSellerForm')->name('add.seller');
+//            Route::post('{organisation}/add-seller', 'addSeller');
+//            Route::get('{organisation}/add-product', 'showAddProductForm')->name('add.product');
+//            Route::post('{organisation}/add-product', 'addProduct');
+//            Route::get('{organisation}/add-coupon', 'showAddCouponForm')->name('add.coupon');
+//            Route::post('{organisation}/add-coupon', 'addCoupon');
         });
 
         /**

@@ -19,11 +19,7 @@
                                     <i data-feather="plus"></i>
                                     @lang('page.states.new')
                                 </a>
-                                <form action="" method="GET" class="w-50 float-right">
-                                    <div class="form-group">
-                                        <input type="search" class="form-control" name="q" value="{{ $q }}" placeholder="@lang('field.search')..." />
-                                    </div>
-                                </form>
+                                @include('partials.input.search')
                                 @include('partials.feedbacks.alert')
                             </div>
                             @include('partials.backoffice.admin.states', ['states' => $states, 'creator' => true, 'country' => true])
