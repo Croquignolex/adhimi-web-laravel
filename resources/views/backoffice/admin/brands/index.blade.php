@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.states.all'),
+    'title' => __('page.brands.all'),
     'breadcrumb_items' => [
         ['url' => route('admin.home'), 'label' => __('page.home')]
     ]
@@ -15,14 +15,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('admin.states.create') }}" class="btn btn-primary">
+                                <a href="{{ route('admin.brands.create') }}" class="btn btn-primary">
                                     <i data-feather="plus"></i>
-                                    @lang('page.states.new')
+                                    @lang('page.brands.new')
                                 </a>
                                 @include('partials.input.search')
                                 @include('partials.feedbacks.alert')
                             </div>
-                            @include('partials.backoffice.admin.states-table', ['states' => $states])
+                            @include('partials.backoffice.admin.brands-table', ['brands' => $brands])
                         </div>
                     </div>
                 </div>

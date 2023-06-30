@@ -10,6 +10,7 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Models\Vendor;
 use App\Models\Coupon;
+use App\Models\Brand;
 use App\Models\Group;
 use App\Models\Media;
 use App\Models\State;
@@ -77,6 +78,16 @@ trait UserCreationsTrait
     public function createdUsers(): HasMany
     {
         return $this->hasMany(User::class, 'creator_id');
+    }
+
+    /**
+     * Get created brands associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdBrands(): HasMany
+    {
+        return $this->hasMany(Brand::class, 'creator_id');
     }
 
     /**

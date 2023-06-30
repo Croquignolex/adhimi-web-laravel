@@ -3,8 +3,9 @@
 use App\Http\Controllers\Backoffice\Admin\OrganisationController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
-use App\Http\Controllers\Backoffice\Admin\ShopController;
+use App\Http\Controllers\Backoffice\Admin\BrandController;
 use App\Http\Controllers\Backoffice\Admin\StateController;
+use App\Http\Controllers\Backoffice\Admin\ShopController;
 use App\Http\Controllers\Backoffice\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{organisation}/vendors', 'showVendors')->name('show.vendors');
             Route::get('{organisation}/coupons', 'showCoupons')->name('show.coupons');
             Route::get('{organisation}/users', 'showUsers')->name('show.users');
+            Route::get('{organisation}/products', 'showProducts')->name('show.products');
             Route::put('{organisation}/change-logo', 'changeLogo')->name('logo.change');
             Route::delete('{organisation}/remove-logo', 'removeLogo')->name('logo.remove');
             Route::put('{organisation}/change-banner', 'changeBanner')->name('banner.change');
@@ -81,7 +83,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{organisation}/add-seller', 'showAddSellerForm')->name('add.seller');
             Route::post('{organisation}/add-seller', 'addSeller');
             Route::get('{organisation}/add-product', 'showAddProductForm')->name('add.product');
-            Route::post('{organisation}/add-product', 'addProduct');
+//            Route::post('{organisation}/add-product', 'addProduct');
             Route::get('{organisation}/add-coupon', 'showAddCouponForm')->name('add.coupon');
             Route::post('{organisation}/add-coupon', 'addCoupon');
         });
@@ -113,6 +115,20 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(StateController::class)->prefix('states')->name('states.')->group(function () {
             Route::get('{state}/logs', 'showLogs')->name('show.logs');
             Route::post('{state}/status-toggle', 'statusToggle')->name('status.toggle');
+        });
+
+        /**
+         * @resource brands
+         * @controller brands
+         */
+        Route::resource('brands', BrandController::class)->except('destroy');
+        Route::controller(BrandController::class)->prefix('brands')->name('brands.')->group(function () {
+            Route::get('{brand}/logs', 'showLogs')->name('show.logs');
+            Route::put('{brand}/change-logo', 'changeLogo')->name('logo.change');
+            Route::delete('{brand}/remove-logo', 'removeLogo')->name('logo.remove');
+            Route::post('{brand}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{brand}/add-product', 'showAddProductForm')->name('add.product');
+//            Route::post('{brand}/add-product', 'addProduct');
         });
 
         /**

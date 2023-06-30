@@ -3994,7 +3994,7 @@
   {
     "firstname": "Millicent",
     "lastname": "Ekstrom",
-    "company": "Personal Creations Inc",
+    "company": "Personal @lang('field.creation')s Inc",
     "address": "151 Brown St  #-b",
     "city": "Lawrenceburg",
     "country": "Dearborn",

@@ -40,6 +40,7 @@ return [
         'add_state' => 'Ajouter une région',
         'add_country' => 'Ajouter un pays',
         'add_coupon' => 'Ajouter un coupon',
+        'add_product' => 'Ajouter un produit',
     ],
 
     'role' => [
@@ -115,6 +116,16 @@ return [
         'flag_updated' => 'Drapeau du pays :name mis à jour avec succès',
         'delete_flag_question' => 'Voulez-vous vraiment supprimer le drapeau de ce pays',
         'delete_flag' => 'Supprimer le drapeau du pays',
+    ],
+
+    'brand' => [
+        'created' => 'Marque :name créer',
+        'updated' => 'Marque :name mise à jour',
+        'logo_deleted' => 'Logo de la marque :name supprimé avec succès',
+        'logo_created' => 'Logo de la marque :name ajouté avec succès',
+        'logo_updated' => 'Logo de la marque :name mis à jour avec succès',
+        'delete_logo_question' => 'Voulez-vous vraiment supprimer le logo de cette marque',
+        'delete_logo' => 'Supprimer le logo de la marque',
     ],
 
     'state' => [

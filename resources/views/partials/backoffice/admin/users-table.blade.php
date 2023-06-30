@@ -35,13 +35,9 @@
                     </div>
                 </td>
                 <td>@include('partials.backoffice.role-badge', compact('user'))</td>
-                <td>
-                    <span class="badge badge-light-{{ $user->status_badge['color'] }}">
-                        {{ $user->status_badge['value'] }}
-                    </span>
-                </td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $user])</td>
                 @if($organisation)
-                    <td>@include('partials.backoffice.admin.organisation-data', ['model' => $user])</td>
+                    <td>@include('partials.backoffice.admin.organisation-data', ['organisation' => $user->organisation])</td>
                 @endif
                 @if($shop)
                     <td>

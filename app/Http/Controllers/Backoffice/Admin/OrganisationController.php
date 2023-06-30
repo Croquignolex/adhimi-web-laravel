@@ -331,22 +331,6 @@ class OrganisationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Organisation $organisation
-     * @return View
-     */
-    public function showProducts(Organisation $organisation): View
-    {
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'products.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
-
-        $products = $organisation->products()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-products', compact(['organisation', 'products']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
      * @param Request $request
      * @param Organisation $organisation
      * @return View
@@ -368,6 +352,29 @@ class OrganisationController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showProducts(Request $request, Organisation $organisation): View
+    {
+        $q = $request->query('q');
+
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'products.creator.avatar'])
+            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
+
+        $query = $organisation->coupons();
+
+        $products = ($q)
+            ? $query->search($q)->orderBy('code')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-products', compact(['organisation', 'products', 'q']));
+    }
+
+    /**
      * Show the form for adding a merchant.
      *
      * @param Organisation $organisation
@@ -375,7 +382,7 @@ class OrganisationController extends Controller
      */
     public function showAddMerchantForm(Organisation $organisation): View|RedirectResponse
     {
-        if(!$organisation->can_add_mmerchant) {
+        if(!$organisation->can_add_merchant) {
             ToastEvent::dispatchWarning(__('general.permission_denied'));
             return back();
         }

@@ -19,11 +19,13 @@
                             <div class="col-12">
                                 @if(auth()->user()->is_admin)
                                     <div class="mb-1">
-                                        <a href="{{ route('admin.states.edit', [$state]) }}" class="btn btn-warning mb-50">
+                                        <a href="{{ route('admin.states.edit', [$state]) }}"
+                                           class="btn btn-warning mb-50">
                                             <i data-feather="edit"></i>
                                             @lang('general.action.update')
                                         </a>
-                                        <button class="btn btn-{{ $state->status_toggle['color'] }} mb-50"  data-toggle="modal" data-target="#toggle-status-modal">
+                                        <button class="btn btn-{{ $state->status_toggle['color'] }} mb-50"
+                                                data-toggle="modal" data-target="#toggle-status-modal">
                                             <i data-feather="{{ $state->status_toggle['icon'] }}"></i>
                                             {{ $state->status_toggle['label'] }}
                                         </button>
@@ -33,7 +35,7 @@
                                     <table class="table table-bordered table-hover">
                                         <tbody>
                                         <tr>
-                                            <th>Creation</th>
+                                            <th>@lang('field.creation')</th>
                                             <td style="white-space: nowrap;">
                                                 @include('partials.backoffice.date-badge', ['model' => $state])
                                             </td>
@@ -87,7 +89,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            @include('partials.backoffice.admin.logs', ['logs' => $logs, 'creator' => true, 'entity' => false])
+                            @include('partials.backoffice.admin.logs-table', ['logs' => $logs, 'creator' => true, 'entity' => false])
                         </div>
                     </div>
                 </div>
@@ -101,7 +103,8 @@
         'size' => 'modal-sm',
         'title' => $state->status_toggle['label'],
     ])
-        <p>@lang('general.change_status_question', ['name' => $state->name, 'action' => $state->status_toggle['label']])?</p>
+        <p>@lang('general.change_status_question', ['name' => $state->name, 'action' => $state->status_toggle['label']])
+            ?</p>
         <form action="{{ route('admin.states.status.toggle', [$state]) }}" method="POST" class="text-right mt-50">
             @csrf
             <button type="submit" class="btn btn-{{ $state->status_toggle['color'] }}">

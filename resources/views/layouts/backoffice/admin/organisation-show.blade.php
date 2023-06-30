@@ -95,7 +95,7 @@
                                     <table class="table table-bordered table-hover">
                                         <tbody>
                                         <tr>
-                                            <th>Creation</th>
+                                            <th>@lang('field.creation')</th>
                                             <td style="white-space: nowrap;">
                                                 @include('partials.backoffice.date-badge', ['model' => $organisation])
                                             </td>
@@ -118,11 +118,7 @@
                                         </tr>
                                         <tr>
                                             <th>@lang('field.status')</th>
-                                            <td>
-                                            <span class="badge badge-light-{{ $organisation->status_badge['color'] }}">
-                                                {{ $organisation->status_badge['value'] }}
-                                            </span>
-                                            </td>
+                                            <td>@include('partials.backoffice.status-badge', ['model' => $organisation])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.merchant')</th>
@@ -171,6 +167,15 @@
                                 <span class="font-weight-bold">
                                     @lang('page.staffs.staffs')
                                     ({{ $organisation->users_count }})
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_page('admin.organisations.show.products') }}" href="{{ route('admin.organisations.show.products', [$organisation]) }}">
+                                <i data-feather="shopping-cart" class="font-medium-3"></i>
+                                <span class="font-weight-bold">
+                                    @lang('page.products.products')
+                                    ({{ $organisation->products_count }})
                                 </span>
                             </a>
                         </li>

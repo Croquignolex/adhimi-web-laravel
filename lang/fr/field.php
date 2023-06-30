@@ -14,6 +14,8 @@ return [
     'type' => 'Type',
     'website' => 'Site web',
     'shops' => 'Boutiques',
+    'category' => 'Catégorie',
+    'brand' => 'Marque',
     'entity' => 'Entité',
     'creation' => 'Création',
     'creator' => 'Créateur',
@@ -58,6 +60,8 @@ return [
     'promotion_started_at' => 'Debut de la promo',
     'promotion_ended_at' => 'Fin de la promo',
     'manager' => 'Gestionnaire',
+    'seo_title' => 'Titre Seo',
+    'seo_description' => 'Description Seo',
 
     'notification' => [
         'enable_super_admin' => "Me notifier l'ors d'une action sur un super admin",

@@ -8,5 +8,5 @@
         </a>
         @include('partials.input.search')
     </div>
-    @include('partials.backoffice.admin.shops', ['shops' => $shops, 'organisation' => false])
+    @include('partials.backoffice.admin.shops-table', ['shops' => $shops, 'organisation' => false])
 @endsection

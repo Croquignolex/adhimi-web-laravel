@@ -20,5 +20,5 @@
         </a>
         @include('partials.input.search')
     </div>
-    @include('partials.backoffice.admin.users', ['users' => $users, 'organisation' => false])
+    @include('partials.backoffice.admin.users-table', ['users' => $users, 'organisation' => false])
 @endsection

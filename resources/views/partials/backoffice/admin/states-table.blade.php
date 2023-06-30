@@ -23,13 +23,9 @@
                     @include('partials.backoffice.date-badge', ['model' => $state])
                 </td>
                 <td>{{ $state->name }}</td>
-                <td>
-                    <span class="badge badge-light-{{ $state->status_badge['color'] }}">
-                        {{ $state->status_badge['value'] }}
-                    </span>
-                </td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $state])</td>
                 @if($country)
-                    <td>@include('partials.backoffice.admin.country-data', ['model' => $state])</td>
+                    <td>@include('partials.backoffice.admin.country-data', ['model' => $state->country])</td>
                 @endif
                 @if($creator)
                     <td>@include('partials.backoffice.admin.user-data', ['user' => $state->creator])</td>

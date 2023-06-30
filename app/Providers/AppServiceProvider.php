@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Brand;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
@@ -39,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'user' => User::class,
             'shop' => Shop::class,
+            'brand' => Brand::class,
             'state' => State::class,
             'vendor' => Vendor::class,
             'coupon' => Coupon::class,

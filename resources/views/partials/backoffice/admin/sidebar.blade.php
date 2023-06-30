@@ -56,6 +56,36 @@
                 </li>
             @endif
 
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
+                <li class="navigation-header">
+                    <span>@lang('general.settings')</span>
+                </li>
+
+                {{-- Brands menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="sun"></i>
+                        <span class="menu-title text-truncate">@lang('page.brands.brands')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All brands menu item --}}
+                        <li class="{{ active_page('admin.brands.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.brands.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.brands.all')</span>
+                            </a>
+                        </li>
+                        {{-- New brand menu item --}}
+                        <li class="{{ active_page('admin.brands.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.brands.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.brands.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))
                 <li class="navigation-header">
                     <span>@lang('general.settings')</span>

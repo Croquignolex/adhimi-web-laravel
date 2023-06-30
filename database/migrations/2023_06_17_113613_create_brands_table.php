@@ -23,6 +23,7 @@ return new class extends Migration
             $this->addForeignKey(table: $table, nullable:true, foreignKey: 'creator_id');
 
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->string('website')->nullable();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();

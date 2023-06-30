@@ -56,26 +56,45 @@ return [
 
     'shops' => [
         'shops' => 'Boutiques',
-        'new' => 'Nouvelle boutiques',
+        'new' => 'Nouvelle boutique',
         'all' => 'Tous les boutiques',
+        'detail' => 'Détail de la boutique',
     ],
 
     'vendors' => [
         'vendors' => 'Fournisseurs',
         'new' => 'Nouveau fournisseur',
         'all' => 'Tous les fournisseurs',
+        'detail' => 'Détail du fournisseur',
     ],
 
     'coupons' => [
         'coupons' => 'Coupons',
         'new' => 'Nouveau coupon',
         'all' => 'Tous les coupons',
+        'detail' => 'Détail du coupon',
     ],
 
     'staffs' => [
         'staffs' => 'Membres',
         'new' => 'Nouveau membre',
         'all' => 'Tous les membres',
+        'detail' => 'Détail du membre',
+    ],
+
+    'brands' => [
+        'brands' => 'Marques',
+        'new' => 'Nouvelle marque',
+        'all' => 'Toutes les marques',
+        'detail' => 'Détail de la marque',
+        'add_product' => 'Ajouter un produit',
+    ],
+
+    'products' => [
+        'products' => 'Produits',
+        'new' => 'Nouveau produit',
+        'all' => 'Tous les produits',
+        'detail' => 'Détail du produit',
     ],
 
 ];
