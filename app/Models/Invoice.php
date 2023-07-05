@@ -11,7 +11,6 @@ use App\Traits\Models\MorphOneHardCopyTrait;
 use App\Traits\Models\BelongsToUserTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Models\MorphToManyTags;
 use App\Enums\InvoiceStatusEnum;
 
 class Invoice extends Model
@@ -19,7 +18,6 @@ class Invoice extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphToManyTags,
         BelongsToUserTrait,
         MorphManyLogsTrait,
         MorphOneHardCopyTrait;

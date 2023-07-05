@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $this->addCommonFields($table);
 
-            $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
+            $this->addForeignKey(table: $table, nullable:true, foreignKey: 'creator_id');
 
             $table->string('name')->unique();
             $table->string('slug')->unique();

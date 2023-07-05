@@ -2,15 +2,17 @@
 
 namespace App\Providers;
 
-use App\Models\Brand;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Organisation;
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\Vendor;
 use App\Models\Coupon;
+use App\Models\Brand;
+use App\Models\Group;
 use App\Models\State;
 use App\Models\User;
 use App\Models\Shop;
@@ -41,10 +43,12 @@ class AppServiceProvider extends ServiceProvider
             'user' => User::class,
             'shop' => Shop::class,
             'brand' => Brand::class,
+            'group' => Group::class,
             'state' => State::class,
             'vendor' => Vendor::class,
             'coupon' => Coupon::class,
             'country' => Country::class,
+            'category' => Category::class,
             'organisation' => Organisation::class,
         ]);
     }

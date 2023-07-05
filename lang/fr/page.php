@@ -58,6 +58,7 @@ return [
         'shops' => 'Boutiques',
         'new' => 'Nouvelle boutique',
         'all' => 'Tous les boutiques',
+        'edit' => 'Modifier la boutique',
         'detail' => 'Détail de la boutique',
     ],
 
@@ -65,6 +66,7 @@ return [
         'vendors' => 'Fournisseurs',
         'new' => 'Nouveau fournisseur',
         'all' => 'Tous les fournisseurs',
+        'edit' => 'Modifier le fournisseur',
         'detail' => 'Détail du fournisseur',
     ],
 
@@ -72,6 +74,7 @@ return [
         'coupons' => 'Coupons',
         'new' => 'Nouveau coupon',
         'all' => 'Tous les coupons',
+        'edit' => 'Modifier le coupon',
         'detail' => 'Détail du coupon',
     ],
 
@@ -79,6 +82,7 @@ return [
         'staffs' => 'Membres',
         'new' => 'Nouveau membre',
         'all' => 'Tous les membres',
+        'edit' => 'Modifier le membre',
         'detail' => 'Détail du membre',
     ],
 
@@ -86,7 +90,27 @@ return [
         'brands' => 'Marques',
         'new' => 'Nouvelle marque',
         'all' => 'Toutes les marques',
+        'edit' => 'Modifier la marque',
         'detail' => 'Détail de la marque',
+        'add_product' => 'Ajouter un produit',
+    ],
+
+    'groups' => [
+        'groups' => 'Groupes',
+        'new' => 'Nouveau groupe',
+        'all' => 'Tous les groupes',
+        'detail' => 'Détail du groupe',
+        'edit' => 'Modifier le groupe',
+        'add_product' => 'Ajouter un produit',
+        'add_category' => 'Ajouter une catégorie',
+    ],
+
+    'categories' => [
+        'categories' => 'Catégories',
+        'new' => 'Nouvelle catégorie',
+        'all' => 'Toutes les catégories',
+        'detail' => 'Détail de la catégorie',
+        'edit' => 'Modifier la catégorie',
         'add_product' => 'Ajouter un produit',
     ],
 
@@ -94,6 +118,7 @@ return [
         'products' => 'Produits',
         'new' => 'Nouveau produit',
         'all' => 'Tous les produits',
+        'edit' => 'Modifier le produit',
         'detail' => 'Détail du produit',
     ],
 

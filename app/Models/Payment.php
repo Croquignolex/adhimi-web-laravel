@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\MorphOneHardCopyTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Models\MorphToManyTags;
 use App\Enums\PaymentProviderEnum;
 use App\Enums\PaymentStatusEnum;
 
@@ -19,7 +18,6 @@ class Payment extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
-        MorphToManyTags,
         MorphManyLogsTrait,
         MorphOneHardCopyTrait;
 

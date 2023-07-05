@@ -18,8 +18,9 @@ class BrandSeeder extends Seeder
         Brand::factory()->create([
             'status' => GeneralStatusEnum::Enable,
             'name' => "No name",
+            'description' => "No name",
             'seo_title' => "no_name",
-            'seo_description' => "No name brand",
+            'seo_description' => "no name brand",
         ]);
     }
 }

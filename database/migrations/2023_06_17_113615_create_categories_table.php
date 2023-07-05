@@ -21,13 +21,15 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $this->addCommonFields($table);
 
-            $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
+            $this->addForeignKey(table: $table, nullable:true, foreignKey: 'creator_id');
             $this->addForeignKey(table: $table, foreignModelFqn: Group::class);
 
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('slug')->unique();
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
+
+            $table->unique(['group_id', 'name']);
 
             $this->addSeoFields($table);
         });

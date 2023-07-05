@@ -1,8 +1,8 @@
 @extends('layouts.admin', [
-    'title' => __('page.brands.new'),
+    'title' => __('page.groups.new'),
     'breadcrumb_items' => [
         ['url' => route('admin.home'), 'label' => __('page.home')],
-        ['url' => route('admin.brands.index'), 'label' => __('page.brands.brands')]
+        ['url' => route('admin.groups.index'), 'label' => __('page.groups.groups')]
     ]
 ])
 
@@ -17,7 +17,7 @@
                         <div class="card">
                             <div class="card-body">
                                 @include('partials.feedbacks.alert')
-                                <form class="validate-form mt-1" method="POST" action="{{ route('admin.brands.store') }}">
+                                <form class="validate-form mt-1" method="POST" action="{{ route('admin.groups.store') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
@@ -25,12 +25,6 @@
                                                 'label' => __('field.name'),
                                                 'field' => 'name',
                                                 'required' => true,
-                                            ])
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            @include('partials.input.text', [
-                                                'label' => __('field.website'),
-                                                'field' => 'website'
                                             ])
                                         </div>
                                         <div class="col-12">

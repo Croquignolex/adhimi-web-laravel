@@ -25,16 +25,20 @@
                     @if($entity)
                         <td>
                             @if($log->entity)
-                                <div class="d-flex">
-                                    @if($log->entity['has_image'])
+                                @if($log->entity['has_image'])
+                                    <div class="d-flex">
                                         @include('partials.backoffice.round-image', ['url' => $log->entity['image'], 'initials' => $log->entity['initials'], 'size' => 'xs'])
-                                    @endif
-                                    <div class="ml-50 mt-25">
-                                        <a href="{{ $log->entity['url'] }}">
-                                            {{ $log->entity['name'] }}
-                                        </a>
+                                        <div class="ml-50 mt-25">
+                                            <a href="{{ $log->entity['url'] }}">
+                                                {{ $log->entity['name'] }}
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <a href="{{ $log->entity['url'] }}">
+                                        {{ $log->entity['name'] }}
+                                    </a>
+                                @endif
                             @endif
                         </td>
                     @endif

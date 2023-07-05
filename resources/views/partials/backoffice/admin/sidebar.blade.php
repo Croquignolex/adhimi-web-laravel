@@ -84,6 +84,30 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- Groups menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="box"></i>
+                        <span class="menu-title text-truncate">@lang('page.groups.groups')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All groups menu item --}}
+                        <li class="{{ active_page('admin.groups.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.groups.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.groups.all')</span>
+                            </a>
+                        </li>
+                        {{-- New group menu item --}}
+                        <li class="{{ active_page('admin.groups.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.groups.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.groups.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))

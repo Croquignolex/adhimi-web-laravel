@@ -55,7 +55,7 @@
                                         <tr>
                                             <th>@lang('field.country')</th>
                                             <td>
-                                                @include('partials.backoffice.admin.country-data', ['model' => $state])
+                                                @include('partials.backoffice.admin.country-data', ['country' => $state->country])
                                             </td>
                                         </tr>
                                         <tr>

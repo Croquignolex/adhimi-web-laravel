@@ -24,24 +24,8 @@
                 @include('partials.input.textarea', ['value' => $brand->description])
             </div>
         </div>
-        <div class="divider divider-primary col-12">
-            <div class="divider-text font-weight-bold">SEO</div>
-        </div>
+        @include('partials.input.seo', ['model' => $brand])
         <div class="row">
-            <div class="col-12 col-sm-6">
-                @include('partials.input.text', [
-                    'label' => __('field.seo_title'),
-                    'field' => 'seo_title',
-                    'value' => $brand->seo_title,
-                ])
-            </div>
-            <div class="col-12 col-sm-6">
-                @include('partials.input.text', [
-                    'label' => __('field.seo_description'),
-                    'field' => 'seo_description',
-                    'value' => $brand->seo_description,
-                ])
-            </div>
             <div class="col-12">
                 @include('partials.input.button')
             </div>

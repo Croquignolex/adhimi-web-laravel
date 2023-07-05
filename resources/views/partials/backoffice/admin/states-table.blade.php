@@ -25,7 +25,7 @@
                 <td>{{ $state->name }}</td>
                 <td>@include('partials.backoffice.status-badge', ['model' => $state])</td>
                 @if($country)
-                    <td>@include('partials.backoffice.admin.country-data', ['model' => $state->country])</td>
+                    <td>@include('partials.backoffice.admin.country-data', ['country' => $state->country])</td>
                 @endif
                 @if($creator)
                     <td>@include('partials.backoffice.admin.user-data', ['user' => $state->creator])</td>

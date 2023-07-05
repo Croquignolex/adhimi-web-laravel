@@ -41,6 +41,7 @@ return [
         'add_country' => 'Ajouter un pays',
         'add_coupon' => 'Ajouter un coupon',
         'add_product' => 'Ajouter un produit',
+        'add_category' => 'Ajouter une catégorie',
     ],
 
     'role' => [
@@ -126,6 +127,16 @@ return [
         'logo_updated' => 'Logo de la marque :name mis à jour avec succès',
         'delete_logo_question' => 'Voulez-vous vraiment supprimer le logo de cette marque',
         'delete_logo' => 'Supprimer le logo de la marque',
+    ],
+
+    'group' => [
+        'created' => 'Groupe :name créer',
+        'updated' => 'Groupe :name mis à jour',
+        'banner_deleted' => 'Bannière du groupe :name supprimée avec succès',
+        'banner_created' => 'Bannière du groupe :name ajoutée avec succès',
+        'banner_updated' => 'Bannière du groupe :name mise à jour avec succès',
+        'delete_banner_question' => 'Voulez-vous vraiment supprimer la bannière de ce groupe',
+        'delete_banner' => 'Supprimer la bannière du groupe',
     ],
 
     'state' => [

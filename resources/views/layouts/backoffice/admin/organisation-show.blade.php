@@ -15,7 +15,6 @@
                 <div class="card">
                     <div class="card-body">
                         @include('partials.feedbacks.alert')
-
                         <div class="row">
                             <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
                                 <div class="text-center">

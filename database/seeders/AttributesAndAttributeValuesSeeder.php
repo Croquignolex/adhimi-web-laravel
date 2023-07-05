@@ -7,9 +7,8 @@ use App\Enums\GeneralStatusEnum;
 use Illuminate\Database\Seeder;
 use App\Models\AttributeValue;
 use App\Models\Attribute;
-use Illuminate\Support\Str;
 
-class AttributeAndAttributesValuesSeeder extends Seeder
+class AttributesAndAttributeValuesSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -60,7 +59,6 @@ class AttributeAndAttributesValuesSeeder extends Seeder
     {
         $attribute = Attribute::factory()->create([
             'status' => GeneralStatusEnum::Enable,
-            'slug' => Str::slug($name),
             'type' => $type->value,
             'name' => $name,
         ]);

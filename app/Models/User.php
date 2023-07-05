@@ -183,7 +183,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return new Attribute(
             get: fn () => (is_null($this->last_name))
                 ? $this->first_name
-                : $this->first_name . " " . $this->first_name
+                : $this->first_name . " " . $this->last_name
         );
     }
 
@@ -208,10 +208,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return new Attribute(
             get: function () {
-                if(is_null($this->first_name)) {
-                    return mb_substr($this->last_name, 0, 2);
-                }
-
                 $nameArray = explode(' ', $this->full_name);
                 if(count($nameArray) > 1) {
                     return mb_substr($nameArray[0], 0, 1) . mb_substr($nameArray[1], 0, 1);

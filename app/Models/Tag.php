@@ -37,26 +37,6 @@ class Tag extends Model
     ];
 
     /**
-     * Get all invoices that are assigned this tag.
-     *
-     * @return MorphToMany
-     */
-    public function invoices(): MorphToMany
-    {
-        return $this->morphedByMany(Invoice::class, 'taggable');
-    }
-
-    /**
-     * Get all payments that are assigned this tag.
-     *
-     * @return MorphToMany
-     */
-    public function payments(): MorphToMany
-    {
-        return $this->morphedByMany(Payment::class, 'taggable');
-    }
-
-    /**
      * Get all groups that are assigned this tag.
      *
      * @return MorphToMany

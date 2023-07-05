@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\Models\BelongsToManyAttributeValuesTrait;
+use App\Traits\Models\SlugFromNameTrait;
+use App\Traits\Models\UniqueSlugTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +21,9 @@ class Attribute extends Model
     use HasUuids,
         HasFactory,
         SoftDeletes,
+        UniqueSlugTrait,
         EnableScopeTrait,
+        SlugFromNameTrait,
         BelongsToCreatorTrait,
         BelongsToManyProductsTrait,
         BelongsToManyAttributeValuesTrait;
