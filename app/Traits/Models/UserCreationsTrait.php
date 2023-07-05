@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\InventoryHistory;
 use App\Models\Organisation;
 use App\Models\Attribute;
+use App\Models\Category;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Vendor;
@@ -138,6 +139,16 @@ trait UserCreationsTrait
     public function createdGroups(): HasMany
     {
         return $this->hasMany(Group::class, 'creator_id');
+    }
+
+    /**
+     * Get created categories associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdCategories(): HasMany
+    {
+        return $this->hasMany(Category::class, 'creator_id');
     }
 
     /**

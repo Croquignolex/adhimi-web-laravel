@@ -23,7 +23,6 @@ return new class extends Migration
             $this->addCommonFields($table);
 
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
-            $this->addForeignKey(table: $table, nullable: true, foreignKey: 'group_id');
             $this->addForeignKey(table: $table, nullable: true, foreignKey: 'category_id');
             $this->addForeignKey(table: $table, foreignModelFqn: Brand::class);
             $this->addForeignKey(table: $table, foreignModelFqn: Organisation::class);

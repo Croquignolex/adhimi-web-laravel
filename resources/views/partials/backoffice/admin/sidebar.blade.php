@@ -108,6 +108,30 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- Categories menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="codesandbox"></i>
+                        <span class="menu-title text-truncate">@lang('page.categories.categories')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All categories menu item --}}
+                        <li class="{{ active_page('admin.categories.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.categories.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.groups.all')</span>
+                            </a>
+                        </li>
+                        {{-- New category menu item --}}
+                        <li class="{{ active_page('admin.categories.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.categories.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.categories.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))

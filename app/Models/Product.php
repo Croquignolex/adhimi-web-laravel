@@ -63,7 +63,6 @@ class Product extends Model
         'seo_description',
 
         'creator_id',
-        'group_id',
         'category_id',
         'brand_id',
         'organisation_id',

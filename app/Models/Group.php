@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphOneBannerTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\NameInitialsTrait;
@@ -34,7 +34,6 @@ class Group extends Model
         SlugFromNameTrait,
         MorphManyLogsTrait,
         MorphOneBannerTrait,
-        HasManyProductsTrait,
         BelongsToCreatorTrait;
 
     /**
@@ -77,5 +76,13 @@ class Group extends Model
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * Get products associated with the group.
+     */
+    public function products(): HasManyThrough
+    {
+        return $this->hasManyThrough(Product::class, Category::class);
     }
 }

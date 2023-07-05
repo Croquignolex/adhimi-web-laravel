@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\OrganisationController;
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\StateController;
+use App\Http\Controllers\Api\V1\GroupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,9 +23,14 @@ use Illuminate\Support\Facades\Route;
 Route::resource('countries', CountryController::class)->only('index');
 
 /**
- * @sstate state
+ * @resource state
  */
 Route::resource('states', StateController::class)->only('index');
+
+/**
+ * @resource group
+ */
+Route::resource('groups', GroupController::class)->only('index');
 
 /**
  * @controller organisations

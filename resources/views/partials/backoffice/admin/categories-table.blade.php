@@ -27,8 +27,8 @@
                 <td>@include('partials.backoffice.status-badge', ['model' => $category])</td>
                 @if($group)
                     <td>
-                        <a href="{{ route('admin.groups.show', [$group]) }}">
-                            {{ $group->name }}
+                        <a href="{{ route('admin.groups.show', [$category->group]) }}">
+                            {{ $category->group->name }}
                         </a>
                     </td>
                 @endif

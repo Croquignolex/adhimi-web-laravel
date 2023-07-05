@@ -12,6 +12,7 @@ return [
 
     'email' => 'Email',
     'type' => 'Type',
+    'group' => 'Groupe',
     'website' => 'Site web',
     'shops' => 'Boutiques',
     'category' => 'Catégorie',

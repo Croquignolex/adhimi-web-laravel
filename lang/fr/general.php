@@ -42,6 +42,7 @@ return [
         'add_coupon' => 'Ajouter un coupon',
         'add_product' => 'Ajouter un produit',
         'add_category' => 'Ajouter une catégorie',
+        'add_group' => 'Ajouter un groupe',
     ],
 
     'role' => [
@@ -137,6 +138,16 @@ return [
         'banner_updated' => 'Bannière du groupe :name mise à jour avec succès',
         'delete_banner_question' => 'Voulez-vous vraiment supprimer la bannière de ce groupe',
         'delete_banner' => 'Supprimer la bannière du groupe',
+    ],
+
+    'category' => [
+        'created' => 'Catégorie :name créer',
+        'updated' => 'Catégorie :name mise à jour',
+        'banner_deleted' => 'Bannière de la catégorie :name supprimée avec succès',
+        'banner_created' => 'Bannière de la catégorie :name ajoutée avec succès',
+        'banner_updated' => 'Bannière de la catégorie :name mise à jour avec succès',
+        'delete_banner_question' => 'Voulez-vous vraiment supprimer la bannière de cette catégorie',
+        'delete_banner' => 'Supprimer la bannière de la catégorie',
     ],
 
     'state' => [

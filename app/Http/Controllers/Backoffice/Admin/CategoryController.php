@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Group\StoreAddCategoryRequest;
-use App\Http\Requests\Group\UpdateGroupRequest;
-use App\Http\Requests\Group\StoreGroupRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\UpdateBannerRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +15,7 @@ use App\Enums\MediaTypeEnum;
 use Illuminate\Http\Request;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
-use App\Models\Group;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -40,13 +39,13 @@ class CategoryController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Group::with(['banner', 'creator.avatar']);
+        $query = Category::with(['banner', 'creator.avatar']);
 
-        $groups = ($q)
+        $categories = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.groups.index', compact(['groups', 'q']));
+        return view('backoffice.admin.categories.index', compact(['categories', 'q']));
     }
 
     /**
@@ -56,16 +55,16 @@ class CategoryController extends Controller
      */
     public function create(): View
     {
-        return view('backoffice.admin.groups.create');
+        return view('backoffice.admin.categories.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreGroupRequest $request
+     * @param StoreCategoryRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreGroupRequest $request): RedirectResponse
+    public function store(StoreCategoryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -73,107 +72,109 @@ class CategoryController extends Controller
 
         $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
 
-        $group = $authUser->createdGroups()->create([
+        $category = $authUser->createdCategories()->create([
             'status' => $status,
             'name' => $validated['name'], 
             'description' => $validated['description'],
             'seo_title' => $validated['seo_title'],
             'seo_description' => $validated['seo_description'],
+            'group_id' => $validated['group'],
         ]);
 
-        LogEvent::dispatchCreate($group, $request, __('general.group.created', ['name' => $group->name]));
+        LogEvent::dispatchCreate($category, $request, __('general.category.created', ['name' => $category->name]));
 
-        return redirect(route('admin.groups.show', [$group]));
+        return redirect(route('admin.categories.show', [$category]));
     }
 
     /**
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Group $group
+     * @param Category $category
      * @return View
      */
-    public function show(Request $request, Group $group): View
+    public function show(Request $request, Category $category): View
     {
         $q = $request->query('q');
 
-        $group->load(['banner', 'tags', 'creator.avatar', 'categories.creator.avatar'])
-            ->loadCount(['categories', 'products']);
+        $category->load(['banner', 'tags', 'creator.avatar', 'products.creator.avatar'])
+            ->loadCount('products');
 
-        $query = $group->categories();
+        $query = $category->products();
 
-        $categories = ($q)
+        $products = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.groups.show', compact(['group', 'categories', 'q']));
+        return view('backoffice.admin.categories.show', compact(['category', 'products', 'q']));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Group $group
+     * @param Category $category
      * @return View
      */
-    public function edit(Group $group): View
+    public function edit(Category $category): View
     {
-        $group->load('banner');
+        $category->load('banner');
 
-        return view('backoffice.admin.groups.edit', compact('group'));
+        return view('backoffice.admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateGroupRequest $request
-     * @param Group $group
+     * @param UpdateCategoryRequest $request
+     * @param Category $category
      * @return RedirectResponse
      */
-    public function update(UpdateGroupRequest $request, Group $group): RedirectResponse
+    public function update(UpdateCategoryRequest $request, Category $category): RedirectResponse
     {
         $validated = $request->validated();
 
-        $group->update([
+        $category->update([
             'name' => $validated['name'],
             'description' => $validated['description'],
             'seo_title' => $validated['seo_title'],
             'seo_description' => $validated['seo_description'],
+            'group_id' => $validated['group'],
         ]);
 
-        LogEvent::dispatchUpdate($group, $request, __('general.group.updated', ['name' => $group->name]));
+        LogEvent::dispatchUpdate($category, $request, __('general.category.updated', ['name' => $category->name]));
 
-        return redirect(route('admin.groups.show', [$group]));
+        return redirect(route('admin.categories.show', [$category]));
     }
 
     /**
-     * Toggle group status.
+     * Toggle category status.
      *
      * @param Request $request
-     * @param Group $group
+     * @param Category $category
      * @return RedirectResponse
      */
-    public function statusToggle(Request $request, Group $group): RedirectResponse
+    public function statusToggle(Request $request, Category $category): RedirectResponse
     {
-        $message = $group->status_toggle['message'];
-        $group->update(['status' => $group->status_toggle['next']]);
+        $message = $category->status_toggle['message'];
+        $category->update(['status' => $category->status_toggle['next']]);
 
-        LogEvent::dispatchUpdate($group, $request, $message);
+        LogEvent::dispatchUpdate($category, $request, $message);
 
         return back();
     }
 
     /**
-     * Update group banner.
+     * Update category banner.
      *
      * @param UpdateBannerRequest $request $
-     * @param Group $group
+     * @param Category $category
      * @return RedirectResponse
      */
-    public function changeBanner(UpdateBannerRequest $request, Group $group): RedirectResponse
+    public function changeBanner(UpdateBannerRequest $request, Category $category): RedirectResponse
     {
         $validated = $request->validated();
 
-        $banner = $group->banner;
+        $banner = $category->banner;
 
         $bannerName = Storage::disk('public')->put(MediaTypeEnum::Banner->value, $validated['banner']);
 
@@ -183,17 +184,17 @@ class CategoryController extends Controller
             {
                 $banner->update(['name' => $bannerName]);
 
-                LogEvent::dispatchUpdate($group, $request, __('general.group.banner_updated', ['name' => $group->name]));
+                LogEvent::dispatchUpdate($category, $request, __('general.category.banner_updated', ['name' => $category->name]));
             }
             else
             {
-                $group->banner()->create([
+                $category->banner()->create([
                     'name' => $bannerName,
                     'type' => MediaTypeEnum::Banner,
                     'creator_id' => Auth::id(),
                 ]);
 
-                LogEvent::dispatchCreate($group, $request, __('general.group.banner_created', ['name' => $group->name]));
+                LogEvent::dispatchCreate($category, $request, __('general.category.banner_created', ['name' => $category->name]));
             }
         } else {
             ToastEvent::dispatchDanger(__('general.upload_error'));
@@ -203,17 +204,17 @@ class CategoryController extends Controller
     }
 
     /**
-     * Delete group banner.
+     * Delete category banner.
      *
      * @param Request $request
-     * @param Group $group
+     * @param Category $category
      * @return RedirectResponse
      */
-    public function removeBanner(Request $request, Group $group): RedirectResponse
+    public function removeBanner(Request $request, Category $category): RedirectResponse
     {
-        $group->banner()->delete();
+        $category->banner()->delete();
 
-        LogEvent::dispatchDelete($group, $request, __('general.group.banner_deleted', ['name' => $group->name]));
+        LogEvent::dispatchDelete($category, $request, __('general.category.banner_deleted', ['name' => $category->name]));
 
         return back();
     }
@@ -221,81 +222,16 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Group $group
+     * @param Category $category
      * @return View
      */
-    public function showLogs(Group $group): View
+    public function showLogs(Category $category): View
     {
-        $group->load(['banner', 'tags', 'creator.avatar', 'logs.creator.avatar'])
-            ->loadCount(['categories', 'products']);
+        $category->load(['banner', 'tags', 'creator.avatar', 'logs.creator.avatar'])
+            ->loadCount('products');
 
-        $logs = $group->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.groups.show-logs', compact(['group', 'logs']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Group $group
-     * @return View
-     */
-    public function showProducts(Request $request, Group $group): View
-    {
-        $q = $request->query('q');
-
-        $group->load(['banner', 'tags', 'creator.avatar', 'products.creator.avatar'])
-            ->loadCount(['categories', 'products']);
-
-        $query = $group->coupons();
-
-        $products = ($q)
-            ? $query->search($q)->orderBy('code')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.groups.show-products', compact(['group', 'products', 'q']));
-    }
-
-    /**
-     * Show the form for adding a category.
-     *
-     * @param Group $group
-     * @return View
-     */
-    public function showAddCategoryForm(Group $group): View
-    {
-        $group->load('banner');
-
-        return view('backoffice.admin.groups.add-category', compact('group'));
-    }
-
-    /**
-     * Add a coupon.
-     *
-     * @param StoreAddCategoryRequest $request
-     * @param Group $group
-     * @return RedirectResponse
-     */
-    public function addCategory(StoreAddCategoryRequest $request, Group $group): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $authUser = Auth::user();
-
-        $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
-
-        $category = $group->categories()->create([
-            'status' => $status,
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'seo_title' => $validated['seo_title'],
-            'seo_description' => $validated['seo_description'],
-            'creator_id' => $authUser->id,
-        ]);
-
-        LogEvent::dispatchCreate($category, $request, __('general.category.created', ['code' => $category->name]));
-
-        return redirect(route('admin.groups.show.categories', [$group]));
+        $logs = $category->logs()->orderBy('created_at', 'desc')->paginate();
+//dd($logs);
+        return view('backoffice.admin.categories.show-logs', compact(['category', 'logs']));
     }
 }
