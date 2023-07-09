@@ -41,24 +41,39 @@
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
-                        {{--<div class="dropdown-menu">
+                        <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ route('admin.shops.show', [$shop]) }}">
                                 <i data-feather="eye" class="mr-50 text-primary"></i>
                                 @lang('general.action.detail')
                             </a>
-                            <a class="dropdown-item" href="{{ route('admin.shops.edit', [$shop]) }}">
-                                <i data-feather="edit-2" class="mr-50 text-warning"></i>
-                                @lang('general.action.update')
-                            </a>
+                            @if(auth()->user()->is_admin)
+                                <a class="dropdown-item"
+                                   href="{{ route('admin.shops.edit', [$shop]) }}">
+                                    <i data-feather="edit" class="mr-50 text-warning"></i>
+                                    @lang('general.action.update')
+                                </a>
+                                <hr>
+                                <a href="javascript:void(0);" class="dropdown-item"
+                                   data-toggle="modal"
+                                   data-target="#toggle-status-modal-{{ $shop->id }}"
+                                >
+                                    <i data-feather="{{ $shop->status_toggle['icon'] }}"
+                                       class="mr-50 text-{{ $shop->status_toggle['color'] }}"></i>
+                                    <span>{{ $shop->status_toggle['label'] }}</span>
+                                </a>
+                            @endif
                             <hr>
-                            <a href="javascript:void(0);" class="dropdown-item"
-                               data-toggle="modal" data-target="#toggle-status-modal-{{ $shop->id }}"
-                            >
-                                <i data-feather="{{ $shop->status_toggle['icon'] }}" class="mr-50 text-{{ $shop->status_toggle['color'] }}"></i>
-                                <span>{{ $shop->status_toggle['label'] }}</span>
+                            @if($shop->can_add_manager)
+                                <a class="dropdown-item" href="{{ route('admin.shops.add.manager', [$shop]) }}">
+                                    <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                    <span>@lang('page.shops.add_manager')</span>
+                                </a>
+                            @endif
+                            <a class="dropdown-item" href="{{ route('admin.shops.add.seller', [$shop]) }}">
+                                <i data-feather="plus-square" class="mr-50 text-secondary"></i>
+                                <span>@lang('page.shops.add_seller')</span>
                             </a>
-                            <hr>
-                        </div>--}}
+                        </div>
                     </div>
                 </td>
             </tr>

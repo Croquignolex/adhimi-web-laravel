@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.phone') <i data-feather="search" class="text-secondary"></i></th>
@@ -14,31 +15,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($organisations as $organisation)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $organisation])
-                </td>
-                <td>
-                    <div class="d-flex">
-                        @include('partials.backoffice.round-image', ['url' => $organisation->logo?->url, 'initials' => $organisation->initials, 'size' => 'xs'])
-                        <div class="ml-50 mt-25">
-                            {{ $organisation->name }}
-                        </div>
-                    </div>
-                </td>
-                <td>{{ $organisation->phone }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $organisation])</td>
-                @if($merchant)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $organisation->merchant])</td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $organisation->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -96,6 +77,25 @@
                         </div>
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $organisation])
+                </td>
+                <td>
+                    <div class="d-flex">
+                        @include('partials.backoffice.round-image', ['url' => $organisation->logo?->url, 'initials' => $organisation->initials, 'size' => 'xs'])
+                        <div class="ml-50 mt-25">
+                            {{ $organisation->name }}
+                        </div>
+                    </div>
+                </td>
+                <td>{{ $organisation->phone }}</td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $organisation])</td>
+                @if($merchant)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $organisation->merchant])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $organisation->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

@@ -56,6 +56,7 @@ return [
     'search' => 'Rechercher',
     'code' => 'Code',
     'role' => 'Role',
+    'organisation' => 'Magasin',
     'discount' => 'Reduction',
     'uses' => 'Utilisations',
     'promotion_started_at' => 'Debut de la promo',

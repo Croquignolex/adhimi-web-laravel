@@ -36,7 +36,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Organisation::with(['logo', 'creator.avatar']);
+        $query = Organisation::with(['logo', 'merchant.avatar', 'creator.avatar']);
 
         $organisations = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -70,7 +70,9 @@ class OrganisationController extends Controller
             'email' => $validated['email'],
             'website' => $validated['website'],
             'phone' => $validated['phone'],
-            'description' => $validated['description']
+            'description' => $validated['description'],
+            'seo_title' => $validated['seo_title'],
+            'seo_description' => $validated['seo_description'],
         ]);
 
         LogEvent::dispatchCreate($organisation, $request, __('general.organisation.created', ['name' => $organisation->name]));
@@ -111,7 +113,7 @@ class OrganisationController extends Controller
     {
         $organisation->load('logo');
 
-        return view('backoffice.admin.organisations.edit', compact(['organisation']));
+        return view('backoffice.admin.organisations.edit', compact('organisation'));
     }
 
     /**
@@ -130,7 +132,9 @@ class OrganisationController extends Controller
             'email' => $validated['email'],
             'website' => $validated['website'],
             'phone' => $validated['phone'],
-            'description' => $validated['description']
+            'description' => $validated['description'],
+            'seo_title' => $validated['seo_title'],
+            'seo_description' => $validated['seo_description'],
         ]);
 
         LogEvent::dispatchUpdate($organisation, $request, __('general.organisation.updated', ['name' => $organisation->name]));

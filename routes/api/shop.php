@@ -18,23 +18,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 /**
- * @resource country
+ * @resource countries
  */
 Route::resource('countries', CountryController::class)->only('index');
 
 /**
- * @resource state
+ * @resource states
  */
 Route::resource('states', StateController::class)->only('index');
 
 /**
- * @resource group
+ * @resource groups
  */
 Route::resource('groups', GroupController::class)->only('index');
 
 /**
+ * @resource organisations
  * @controller organisations
  */
+Route::resource('organisations', OrganisationController::class)->only('index');
 Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
     Route::get('{organisation}/shops', 'shops')->name('shops');
     Route::get('{organisation}/free-shops', 'freeShops')->name('shops.free');

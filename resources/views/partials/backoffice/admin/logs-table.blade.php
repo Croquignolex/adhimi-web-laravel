@@ -23,24 +23,7 @@
                         @include('partials.backoffice.date-badge', ['model' => $log])
                     </td>
                     @if($entity)
-                        <td>
-                            @if($log->entity)
-                                @if($log->entity['has_image'])
-                                    <div class="d-flex">
-                                        @include('partials.backoffice.round-image', ['url' => $log->entity['image'], 'initials' => $log->entity['initials'], 'size' => 'xs'])
-                                        <div class="ml-50 mt-25">
-                                            <a href="{{ $log->entity['url'] }}">
-                                                {{ $log->entity['name'] }}
-                                            </a>
-                                        </div>
-                                    </div>
-                                @else
-                                    <a href="{{ $log->entity['url'] }}">
-                                        {{ $log->entity['name'] }}
-                                    </a>
-                                @endif
-                            @endif
-                        </td>
+                        <td>@include('partials.backoffice.admin.entity-data', ['model' => $log->entity])</td>
                     @endif
                     <td>
                         <span class="badge badge-light-{{ $log->action_badge['color'] }}">
@@ -53,7 +36,7 @@
                         </span>
                     </td>
                     @if($creator)
-                        <td>@include('partials.backoffice.admin.user-data', ['user' => $log->creator])</td>
+                        <td>@include('partials.backoffice.admin.entity-data', ['model' => $log->creator])</td>
                     @endif
                     <td>{{ $log->description }}</td>
                 </tr>

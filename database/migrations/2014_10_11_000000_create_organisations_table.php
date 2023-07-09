@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('status')->default(GeneralStatusEnum::Enable->value);
             $table->text('description')->nullable();
+
+            $this->addSeoFields($table);
         });
     }
 

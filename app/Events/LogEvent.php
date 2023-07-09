@@ -76,7 +76,7 @@ class LogEvent
      * @param bool $toast
      * @return array|null
      */
-    public static function dispatchOther(Model $model, Request $request, string $description, bool $toast): array|null
+    public static function dispatchOther(Model $model, Request $request, string $description, bool $toast = true): array|null
     {
         return self::dispatcheWithToast($model, $request, $description, LogActionEnum::Other, $toast);
     }

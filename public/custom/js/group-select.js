@@ -12,12 +12,12 @@
     groupSelectArea.hide();
 
     const groupsUrl = groupSelect.data('url');
-    const selectedCountryId = groupSelect.data('old');
+    const selectedGroupId = groupSelect.data('old');
 
     ajaxRequest(groupsUrl)
         .then((response)  => {
             groups = response;
-            loadCountrySelect(selectedCountryId);
+            loadGroupSelect(selectedGroupId);
         })
         .catch((error) => {
             console.log({error});
@@ -27,12 +27,12 @@
             groupSelectArea.show();
         });
 
-    function loadCountrySelect(selectedCountryId = '') {
+    function loadGroupSelect(selectedGroupId = '') {
         let content = '';
 
         groups.forEach((group) => {
             content += `
-                <option value="${group.id}" ${(selectedCountryId === group.id) && 'selected'}>
+                <option value="${group.id}" ${(selectedGroupId === group.id) && 'selected'}>
                     ${group.name}
                 </option>
             `;

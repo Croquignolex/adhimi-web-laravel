@@ -60,6 +60,8 @@ class Organisation extends Model
         'phone',
         'status',
         'description',
+        'seo_title',
+        'seo_description',
 
         'creator_id'
     ];
@@ -101,6 +103,25 @@ class Organisation extends Model
     {
         return new Attribute(
             get: fn () => $this->shops()->whereDoesntHave('manager')->count() > 0
+        );
+    }
+
+    /**
+     * Determine organisation entity, magic attribute $this->initials.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('logo');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.organisations.show', [$this]),
+                'image' => $this->logo?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
         );
     }
 

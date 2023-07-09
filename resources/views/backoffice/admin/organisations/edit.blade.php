@@ -37,6 +37,9 @@
             <div class="col-12">
                 @include('partials.input.textarea', ['value' => $organisation->description])
             </div>
+        </div>
+        @include('partials.input.seo', ['model' => $organisation])
+        <div class="row">
             <div class="col-12">
                 @include('partials.input.button')
             </div>

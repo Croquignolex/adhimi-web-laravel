@@ -30,6 +30,8 @@ class UpdateOrganisationRequest extends FormRequest
             'website' => "nullable|string",
             'phone' => "nullable|string",
             'description' => "nullable|string",
+            'seo_title' => "nullable|string",
+            'seo_description' => "nullable|string",
         ];
     }
 }

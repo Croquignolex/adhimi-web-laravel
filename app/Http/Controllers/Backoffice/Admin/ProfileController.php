@@ -32,9 +32,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user()->load('setting');
 
-        $setting = $user->setting;
-
-        return view('backoffice.admin.profile.settings', compact(['setting', 'user']));
+        return view('backoffice.admin.profile.settings', compact('user'));
     }
 
     /**
@@ -44,9 +42,9 @@ class ProfileController extends Controller
      */
     public function showAddressForm(): View
     {
-        $address = Auth::user()->load('defaultAddress.state.country')->defaultAddress;
+        $user = Auth::user()->load('defaultAddress.state.country');
 
-        return view('backoffice.admin.profile.address', compact('address'));
+        return view('backoffice.admin.profile.address', compact('user'));
     }
 
     /**
@@ -56,9 +54,9 @@ class ProfileController extends Controller
      */
     public function showAvatarForm(): View
     {
-        $avatar = Auth::user()->load('avatar')->avatar;
+        $user = Auth::user()->load('avatar');
 
-        return view('backoffice.admin.profile.avatar', compact('avatar'));
+        return view('backoffice.admin.profile.avatar', compact('user'));
     }
 
     /**
@@ -68,7 +66,9 @@ class ProfileController extends Controller
      */
     public function showLogsForm(): View
     {
-        $logs = Auth::user()->load('createdLogs')->createdLogs()->orderBy('created_at', 'desc')->paginate();
+        $user = Auth::user()->load('createdLogs');
+
+        $logs = $user->createdLogs()->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.profile.logs', compact('logs'));
     }

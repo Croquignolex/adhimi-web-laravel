@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Organisation;
+namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreOrganisationRequest extends FormRequest
+class UpdateShopRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +25,14 @@ class StoreOrganisationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string|unique:organisations,name",
-            'email' => "nullable|email",
-            'website' => "nullable|string",
-            'phone' => "nullable|string",
+            'name' => [
+                'required', 'string',
+                Rule::unique('shops', 'name')
+                    ->where('organisation_id', $this->input('organisation'))
+                    ->ignore($this->shop)
+            ],
+            'organisation' => "required|string|exists:organisations,id",
             'description' => "nullable|string",
-            'seo_title' => "nullable|string",
-            'seo_description' => "nullable|string",
         ];
     }
 }

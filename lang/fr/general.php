@@ -43,6 +43,7 @@ return [
         'add_product' => 'Ajouter un produit',
         'add_category' => 'Ajouter une catégorie',
         'add_group' => 'Ajouter un groupe',
+        'add_organisation' => 'Ajouter un magasin',
     ],
 
     'role' => [

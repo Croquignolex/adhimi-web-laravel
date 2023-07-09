@@ -35,7 +35,7 @@
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="javascript:void(0);">
                         <i data-feather="globe"></i>
-                        <span class="menu-title text-truncate">@lang('page.shops.shops')</span>
+                        <span class="menu-title text-truncate">@lang('page.organisations.organisations')</span>
                     </a>
                     <ul class="menu-content">
                         {{-- All organisations menu item --}}
@@ -48,6 +48,32 @@
                         {{-- New organisation menu item --}}
                         <li class="{{ active_page('admin.organisations.create') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.organisations.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.shops.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))
+                {{-- Shops menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="shopping-bag"></i>
+                        <span class="menu-title text-truncate">@lang('page.shops.shops')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All shops menu item --}}
+                        <li class="{{ active_page('admin.shops.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.shops.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.shops.all')</span>
+                            </a>
+                        </li>
+                        {{-- New shop menu item --}}
+                        <li class="{{ active_page('admin.shops.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.shops.create') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item">@lang('page.shops.new')</span>
                             </a>

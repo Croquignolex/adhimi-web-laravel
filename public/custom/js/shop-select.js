@@ -1,7 +1,7 @@
 (function (window, document, $) {
     'use strict';
 
-    let countries = [];
+    let shops = [];
 
     const shopSelect = $('#shop');
     const shopSelectArea = $('#shop-area');
@@ -11,13 +11,13 @@
 
     shopSelectArea.hide();
 
-    const countriesUrl = shopSelect.data('url');
-    const selectedCountryId = shopSelect.data('old');
+    const shopsUrl = shopSelect.data('url');
+    const selectedShopId = shopSelect.data('old');
 
-    ajaxRequest(countriesUrl)
+    ajaxRequest(shopsUrl)
         .then((response)  => {
-            countries = response;
-            loadCountrySelect(selectedCountryId);
+            shops = response;
+            loadShopSelect(selectedShopId);
         })
         .catch((error) => {
             console.log({error});
@@ -27,12 +27,12 @@
             shopSelectArea.show();
         });
 
-    function loadCountrySelect(selectedCountryId = '') {
+    function loadShopSelect(selectedShopId = '') {
         let content = '';
 
-        countries.forEach((shop) => {
+        shops.forEach((shop) => {
             content += `
-                <option value="${shop.id}" ${(selectedCountryId === shop.id) && 'selected'}>
+                <option value="${shop.id}" ${(selectedShopId === shop.id) && 'selected'}>
                     ${shop.name}
                 </option>
             `;

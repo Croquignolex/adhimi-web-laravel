@@ -200,6 +200,25 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
+     * Determine user entity, magic attribute $this->initials.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('avatar');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.users.show', [$this]),
+                'image' => $this->avatar?->url,
+                'label' => $this->first_name,
+                'has_image' => true,
+            ]
+        );
+    }
+
+    /**
      * Determine user initials, magic attribute $this->initials.
      *
      * @return Attribute

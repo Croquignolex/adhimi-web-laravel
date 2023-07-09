@@ -39,7 +39,7 @@ trait ProfileTrait
             'description' => $validated['description'],
         ]);
 
-        LogEvent::dispatchUpdate($authUser, $request, __('general.profile.profile_updated'));
+        LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_updated'));
 
         return back();
     }
@@ -68,7 +68,7 @@ trait ProfileTrait
             {
                 $authUser->update(['password' => Hash::make($password)]);
 
-                LogEvent::dispatchUpdate($authUser, $request, __('general.profile.password_updated'));
+                LogEvent::dispatchOther($authUser, $request, __('general.profile.password_updated'));
             }
             else {
                 ToastEvent::dispatchDanger(__('general.profile.incorrect_old_password'));
@@ -116,7 +116,7 @@ trait ProfileTrait
             'enable_payment_notification' => $enable_payement,
         ]);
 
-        LogEvent::dispatchUpdate($authUser, $request, __('general.profile.settings_updated'));
+        LogEvent::dispatchOther($authUser, $request, __('general.profile.settings_updated'));
 
         return back();
     }
@@ -147,7 +147,7 @@ trait ProfileTrait
                 'state_id' => $validated['state'],
             ]);
 
-            LogEvent::dispatchUpdate($authUser, $request, __('general.profile.profile_default_address_updated'));
+            LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_default_address_updated'));
         }
         else
         {
@@ -162,7 +162,7 @@ trait ProfileTrait
                 'creator_id' => $authUser->id,
             ]);
 
-            LogEvent::dispatchCreate($authUser, $request, __('general.profile.profile_default_address_created'));
+            LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_default_address_created'));
         }
 
         return back();
@@ -190,7 +190,7 @@ trait ProfileTrait
             {
                 $avatar->update(['name' => $avatarName]);
 
-                LogEvent::dispatchUpdate($authUser, $request, __('general.profile.profile_avatar_updated'));
+                LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_avatar_updated'));
             }
             else
             {
@@ -200,7 +200,7 @@ trait ProfileTrait
                     'creator_id' => $authUser->id,
                 ]);
 
-                LogEvent::dispatchCreate($authUser, $request, __('general.profile.profile_avatar_created'));
+                LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_avatar_created'));
             }
         } else {
             ToastEvent::dispatchDanger(__('general.upload_error'));
@@ -221,7 +221,7 @@ trait ProfileTrait
 
         $authUser->avatar()->delete();
 
-        LogEvent::dispatchDelete($authUser, $request, __('general.profile.profile_avatar_deleted'));
+        LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_avatar_deleted'));
 
         return back();
     }

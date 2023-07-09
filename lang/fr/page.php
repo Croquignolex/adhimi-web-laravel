@@ -60,6 +60,8 @@ return [
         'all' => 'Tous les boutiques',
         'edit' => 'Modifier la boutique',
         'detail' => 'Détail de la boutique',
+        'add_seller' => 'Ajouter un vendeur',
+        'add_manager' => 'Ajouter un gestionnaire',
     ],
 
     'vendors' => [

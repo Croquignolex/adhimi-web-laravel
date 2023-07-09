@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Organisation;
+namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOrganisationRequest extends FormRequest
+class StoreAddProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class StoreOrganisationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string|unique:organisations,name",
-            'email' => "nullable|email",
-            'website' => "nullable|string",
-            'phone' => "nullable|string",
+            'name' => "required|string",
             'description' => "nullable|string",
-            'seo_title' => "nullable|string",
-            'seo_description' => "nullable|string",
         ];
     }
 }

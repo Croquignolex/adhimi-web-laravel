@@ -24,6 +24,8 @@ class OrganisationFactory extends Factory
             'website' => $this->faker->url,
             'phone' => $this->faker->phoneNumber,
             'description' => $this->faker->text(),
+            'seo_title' => $this->faker->title(),
+            'seo_description' => $this->faker->sentence,
         ];
     }
 }

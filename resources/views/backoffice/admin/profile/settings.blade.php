@@ -26,7 +26,7 @@
                             <select class="select2 form-control" id="language" name="language">
                                 @foreach($languageService->availableLanguages(true) as $language)
                                     <option value="{{ $language['value'] }}"
-                                            {{ (old('language') ?? $setting->language) == $language['value'] ? 'selected' : '' }}>
+                                            {{ (old('language') ?? $user->setting->language) == $language['value'] ? 'selected' : '' }}>
                                         {{ $language['label'] }}
                                     </option>
                                 @endforeach
@@ -43,7 +43,7 @@
                             <select class="select2 form-control" id="timezone" name="timezone">
                                 @foreach(DateTimeZone::listIdentifiers() as $timezone)
                                     <option value="{{ $timezone }}"
-                                            {{ (old('timezone') ?? $setting->timezone) == $timezone ? 'selected' : '' }}
+                                            {{ (old('timezone') ?? $user->setting->timezone) == $timezone ? 'selected' : '' }}
                                     >
                                         {{ $timezone }}
                                     </option>
@@ -57,7 +57,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_action_on_super_admin_notification,
+                                'value' => $user->setting->enable_action_on_super_admin_notification,
                                 'label' => __('field.notification.enable_super_admin'),
                                 'field' => 'enable_super_admin',
                                 'toggle' => true,
@@ -68,7 +68,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_action_on_admin_notification,
+                                'value' => $user->setting->enable_action_on_admin_notification,
                                 'label' => __('field.notification.enable_admin'),
                                 'field' => 'enable_admin',
                                 'toggle' => true,
@@ -79,7 +79,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_action_on_merchant_notification,
+                                'value' => $user->setting->enable_action_on_merchant_notification,
                                 'label' => __('field.notification.enable_merchant'),
                                 'field' => 'enable_merchant',
                                 'toggle' => true,
@@ -90,7 +90,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_action_on_manager_notification,
+                                'value' => $user->setting->enable_action_on_manager_notification,
                                 'label' => __('field.notification.enable_manager'),
                                 'field' => 'enable_manager',
                                 'toggle' => true,
@@ -101,7 +101,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_action_on_saler_notification,
+                                'value' => $user->setting->enable_action_on_saler_notification,
                                 'label' => __('field.notification.enable_saler'),
                                 'field' => 'enable_saler',
                                 'toggle' => true,
@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                               'value' => $setting->enable_action_on_customer_notification,
+                               'value' => $user->setting->enable_action_on_customer_notification,
                                 'label' => __('field.notification.enable_customer'),
                                 'field' => 'enable_customer',
                                 'toggle' => true,
@@ -121,7 +121,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value, \App\Enums\UserRoleEnum::Seller->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                 'value' => $setting->enable_product_notification,
+                                 'value' => $user->setting->enable_product_notification,
                                 'label' => __('field.notification.enable_product'),
                                 'field' => 'enable_product',
                                 'toggle' => true,
@@ -130,7 +130,7 @@
                         </div>
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_purchase_notification,
+                                'value' => $user->setting->enable_purchase_notification,
                                 'label' => __('field.notification.enable_purchase'),
                                 'field' => 'enable_purchase',
                                 'toggle' => true,
@@ -141,7 +141,7 @@
                     @if($user->hasRole([\App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                         <div class="col-12 col-sm-6 mb-2">
                             @include('partials.input.checkbox', [
-                                'value' => $setting->enable_payment_notification,
+                                'value' => $user->setting->enable_payment_notification,
                                 'label' => __('field.notification.enable_payement'),
                                 'field' => 'enable_payement',
                                 'toggle' => true,

@@ -122,7 +122,7 @@
                                         <tr>
                                             <th>@lang('field.merchant')</th>
                                             <td>
-                                                @include('partials.backoffice.admin.user-data', ['user' => $organisation->merchant])
+                                                @include('partials.backoffice.admin.entity-data', ['model' => $organisation->merchant])
                                             </td>
                                         </tr>
                                         <tr>
@@ -136,6 +136,21 @@
                                             <td>
                                                 {{ $organisation->description }}
                                             </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-responsive mt-1">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                        <tr>
+                                            <th>@lang('field.seo_title')</th>
+                                            <td>{{ $organisation->seo_title }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.seo_description')</th>
+                                            <td>{{ $organisation->seo_description }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -258,5 +273,5 @@
 @endsection
 
 @push('vendor.scripts')
-    <script src="{{ asset("custom/js/logo-banner-upload.js") }}"></script>
+    <script src="{{ asset("custom/js/image-upload.js") }}"></script>
 @endpush

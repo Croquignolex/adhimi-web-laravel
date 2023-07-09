@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -85,7 +84,7 @@ class Log extends Model
     }
 
     /**
-     * Determine entity, magic attribute $this->entity.
+     * Determine log entity, magic attribute $this->entity.
      *
      * @return Attribute
      */
@@ -93,41 +92,11 @@ class Log extends Model
     {
         return new Attribute(
             get: function () {
-                $model = $this->loggable;
-
                 if(enums_equals($this->action, LogActionEnum::Auth) || enums_equals($this->action, LogActionEnum::Other)) {
                     return null;
                 }
 
-                return match (Relation::getMorphedModel($this->loggable_type)) {
-                    Organisation::class => [
-                        'url' => route('admin.organisations.show', [$model]),
-                        'image' => $model->load('logo')->logo?->url,
-                        'name' => $model->name,
-                        'initials' => $model->initials,
-                        'has_image' => true,
-                    ],
-                    Country::class => [
-                        'url' => route('admin.countries.show', [$model]),
-                        'image' => $model->load('flag')->flag?->url,
-                        'name' => $model->name,
-                        'initials' => $model->initials,
-                        'has_image' => true,
-                    ],
-                    State::class => [
-                        'url' => route('admin.states.show', [$model]),
-                        'name' => $model->name,
-                        'has_image' => false,
-                    ],
-                    User::class => [
-                        'url' => route('admin.users.show', [$model]),
-                        'image' => $model->load('avatar')->avatar?->url,
-                        'name' => $model->first_name,
-                        'initials' => $model->initials,
-                        'has_image' => true,
-                    ],
-                    default => null,
-                };
+                return $this->loggable;
             }
         );
     }

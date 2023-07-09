@@ -75,7 +75,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::delete('{brand}/remove-logo', 'removeLogo')->name('logo.remove');
             Route::post('{brand}/status-toggle', 'statusToggle')->name('status.toggle');
             Route::get('{brand}/add-product', 'showAddProductForm')->name('add.product');
-//            Route::post('{brand}/add-product', 'addProduct');
+            Route::post('{brand}/add-product', 'addProduct');
         });
 
         /**
@@ -92,7 +92,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{group}/add-category', 'showAddCategoryForm')->name('add.category');
             Route::post('{group}/add-category', 'addCategory');
             Route::get('{group}/add-product', 'showAddProductForm')->name('add.product');
-//            Route::post('{group}/add-product', 'addProduct');
+            Route::post('{group}/add-product', 'addProduct');
         });
 
         /**
@@ -106,7 +106,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::delete('{category}/remove-banner', 'removeBanner')->name('banner.remove');
             Route::post('{category}/status-toggle', 'statusToggle')->name('status.toggle');
             Route::get('{category}/add-product', 'showAddProductForm')->name('add.product');
-//            Route::post('{category}/add-product', 'addProduct');
+            Route::post('{category}/add-product', 'addProduct');
         });
     });
 
@@ -146,14 +146,10 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(ShopController::class)->prefix('shops')->name('shops.')->group(function () {
             Route::get('{shop}/logs', 'showLogs')->name('show.logs');
             Route::post('{shop}/status-toggle', 'statusToggle')->name('status.toggle');
-//            Route::get('{organisation}/add-manager', 'showAddManagerForm')->name('add.manager');
-//            Route::post('{organisation}/add-manager', 'addManager');
-//            Route::get('{organisation}/add-seller', 'showAddSellerForm')->name('add.seller');
-//            Route::post('{organisation}/add-seller', 'addSeller');
-//            Route::get('{organisation}/add-product', 'showAddProductForm')->name('add.product');
-//            Route::post('{organisation}/add-product', 'addProduct');
-//            Route::get('{organisation}/add-coupon', 'showAddCouponForm')->name('add.coupon');
-//            Route::post('{organisation}/add-coupon', 'addCoupon');
+            Route::get('{organisation}/add-manager', 'showAddManagerForm')->name('add.manager');
+            Route::post('{organisation}/add-manager', 'addManager');
+            Route::get('{organisation}/add-seller', 'showAddSellerForm')->name('add.seller');
+            Route::post('{organisation}/add-seller', 'addSeller');
         });
     });
 
@@ -188,7 +184,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{organisation}/add-seller', 'showAddSellerForm')->name('add.seller');
             Route::post('{organisation}/add-seller', 'addSeller');
             Route::get('{organisation}/add-product', 'showAddProductForm')->name('add.product');
-//            Route::post('{organisation}/add-product', 'addProduct');
+            Route::post('{organisation}/add-product', 'addProduct');
             Route::get('{organisation}/add-coupon', 'showAddCouponForm')->name('add.coupon');
             Route::post('{organisation}/add-coupon', 'addCoupon');
         });

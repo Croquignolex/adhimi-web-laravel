@@ -177,5 +177,5 @@
 @endsection
 
 @push('vendor.scripts')
-    <script src="{{ asset("custom/js/logo-banner-upload.js") }}"></script>
+    <script src="{{ asset("custom/js/image-upload.js") }}"></script>
 @endpush
