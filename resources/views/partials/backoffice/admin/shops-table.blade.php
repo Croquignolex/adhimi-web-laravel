@@ -28,13 +28,13 @@
                 <td>{{ $shop->name }}</td>
                 <td>@include('partials.backoffice.status-badge', ['model' => $shop])</td>
                 @if($organisation)
-                    <td>@include('partials.backoffice.admin.organisation-data', ['organisation' => $shop->organisation])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->organisation])</td>
                 @endif
                 @if($manager)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $shop->manager])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->manager])</td>
                 @endif
                 @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $shop->creator])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->creator])</td>
                 @endif
                 <td>
                     <div class="dropdown">

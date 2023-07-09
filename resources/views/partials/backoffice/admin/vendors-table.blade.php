@@ -23,19 +23,19 @@
                     @include('partials.backoffice.date-badge', ['model' => $vendor])
                 </td>
                 <td>
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         @include('partials.backoffice.round-image', ['url' => $vendor->logo?->url, 'initials' => $vendor->initials, 'size' => 'xs'])
-                        <div class="ml-50 mt-25">
+                        <div class="ml-50">
                             {{ $vendor->name }}
                         </div>
                     </div>
                 </td>
                 <td>@include('partials.backoffice.status-badge', ['model' => $vendor])</td>
                 @if($organisation)
-                    <td>@include('partials.backoffice.admin.organisation-data', ['organisation' => $vendor->organisation])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $vendor->organisation])</td>
                 @endif
                 @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $vendor->creator])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $vendor->creator])</td>
                 @endif
                 <td>
                     <div class="dropdown">

@@ -107,7 +107,7 @@ class Organisation extends Model
     }
 
     /**
-     * Determine organisation entity, magic attribute $this->initials.
+     * Determine organisation entity, magic attribute $this->entity.
      *
      * @return Attribute
      */

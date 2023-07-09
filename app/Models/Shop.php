@@ -88,6 +88,22 @@ class Shop extends Model
     }
 
     /**
+     * Determine shop entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.shops.show', [$this]),
+                'label' => $this->name,
+                'has_image' => false,
+            ]
+        );
+    }
+
+    /**
      * Get manager associated with the organisation.
      *
      * @return HasOne

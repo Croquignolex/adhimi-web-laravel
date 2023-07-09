@@ -81,9 +81,9 @@
                     @include('partials.backoffice.date-badge', ['model' => $organisation])
                 </td>
                 <td>
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         @include('partials.backoffice.round-image', ['url' => $organisation->logo?->url, 'initials' => $organisation->initials, 'size' => 'xs'])
-                        <div class="ml-50 mt-25">
+                        <div class="ml-50">
                             {{ $organisation->name }}
                         </div>
                     </div>

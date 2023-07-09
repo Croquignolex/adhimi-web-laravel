@@ -1,3 +1,5 @@
+@props(['title' => '', 'breadcrumb_items' => []])
+
 <ul class="nav navbar-nav d-flex align-items-center">
     <li class="nav-item">
         <strong class="d-block d-sm-block d-md-none">{{ format_text($title, 20) }}</strong>

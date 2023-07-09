@@ -9,9 +9,9 @@
         </a>
     @else
         @if($model->entity['has_image'])
-            <div class="d-flex">
+            <div class="d-flex align-items-center">
                 @include('partials.backoffice.round-image', ['url' => $model->entity['image'], 'initials' => $model->initials, 'size' => 'xs'])
-                <div class="ml-50 mt-25">
+                <div class="ml-50">
                     {{ $model->entity['label'] }}
 
                     <a href="{{ $model->entity['url'] }}" target="_blank">

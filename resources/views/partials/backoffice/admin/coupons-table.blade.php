@@ -29,10 +29,10 @@
                 <td>{{ $coupon->total_use }}</td>
                 <td>@include('partials.backoffice.status-badge', ['model' => $coupon])</td>
                 @if($organisation)
-                    <td>@include('partials.backoffice.admin.organisation-data', ['organisation' => $coupon->organisation])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->organisation])</td>
                 @endif
                 @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $coupon->creator])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->creator])</td>
                 @endif
                 <td>
                     <div class="dropdown">

@@ -27,29 +27,23 @@
                     @include('partials.backoffice.date-badge', ['model' => $user])
                 </td>
                 <td>
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         @include('partials.backoffice.round-image', ['url' => $user->avatar?->url, 'initials' => $user->initials, 'size' => 'xs'])
-                        <div class="ml-50 mt-25">
+                        <div class="ml-50">
                             {{ $user->first_name }}
                         </div>
                     </div>
                 </td>
-                <td>@include('partials.backoffice.role-badge', compact('user'))</td>
+                <td>@include('partials.backoffice.role-badge', ['model' => $user])</td>
                 <td>@include('partials.backoffice.status-badge', ['model' => $user])</td>
                 @if($organisation)
-                    <td>@include('partials.backoffice.admin.organisation-data', ['organisation' => $user->organisation])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $user->organisation])</td>
                 @endif
                 @if($shop)
-                    <td>
-                        @if($user->shop)
-                            <a href="{{ route('admin.shops.show', [$user->shop]) }}">
-                                {{ $user->shop->name }}
-                            </a>
-                        @endif
-                    </td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $user->shop])</td>
                 @endif
                 @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $user->creator])</td>
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $user->creator])</td>
                 @endif
                 <td>
                     <div class="dropdown">
