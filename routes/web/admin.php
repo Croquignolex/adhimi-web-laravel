@@ -146,6 +146,8 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(ShopController::class)->prefix('shops')->name('shops.')->group(function () {
             Route::get('{shop}/logs', 'showLogs')->name('show.logs');
             Route::post('{shop}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{shop}/address', 'showAddressForm')->name('address');
+            Route::post('{shop}/address', 'defaultAddressUpdate');
             Route::get('{shop}/add-manager', 'showAddManagerForm')->name('add.manager');
             Route::post('{shop}/add-manager', 'addManager');
             Route::get('{shop}/add-seller', 'showAddSellerForm')->name('add.seller');

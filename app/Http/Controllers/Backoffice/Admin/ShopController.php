@@ -6,6 +6,7 @@ use App\Http\Requests\Shop\StoreAddManagerRequest;
 use App\Http\Requests\Shop\StoreAddSellerRequest;
 use App\Http\Requests\Shop\UpdateShopRequest;
 use App\Http\Requests\Shop\StoreShopRequest;
+use App\Http\Requests\UpdateAddressRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -149,6 +150,67 @@ class ShopController extends Controller
         LogEvent::dispatchUpdate($shop, $request, $message);
 
         return back();
+    }
+
+    /**
+     * Show update address form
+     *
+     * @param Shop $shop
+     * @return View
+     */
+    public function showAddressForm(Shop $shop): View
+    {
+        $shop->load('defaultAddress.state.country');
+
+        return view('backoffice.admin.shops.address', compact('shop'));
+    }
+
+    /**
+     * Update profile default address
+     *
+     * @param Shop $shop
+     * @param UpdateAddressRequest $request
+     * @return RedirectResponse
+     */
+    public function defaultAddressUpdate(UpdateAddressRequest $request, Shop $shop): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $authUser = Auth::user();
+
+        $address = $shop->defaultAddress;
+
+        if($address)
+        {
+            $address->update([
+                'street_address' => $validated['street_address'],
+                'street_address_plus' => $validated['street_address_plus'],
+                'zipcode' => $validated['zipcode'],
+                'phone_number_one' => $validated['phone_number_one'],
+                'phone_number_two' => $validated['phone_number_two'],
+                'description' => $validated['description'],
+                'state_id' => $validated['state'],
+            ]);
+
+            LogEvent::dispatchUpdate($shop, $request, __('general.shop.shop_default_address_updated'));
+        }
+        else
+        {
+            $shop->defaultAddress()->create([
+                'street_address' => $validated['street_address'],
+                'street_address_plus' => $validated['street_address_plus'],
+                'zipcode' => $validated['zipcode'],
+                'phone_number_one' => $validated['phone_number_one'],
+                'phone_number_two' => $validated['phone_number_two'],
+                'description' => $validated['description'],
+                'state_id' => $validated['state'],
+                'creator_id' => $authUser->id,
+            ]);
+
+            LogEvent::dispatchCreate($shop, $request, __('general.shop.shop_default_address_created'));
+        }
+
+        return redirect(route('admin.shops.show', [$shop]));
     }
 
     /**

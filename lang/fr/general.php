@@ -34,6 +34,7 @@ return [
         'auth' => 'Authentifier',
         'delete' => 'Supprimer',
         'other' => 'Autre',
+        'update_address' => 'Modifier adresse',
         'add_shop' => 'Ajouter une boutique',
         'add_vendor' => 'Ajouter un fournisseur',
         'add_merchant' => 'Ajouter un marchand',
@@ -114,6 +115,8 @@ return [
     'shop' => [
         'created' => 'Boutique :name créer',
         'updated' => 'Boutique :name mise à jour',
+        'shop_default_address_updated' => 'Adresse par défaut mise à jour avec succès',
+        'shop_default_address_created' => 'Adresse par défaut ajoutée avec succès',
     ],
 
     'country' => [

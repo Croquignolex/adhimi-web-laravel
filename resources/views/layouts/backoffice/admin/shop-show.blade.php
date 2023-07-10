@@ -72,6 +72,52 @@
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <div class="mt-2">
+                                    <a href="{{ route('admin.shops.address', [$shop]) }}" class="btn btn-info mb-50">
+                                        <i data-feather="map-pin"></i>
+                                        @lang('general.action.update_address')
+                                    </a>
+                                </div>
+
+                                <div class="table-responsive mt-1">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                        <tr>
+                                            <th>@lang('field.street_address')</th>
+                                            <td>{{ $shop->defaultAddress?->street_address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.street_address_plus')</th>
+                                            <td>{{ $shop->defaultAddress?->street_address_plus }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.zipcode')</th>
+                                            <td>{{ $shop->defaultAddress?->zipcode }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.phone_number_one')</th>
+                                            <td>{{ $shop->defaultAddress?->phone_number_one }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.phone_number_two')</th>
+                                            <td>{{ $shop->defaultAddress?->phone_number_two }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.country')</th>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->defaultAddress?->state->country])</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.state')</th>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->defaultAddress?->state])</td>
+                                        </tr>
+                                        <tr>
+                                            <th>@lang('field.description')</th>
+                                            <td>{{ $shop->defaultAddress?->description }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
