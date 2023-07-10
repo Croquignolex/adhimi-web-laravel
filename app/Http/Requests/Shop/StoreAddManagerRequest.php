@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use App\Enums\GenderEnum;
 
 class StoreAddManagerRequest extends FormRequest
@@ -28,11 +27,6 @@ class StoreAddManagerRequest extends FormRequest
         $genders = GenderEnum::stringify();
 
         return [
-            'shop' => [
-                'required',
-                Rule::exists('shops', 'id')
-                    ->where('organisation_id', $this->organisation->id)
-            ],
             'first_name' => "required|string",
             'last_name' => "nullable|string",
             'email' => "required|email|unique:users,email",

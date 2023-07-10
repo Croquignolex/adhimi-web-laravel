@@ -56,7 +56,7 @@
                                             <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->organisation])</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('field.merchant')</th>
+                                            <th>@lang('field.manager')</th>
                                             <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->manager])</td>
                                         </tr>
                                         <tr>

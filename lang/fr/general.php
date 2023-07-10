@@ -111,6 +111,11 @@ return [
         'delete_banner' => 'Supprimer la bannière du magasin',
     ],
 
+    'shop' => [
+        'created' => 'Boutique :name créer',
+        'updated' => 'Boutique :name mise à jour',
+    ],
+
     'country' => [
         'created' => 'Pays :name créer',
         'updated' => 'Pays :name mis à jour',

@@ -1,20 +1,8 @@
-@extends('layouts.backoffice.admin.organisation-edit', ['title' => __('page.organisations.add_seller')])
+@extends('layouts.backoffice.admin.shop-edit', ['title' => __('page.shops.add_seller')])
 
-@section('organisation.content')
+@section('shop.content')
     <form class="validate-form mt-1" method="POST" action="">
         @csrf
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                @include('partials.input.ajax-select', [
-                   'label' => __('field.shop'),
-                   'required' => true,
-                   'field' => 'shop',
-                   'route' => route('api.organisations.shops', [$organisation]),
-                   'add_url' => route('admin.organisations.add.shop', [$organisation]),
-                   'add_text' => __('general.action.add_shop'),
-                ])
-            </div>
-        </div>
         <div class="row">
             <div class="col-12 col-sm-6">
                 @include('partials.input.text', [
@@ -73,8 +61,3 @@
         </div>
     </form>
 @endsection
-
-@push('organisation.custom.scripts')
-    <script src="{{ asset("custom/js/shop-select.js") }}"></script>
-@endpush
-

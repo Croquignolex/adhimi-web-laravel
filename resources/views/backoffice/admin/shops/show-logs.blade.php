@@ -1,5 +1,5 @@
-@extends('layouts.backoffice.admin.organisation-show')
+@extends('layouts.backoffice.admin.shop-show')
 
-@section('organisation.content')
+@section('shop.content')
     @include('partials.backoffice.admin.logs-table', ['logs' => $logs, 'entity' => false])
 @endsection

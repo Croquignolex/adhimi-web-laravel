@@ -146,10 +146,10 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(ShopController::class)->prefix('shops')->name('shops.')->group(function () {
             Route::get('{shop}/logs', 'showLogs')->name('show.logs');
             Route::post('{shop}/status-toggle', 'statusToggle')->name('status.toggle');
-            Route::get('{organisation}/add-manager', 'showAddManagerForm')->name('add.manager');
-            Route::post('{organisation}/add-manager', 'addManager');
-            Route::get('{organisation}/add-seller', 'showAddSellerForm')->name('add.seller');
-            Route::post('{organisation}/add-seller', 'addSeller');
+            Route::get('{shop}/add-manager', 'showAddManagerForm')->name('add.manager');
+            Route::post('{shop}/add-manager', 'addManager');
+            Route::get('{shop}/add-seller', 'showAddSellerForm')->name('add.seller');
+            Route::post('{shop}/add-seller', 'addSeller');
         });
     });
 

@@ -40,11 +40,9 @@
                                 </a>
                                 <hr>
                                 <a href="javascript:void(0);" class="dropdown-item"
-                                   data-toggle="modal"
-                                   data-target="#toggle-status-modal-{{ $shop->id }}"
+                                   data-toggle="modal" data-target="#toggle-status-modal-{{ $shop->id }}"
                                 >
-                                    <i data-feather="{{ $shop->status_toggle['icon'] }}"
-                                       class="mr-50 text-{{ $shop->status_toggle['color'] }}"></i>
+                                    <i data-feather="{{ $shop->status_toggle['icon'] }}" class="mr-50 text-{{ $shop->status_toggle['color'] }}"></i>
                                     <span>{{ $shop->status_toggle['label'] }}</span>
                                 </a>
                             @endif
@@ -105,7 +103,7 @@
         'title' => $shop->status_toggle['label'],
     ])
         <p>@lang('general.change_status_question', ['name' => $shop->name, 'action' => $shop->status_toggle['label']])?</p>
-        <form action="{{ route('admin.states.status.toggle', [$shop]) }}" method="POST" class="text-right mt-50">
+        <form action="{{ route('admin.shops.status.toggle', [$shop]) }}" method="POST" class="text-right mt-50">
             @csrf
             <button type="submit" class="btn btn-{{ $shop->status_toggle['color'] }}">
                 @lang('general.yes')

@@ -21,7 +21,7 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $this->addCommonFields($table);
 
-            $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
+            $this->addForeignKey(table: $table, nullable: true, foreignKey: 'creator_id');
             $this->addForeignKey(table: $table, foreignModelFqn: Organisation::class);
 
             $table->string('name');

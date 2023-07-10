@@ -3,7 +3,7 @@
 @section('shop.content')
     <div class="card-body">
         @if($shop->can_add_manager)
-            <a href="{{ route('admin.organisations.add.manager', [$shop]) }}" class="btn btn-primary mb-50">
+            <a href="{{ route('admin.shops.add.manager', [$shop]) }}" class="btn btn-primary mb-50">
                 <i data-feather="plus-square"></i>
                 @lang('page.shops.add_manager')
             </a>
