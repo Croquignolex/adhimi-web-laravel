@@ -4,6 +4,7 @@ use App\Http\Controllers\Backoffice\Admin\OrganisationController;
 use App\Http\Controllers\Backoffice\Admin\CategoryController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
+use App\Http\Controllers\Backoffice\Admin\CouponController;
 use App\Http\Controllers\Backoffice\Admin\BrandController;
 use App\Http\Controllers\Backoffice\Admin\StateController;
 use App\Http\Controllers\Backoffice\Admin\GroupController;
@@ -108,6 +109,20 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::get('{category}/add-product', 'showAddProductForm')->name('add.product');
             Route::post('{category}/add-product', 'addProduct');
         });
+
+        /**
+         * @resource categories
+         * @controller categories
+         */
+        Route::resource('categories', CategoryController::class)->except('destroy');
+        Route::controller(CategoryController::class)->prefix('categories')->name('categories.')->group(function () {
+            Route::get('{category}/logs', 'showLogs')->name('show.logs');
+            Route::put('{category}/change-banner', 'changeBanner')->name('banner.change');
+            Route::delete('{category}/remove-banner', 'removeBanner')->name('banner.remove');
+            Route::post('{category}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{category}/add-product', 'showAddProductForm')->name('add.product');
+            Route::post('{category}/add-product', 'addProduct');
+        });
     });
 
     /**
@@ -189,6 +204,16 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::post('{organisation}/add-product', 'addProduct');
             Route::get('{organisation}/add-coupon', 'showAddCouponForm')->name('add.coupon');
             Route::post('{organisation}/add-coupon', 'addCoupon');
+        });
+
+        /**
+         * @resource coupons
+         * @controller coupons
+         */
+        Route::resource('coupons', CouponController::class)->except('destroy');
+        Route::controller(CouponController::class)->prefix('coupons')->name('coupons.')->group(function () {
+            Route::get('{coupon}/logs', 'showLogs')->name('show.logs');
+            Route::post('{coupon}/status-toggle', 'statusToggle')->name('status.toggle');
         });
     });
 });

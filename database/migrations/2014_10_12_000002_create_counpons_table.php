@@ -22,7 +22,6 @@ return new class extends Migration
             $this->addCommonFields($table);
 
             $this->addForeignKey(table: $table, foreignKey: 'creator_id', foreignTable: 'users');
-            $this->addForeignKey(table: $table, foreignModelFqn: Organisation::class);
 
             $table->string('code')->unique();
             $table->string('slug')->unique();

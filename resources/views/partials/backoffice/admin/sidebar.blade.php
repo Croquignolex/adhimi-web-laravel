@@ -27,7 +27,7 @@
             </li>
 
             <li class="navigation-header">
-                <span>@lang('general.settings')</span>
+                <span>Administration</span>
             </li>
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value]))
@@ -42,14 +42,14 @@
                         <li class="{{ active_page('admin.organisations.index') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.organisations.index') }}">
                                 <i data-feather="circle"></i>
-                                <span class="menu-item">@lang('page.shops.all')</span>
+                                <span class="menu-item">@lang('page.organisations.all')</span>
                             </a>
                         </li>
                         {{-- New organisation menu item --}}
                         <li class="{{ active_page('admin.organisations.create') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.organisations.create') }}">
                                 <i data-feather="circle"></i>
-                                <span class="menu-item">@lang('page.shops.new')</span>
+                                <span class="menu-item">@lang('page.organisations.new')</span>
                             </a>
                         </li>
                     </ul>
@@ -84,7 +84,7 @@
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                 <li class="navigation-header">
-                    <span>@lang('general.settings')</span>
+                    <span>Catalog</span>
                 </li>
 
                 {{-- Brands menu --}}
@@ -160,9 +160,39 @@
                 </li>
             @endif
 
+            @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value]))
+                <li class="navigation-header">
+                    <span>Utilitaires</span>
+                </li>
+
+                {{-- Coupons menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="percent"></i>
+                        <span class="menu-title text-truncate">@lang('page.coupons.coupons')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All coupons menu item --}}
+                        <li class="{{ active_page('admin.coupons.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.coupons.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.coupons.all')</span>
+                            </a>
+                        </li>
+                        {{-- New coupon menu item --}}
+                        <li class="{{ active_page('admin.coupons.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.coupons.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.coupons.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))
                 <li class="navigation-header">
-                    <span>@lang('general.settings')</span>
+                    <span>Paramètres général</span>
                 </li>
 
                 {{-- Countries menu --}}
@@ -213,6 +243,10 @@
                     </ul>
                 </li>
             @endif
+
+            <li class="navigation-header">
+                <span>Paramètres du site</span>
+            </li>
         </ul>
     </div>
 </div>

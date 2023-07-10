@@ -8,7 +8,6 @@ use App\Http\Requests\Organisation\StoreAddMerchantRequest;
 use App\Http\Requests\Organisation\StoreAddManagerRequest;
 use App\Http\Requests\Organisation\StoreAddSellerRequest;
 use App\Http\Requests\Organisation\StoreAddVendorRequest;
-use App\Http\Requests\Organisation\StoreAddCouponRequest;
 use App\Http\Requests\Organisation\StoreAddShopRequest;
 use App\Http\Requests\UpdateBannerRequest;
 use App\Http\Requests\UpdateLogoRequest;
@@ -92,7 +91,7 @@ class OrganisationController extends Controller
         $q = $request->query('q');
 
         $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'shops.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
+            ->loadCount(['shops', 'vendors', 'users', 'products']);
 
         $query = $organisation->shops();
 
@@ -280,7 +279,7 @@ class OrganisationController extends Controller
     public function showLogs(Organisation $organisation): View
     {
         $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
+            ->loadCount(['shops', 'vendors', 'users', 'products']);
 
         $logs = $organisation->logs()->orderBy('created_at', 'desc')->paginate();
 
@@ -299,7 +298,7 @@ class OrganisationController extends Controller
         $q = $request->query('q');
 
         $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'vendors.logo', 'vendors.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
+            ->loadCount(['shops', 'vendors', 'users', 'products']);
 
         $query = $organisation->vendors();
 
@@ -322,7 +321,7 @@ class OrganisationController extends Controller
         $q = $request->query('q');
 
         $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'users.avatar', 'users.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
+            ->loadCount(['shops', 'vendors', 'users', 'products']);
 
         $query = $organisation->users();
         $users = ($q)
@@ -339,37 +338,14 @@ class OrganisationController extends Controller
      * @param Organisation $organisation
      * @return View
      */
-    public function showCoupons(Request $request, Organisation $organisation): View
-    {
-        $q = $request->query('q');
-
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'coupons.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
-
-        $query = $organisation->coupons();
-
-        $coupons = ($q)
-            ? $query->search($q)->orderBy('code')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-coupons', compact(['organisation', 'coupons', 'q']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Organisation $organisation
-     * @return View
-     */
     public function showProducts(Request $request, Organisation $organisation): View
     {
         $q = $request->query('q');
 
         $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'products.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products', 'coupons']);
+            ->loadCount(['shops', 'vendors', 'users', 'products']);
 
-        $query = $organisation->coupons();
+        $query = $organisation->products();
 
         $products = ($q)
             ? $query->search($q)->orderBy('code')->get()
@@ -594,45 +570,5 @@ class OrganisationController extends Controller
         LogEvent::dispatchCreate($vendor, $request, __('general.vendor.created', ['name' => $vendor->name]));
 
         return redirect(route('admin.organisations.show.vendors', [$organisation]));
-    }
-
-    /**
-     * Show the form for adding a coupon.
-     *
-     * @param Organisation $organisation
-     * @return View
-     */
-    public function showAddCouponForm(Organisation $organisation): View
-    {
-        $organisation->load('logo');
-
-        return view('backoffice.admin.organisations.add-coupon', compact('organisation'));
-    }
-
-    /**
-     * Add a coupon.
-     *
-     * @param StoreAddCouponRequest $request
-     * @param Organisation $organisation
-     * @return RedirectResponse
-     */
-    public function addCoupon(StoreAddCouponRequest $request, Organisation $organisation): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $authUser = Auth::user();
-
-        $coupon = $organisation->coupons()->create([
-            'code' => $validated['code'],
-            'discount' => $validated['discount'],
-            'promotion_started_at' => $validated['promotion_started_at'],
-            'promotion_ended_at' => $validated['promotion_ended_at'],
-            'description' => $validated['description'],
-            'creator_id' => $authUser->id,
-        ]);
-
-        LogEvent::dispatchCreate($coupon, $request, __('general.coupon.created', ['code' => $coupon->code]));
-
-        return redirect(route('admin.organisations.show.coupons', [$organisation]));
     }
 }

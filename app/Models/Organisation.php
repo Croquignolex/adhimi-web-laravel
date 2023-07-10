@@ -168,14 +168,4 @@ class Organisation extends Model
     {
         return $this->hasMany(Vendor::class);
     }
-
-    /**
-     * Get coupons associated with the organisation.
-     *
-     * @return HasMany
-     */
-    public function coupons(): HasMany
-    {
-        return $this->hasMany(Coupon::class);
-    }
 }

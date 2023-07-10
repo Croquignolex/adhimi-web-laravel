@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Organisation;
+namespace App\Http\Requests\Coupon;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreAddCouponRequest extends FormRequest
+class UpdateCouponRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,7 @@ class StoreAddCouponRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => "required|string|unique:coupons,code",
+            'code' => ['required', 'string', Rule::unique('coupons', 'code')->ignore($this->coupon)],
             'discount' => "required|integer|min:1|max:100",
             'promotion_started_at' => "required|date",
             'promotion_ended_at' => "required|date|after:promotion_started_at",

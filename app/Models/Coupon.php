@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use App\Traits\Models\BelongsToOrganisationTrait;
-use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
@@ -29,9 +27,7 @@ class Coupon extends Model
         EnableScopeTrait,
         StatusBadgeTrait,
         MorphManyLogsTrait,
-        BelongsToCreatorTrait,
-        BelongsToOrganisationTrait,
-        TimezonePromotionDateTrait;
+        BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +45,6 @@ class Coupon extends Model
         'promotion_ended_at',
 
         'creator_id',
-        'organisation_id',
     ];
 
     /**
@@ -94,7 +89,7 @@ class Coupon extends Model
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.coupons.show', [$this]),
-                'label' => $this->name,
+                'label' => $this->code,
                 'has_image' => false,
             ]
         );
