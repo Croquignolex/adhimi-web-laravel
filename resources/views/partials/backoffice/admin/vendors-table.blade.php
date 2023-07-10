@@ -24,24 +24,32 @@
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
-                        {{--<div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ route('admin.shops.show', [$vendor]) }}">
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('admin.vendors.show', [$vendor]) }}">
                                 <i data-feather="eye" class="mr-50 text-primary"></i>
                                 @lang('general.action.detail')
                             </a>
-                            <a class="dropdown-item" href="{{ route('admin.shops.edit', [$vendor]) }}">
-                                <i data-feather="edit-2" class="mr-50 text-warning"></i>
-                                @lang('general.action.update')
-                            </a>
-                            <hr>
-                            <a href="javascript:void(0);" class="dropdown-item"
-                               data-toggle="modal" data-target="#toggle-status-modal-{{ $vendor->id }}"
-                            >
-                                <i data-feather="{{ $vendor->status_toggle['icon'] }}" class="mr-50 text-{{ $vendor->status_toggle['color'] }}"></i>
-                                <span>{{ $vendor->status_toggle['label'] }}</span>
-                            </a>
-                            <hr>
-                        </div>--}}
+                            @if(auth()->user()->is_admin)
+                                <a class="dropdown-item" href="{{ route('admin.vendors.edit', [$vendor]) }}">
+                                    <i data-feather="edit" class="mr-50 text-warning"></i>
+                                    @lang('general.action.update')
+                                </a>
+                                <hr>
+                                <a href="javascript:void(0);" class="dropdown-item"
+                                   data-toggle="modal" data-target="#toggle-status-modal-{{ $vendor->id }}"
+                                >
+                                    <i data-feather="{{ $vendor->status_toggle['icon'] }}" class="mr-50 text-{{ $vendor->status_toggle['color'] }}"></i>
+                                    <span>{{ $vendor->status_toggle['label'] }}</span>
+                                </a>
+                            @endif
+{{--                            <hr>--}}
+                            {{--<a class="dropdown-item"
+                               href="{{ route('admin.vendors.add.product', [$vendor]) }}">
+                                <i data-feather="plus-square"
+                                   class="mr-50 text-secondary"></i>
+                                <span>@lang('general.action.add_product')</span>
+                            </a>--}}
+                        </div>
                     </div>
                 </td>
                 <td style="white-space: nowrap;">
@@ -91,7 +99,7 @@
         'title' => $vendor->status_toggle['label'],
     ])
         <p>@lang('general.change_status_question', ['name' => $vendor->name, 'action' => $vendor->status_toggle['label']])?</p>
-        <form action="{{ route('admin.states.status.toggle', [$vendor]) }}" method="POST" class="text-right mt-50">
+        <form action="{{ route('admin.vendors.status.toggle', [$vendor]) }}" method="POST" class="text-right mt-50">
             @csrf
             <button type="submit" class="btn btn-{{ $vendor->status_toggle['color'] }}">
                 @lang('general.yes')

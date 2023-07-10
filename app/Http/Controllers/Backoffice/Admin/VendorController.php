@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Http\Requests\Category\StoreCategoryRequest;
-use App\Http\Requests\UpdateBannerRequest;
+use App\Http\Requests\Vendor\UpdateVendorRequest;
+use App\Http\Requests\Vendor\StoreVendorRequest;
+use App\Http\Requests\UpdateAddressRequest;
+use App\Http\Requests\UpdateLogoRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,7 @@ use App\Enums\MediaTypeEnum;
 use Illuminate\Http\Request;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
-use App\Models\Category;
+use App\Models\Vendor;
 
 class VendorController extends Controller
 {
@@ -25,7 +26,7 @@ class VendorController extends Controller
     public function __construct()
     {
         $this->middleware('allow:super,admin')->only([
-            'edit', 'update', 'statusToggle', 'changeBanner', 'removeBanner'
+            'edit', 'update', 'statusToggle', 'changeLogo', 'removeLogo'
         ]);
     }
 
@@ -39,13 +40,13 @@ class VendorController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Category::with(['banner', 'creator.avatar']);
+        $query = Vendor::with(['logo', 'organisation.logo', 'creator.avatar']);
 
-        $categories = ($q)
+        $vendors = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.categories.index', compact(['categories', 'q']));
+        return view('backoffice.admin.vendors.index', compact(['vendors', 'q']));
     }
 
     /**
@@ -55,16 +56,16 @@ class VendorController extends Controller
      */
     public function create(): View
     {
-        return view('backoffice.admin.categories.create');
+        return view('backoffice.admin.vendors.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreCategoryRequest $request
+     * @param StoreVendorRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreCategoryRequest $request): RedirectResponse
+    public function store(StoreVendorRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -72,129 +73,188 @@ class VendorController extends Controller
 
         $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
 
-        $category = $authUser->createdCategories()->create([
+        $vendor = $authUser->createdVendors()->create([
             'status' => $status,
             'name' => $validated['name'], 
             'description' => $validated['description'],
-            'seo_title' => $validated['seo_title'],
-            'seo_description' => $validated['seo_description'],
-            'group_id' => $validated['group'],
+            'organisation_id' => $validated['organisation'],
         ]);
 
-        LogEvent::dispatchCreate($category, $request, __('general.category.created', ['name' => $category->name]));
+        LogEvent::dispatchCreate($vendor, $request, __('general.vendor.created', ['name' => $vendor->name]));
 
-        return redirect(route('admin.categories.show', [$category]));
+        return redirect(route('admin.vendors.show', [$vendor]));
     }
 
     /**
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Category $category
+     * @param Vendor $vendor
      * @return View
      */
-    public function show(Request $request, Category $category): View
+    public function show(Request $request, Vendor $vendor): View
     {
         $q = $request->query('q');
 
-        $category->load(['banner', 'tags', 'creator.avatar', 'products.creator.avatar'])
-            ->loadCount('products');
+//        $vendor->load(['logo', 'organisation.logo', 'creator.avatar', 'products.creator.avatar'])
+//            ->loadCount('products');
 
-        $query = $category->products();
+        $vendor->load(['logo', 'organisation.logo', 'creator.avatar']);
 
-        $products = ($q)
-            ? $query->search($q)->orderBy('name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
+//        $query = $vendor->products();
+//
+//        $products = ($q)
+//            ? $query->search($q)->orderBy('name')->get()
+//            : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.categories.show', compact(['category', 'products', 'q']));
+        return view('backoffice.admin.vendors.show', compact(['vendor', 'q']));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Category $category
+     * @param Vendor $vendor
      * @return View
      */
-    public function edit(Category $category): View
+    public function edit(Vendor $vendor): View
     {
-        $category->load('banner');
+        $vendor->load('logo');
 
-        return view('backoffice.admin.categories.edit', compact('category'));
+        return view('backoffice.admin.vendors.edit', compact('vendor'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateCategoryRequest $request
-     * @param Category $category
+     * @param UpdateVendorRequest $request
+     * @param Vendor $vendor
      * @return RedirectResponse
      */
-    public function update(UpdateCategoryRequest $request, Category $category): RedirectResponse
+    public function update(UpdateVendorRequest $request, Vendor $vendor): RedirectResponse
     {
         $validated = $request->validated();
 
-        $category->update([
+        $vendor->update([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'seo_title' => $validated['seo_title'],
-            'seo_description' => $validated['seo_description'],
-            'group_id' => $validated['group'],
+            'organisation_id' => $validated['organisation'],
         ]);
 
-        LogEvent::dispatchUpdate($category, $request, __('general.category.updated', ['name' => $category->name]));
+        LogEvent::dispatchUpdate($vendor, $request, __('general.vendor.updated', ['name' => $vendor->name]));
 
-        return redirect(route('admin.categories.show', [$category]));
+        return redirect(route('admin.vendors.show', [$vendor]));
     }
 
     /**
-     * Toggle category status.
+     * Toggle vendor status.
      *
      * @param Request $request
-     * @param Category $category
+     * @param Vendor $vendor
      * @return RedirectResponse
      */
-    public function statusToggle(Request $request, Category $category): RedirectResponse
+    public function statusToggle(Request $request, Vendor $vendor): RedirectResponse
     {
-        $message = $category->status_toggle['message'];
-        $category->update(['status' => $category->status_toggle['next']]);
+        $message = $vendor->status_toggle['message'];
+        $vendor->update(['status' => $vendor->status_toggle['next']]);
 
-        LogEvent::dispatchUpdate($category, $request, $message);
+        LogEvent::dispatchUpdate($vendor, $request, $message);
 
         return back();
     }
 
     /**
-     * Update category banner.
+     * Show update address form
      *
-     * @param UpdateBannerRequest $request $
-     * @param Category $category
+     * @param Vendor $vendor
+     * @return View
+     */
+    public function showAddressForm(Vendor $vendor): View
+    {
+        $vendor->load('defaultAddress.state.country');
+
+        return view('backoffice.admin.vendors.address', compact('vendor'));
+    }
+
+    /**
+     * Update profile default address
+     *
+     * @param Vendor $vendor
+     * @param UpdateAddressRequest $request
      * @return RedirectResponse
      */
-    public function changeBanner(UpdateBannerRequest $request, Category $category): RedirectResponse
+    public function defaultAddressUpdate(UpdateAddressRequest $request, Vendor $vendor): RedirectResponse
     {
         $validated = $request->validated();
 
-        $banner = $category->banner;
+        $authUser = Auth::user();
 
-        $bannerName = Storage::disk('public')->put(MediaTypeEnum::Banner->value, $validated['banner']);
+        $address = $vendor->defaultAddress;
 
-        if($bannerName)
+        if($address)
         {
-            if($banner)
-            {
-                $banner->update(['name' => $bannerName]);
+            $address->update([
+                'street_address' => $validated['street_address'],
+                'street_address_plus' => $validated['street_address_plus'],
+                'zipcode' => $validated['zipcode'],
+                'phone_number_one' => $validated['phone_number_one'],
+                'phone_number_two' => $validated['phone_number_two'],
+                'description' => $validated['description'],
+                'state_id' => $validated['state'],
+            ]);
 
-                LogEvent::dispatchUpdate($category, $request, __('general.category.banner_updated', ['name' => $category->name]));
+            LogEvent::dispatchUpdate($vendor, $request, __('general.vendor.vendor_default_address_updated'));
+        }
+        else
+        {
+            $vendor->defaultAddress()->create([
+                'street_address' => $validated['street_address'],
+                'street_address_plus' => $validated['street_address_plus'],
+                'zipcode' => $validated['zipcode'],
+                'phone_number_one' => $validated['phone_number_one'],
+                'phone_number_two' => $validated['phone_number_two'],
+                'description' => $validated['description'],
+                'state_id' => $validated['state'],
+                'creator_id' => $authUser->id,
+            ]);
+
+            LogEvent::dispatchCreate($vendor, $request, __('general.vendor.vendor_default_address_created'));
+        }
+
+        return redirect(route('admin.vendors.show', [$vendor]));
+    }
+
+    /**
+     * Update vendor logo.
+     *
+     * @param UpdateLogoRequest $request $
+     * @param Vendor $vendor
+     * @return RedirectResponse
+     */
+    public function changeLogo(UpdateLogoRequest $request, Vendor $vendor): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $logo = $vendor->logo;
+
+        $logoName = Storage::disk('public')->put(MediaTypeEnum::Logo->value, $validated['logo']);
+
+        if($logoName)
+        {
+            if($logo)
+            {
+                $logo->update(['name' => $logoName]);
+
+                LogEvent::dispatchUpdate($vendor, $request, __('general.vendor.logo_updated', ['name' => $vendor->name]));
             }
             else
             {
-                $category->banner()->create([
-                    'name' => $bannerName,
-                    'type' => MediaTypeEnum::Banner,
+                $vendor->logo()->create([
+                    'name' => $logoName,
+                    'type' => MediaTypeEnum::Logo,
                     'creator_id' => Auth::id(),
                 ]);
 
-                LogEvent::dispatchCreate($category, $request, __('general.category.banner_created', ['name' => $category->name]));
+                LogEvent::dispatchCreate($vendor, $request, __('general.vendor.logo_created', ['name' => $vendor->name]));
             }
         } else {
             ToastEvent::dispatchDanger(__('general.upload_error'));
@@ -204,17 +264,17 @@ class VendorController extends Controller
     }
 
     /**
-     * Delete category banner.
+     * Delete vendor logo.
      *
      * @param Request $request
-     * @param Category $category
+     * @param Vendor $vendor
      * @return RedirectResponse
      */
-    public function removeBanner(Request $request, Category $category): RedirectResponse
+    public function removeLogo(Request $request, Vendor $vendor): RedirectResponse
     {
-        $category->banner()->delete();
+        $vendor->logo()->delete();
 
-        LogEvent::dispatchDelete($category, $request, __('general.category.banner_deleted', ['name' => $category->name]));
+        LogEvent::dispatchDelete($vendor, $request, __('general.vendor.logo_deleted', ['name' => $vendor->name]));
 
         return back();
     }
@@ -222,16 +282,18 @@ class VendorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Category $category
+     * @param Vendor $vendor
      * @return View
      */
-    public function showLogs(Category $category): View
+    public function showLogs(Vendor $vendor): View
     {
-        $category->load(['banner', 'tags', 'creator.avatar', 'logs.creator.avatar'])
-            ->loadCount('products');
+//        $vendor->load(['logo', 'organisation.logo', 'creator.avatar', 'logs.creator.avatar'])
+//            ->loadCount('products');
 
-        $logs = $category->logs()->orderBy('created_at', 'desc')->paginate();
-//dd($logs);
-        return view('backoffice.admin.categories.show-logs', compact(['category', 'logs']));
+        $vendor->load(['logo', 'organisation.logo', 'creator.avatar', 'logs.creator.avatar']);
+
+        $logs = $vendor->logs()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.vendors.show-logs', compact(['vendor', 'logs']));
     }
 }

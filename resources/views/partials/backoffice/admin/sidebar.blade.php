@@ -80,6 +80,30 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- Vendors menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="truck"></i>
+                        <span class="menu-title text-truncate">@lang('page.vendors.vendors')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All vendors menu item --}}
+                        <li class="{{ active_page('admin.vendors.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.vendors.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.shops.all')</span>
+                            </a>
+                        </li>
+                        {{-- New vendor menu item --}}
+                        <li class="{{ active_page('admin.vendors.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.vendors.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.vendors.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))

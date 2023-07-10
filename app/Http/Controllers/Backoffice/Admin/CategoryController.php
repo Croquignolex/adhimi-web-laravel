@@ -231,7 +231,7 @@ class CategoryController extends Controller
             ->loadCount('products');
 
         $logs = $category->logs()->orderBy('created_at', 'desc')->paginate();
-//dd($logs);
+
         return view('backoffice.admin.categories.show-logs', compact(['category', 'logs']));
     }
 }

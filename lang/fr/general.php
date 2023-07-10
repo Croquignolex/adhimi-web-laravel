@@ -167,6 +167,13 @@ return [
     'vendor' => [
         'created' => 'Fournisseur :name créer',
         'updated' => 'Fournisseur :name mis à jour',
+        'logo_deleted' => 'Logo du fournisseur :name supprimé avec succès',
+        'logo_created' => 'Logo du fournisseur :name ajouté avec succès',
+        'logo_updated' => 'Logo du fournisseur :name mis à jour avec succès',
+        'delete_logo_question' => 'Voulez-vous vraiment supprimer le logo de ce fournisseur',
+        'delete_logo' => 'Supprimer le logo du fournisseur',
+        'vendor_default_address_updated' => 'Adresse par défaut mise à jour avec succès',
+        'vendor_default_address_created' => 'Adresse par défaut ajoutée avec succès',
     ],
 
     'coupon' => [

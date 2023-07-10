@@ -4,6 +4,7 @@ use App\Http\Controllers\Backoffice\Admin\OrganisationController;
 use App\Http\Controllers\Backoffice\Admin\CategoryController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
+use App\Http\Controllers\Backoffice\Admin\VendorController;
 use App\Http\Controllers\Backoffice\Admin\CouponController;
 use App\Http\Controllers\Backoffice\Admin\BrandController;
 use App\Http\Controllers\Backoffice\Admin\StateController;
@@ -111,17 +112,19 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         });
 
         /**
-         * @resource categories
-         * @controller categories
+         * @resource vendors
+         * @controller vendors
          */
-        Route::resource('categories', CategoryController::class)->except('destroy');
-        Route::controller(CategoryController::class)->prefix('categories')->name('categories.')->group(function () {
-            Route::get('{category}/logs', 'showLogs')->name('show.logs');
-            Route::put('{category}/change-banner', 'changeBanner')->name('banner.change');
-            Route::delete('{category}/remove-banner', 'removeBanner')->name('banner.remove');
-            Route::post('{category}/status-toggle', 'statusToggle')->name('status.toggle');
-            Route::get('{category}/add-product', 'showAddProductForm')->name('add.product');
-            Route::post('{category}/add-product', 'addProduct');
+        Route::resource('vendors', VendorController::class)->except('destroy');
+        Route::controller(VendorController::class)->prefix('vendors')->name('vendors.')->group(function () {
+            Route::get('{vendor}/logs', 'showLogs')->name('show.logs');
+            Route::put('{vendor}/change-logo', 'changeLogo')->name('logo.change');
+            Route::delete('{vendor}/remove-logo', 'removeLogo')->name('logo.remove');
+            Route::post('{vendor}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{vendor}/address', 'showAddressForm')->name('address');
+            Route::post('{vendor}/address', 'defaultAddressUpdate');
+            Route::get('{vendor}/add-product', 'showAddProductForm')->name('add.product');
+            Route::post('{vendor}/add-product', 'addProduct');
         });
     });
 

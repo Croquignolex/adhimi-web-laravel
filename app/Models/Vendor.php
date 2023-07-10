@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
 use App\Traits\Models\BelongsToOrganisationTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
-use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\SlugFromNameTrait;
@@ -34,7 +33,6 @@ class Vendor extends Model
         SlugFromNameTrait,
         NameInitialsTrait,
         MorphManyLogsTrait,
-        HasManyProductsTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
         MorphOneDefaultAddressTrait;
