@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -69,6 +70,25 @@ class Category extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Determine category entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('banner');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.categories.show', [$this]),
+                'image' => $this->banner?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
+        );
+    }
 
     /**
      * Get the group that owns the current model.

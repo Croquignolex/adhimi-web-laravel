@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.code') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.discount') <i data-feather="search" class="text-secondary"></i></th>
@@ -15,25 +16,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($coupons as $coupon)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $coupon])
-                </td>
-                <td>{{ $coupon->code }}</td>
-                <td>{{ $coupon->discount }}%</td>
-                <td>{{ $coupon->total_use }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $coupon])</td>
-                @if($organisation)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->organisation])</td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -45,7 +32,7 @@
                                 @lang('general.action.detail')
                             </a>
                             <a class="dropdown-item" href="{{ route('admin.shops.edit', [$coupon]) }}">
-                                <i data-feather="edit-2" class="mr-50 text-warning"></i>
+                                <i data-feather="edit" class="mr-50 text-warning"></i>
                                 @lang('general.action.update')
                             </a>
                             <hr>
@@ -59,6 +46,19 @@
                         </div>--}}
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $coupon])
+                </td>
+                <td>{{ $coupon->code }}</td>
+                <td>{{ $coupon->discount }}%</td>
+                <td>{{ $coupon->total_use }}</td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $coupon])</td>
+                @if($organisation)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->organisation])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

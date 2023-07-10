@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i>
             </th>
@@ -11,27 +12,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($brands as $brand)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $brand])
-                </td>
-                <td>
-                    <div class="d-flex">
-                        @include('partials.backoffice.round-image', ['url' => $brand->logo?->url, 'initials' => $brand->initials, 'size' => 'xs'])
-                        <div class="ml-50 mt-25">
-                            {{ $brand->name }}
-                        </div>
-                    </div>
-                </td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $brand])</td>
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $brand->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
@@ -70,6 +55,21 @@
                         </div>
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $brand])
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @include('partials.backoffice.round-image', ['url' => $brand->logo?->url, 'initials' => $brand->initials, 'size' => 'xs'])
+                        <div class="ml-50">
+                            {{ $brand->name }}
+                        </div>
+                    </div>
+                </td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $brand])</td>
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $brand->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

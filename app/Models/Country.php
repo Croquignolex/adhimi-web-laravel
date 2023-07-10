@@ -7,6 +7,7 @@ use App\Traits\Models\HasManyInventoryHistoriesTrait;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphManyLogsTrait;
@@ -69,6 +70,25 @@ class Country extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name', 'phone_code'];
+
+    /**
+     * Determine country entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('flag');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.countries.show', [$this]),
+                'image' => $this->flag?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
+        );
+    }
 
     /**
      * Get the states for the country.

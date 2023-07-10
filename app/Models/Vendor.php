@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
@@ -68,4 +69,23 @@ class Vendor extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Determine country entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('logo');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.vendors.show', [$this]),
+                'image' => $this->logo?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
+        );
+    }
 }

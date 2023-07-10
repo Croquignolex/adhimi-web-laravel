@@ -79,9 +79,7 @@
                                         </tr>
                                         <tr>
                                             <th>@lang('field.creator')</th>
-                                            <td>
-                                                @include('partials.backoffice.admin.user-data', ['user' => $brand->creator])
-                                            </td>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $brand->creator])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.description')</th>

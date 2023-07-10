@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\BelongsToOrganisationTrait;
 use App\Traits\Models\TimezonePromotionDateTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphManyLogsTrait;
@@ -81,5 +82,21 @@ class Coupon extends Model
         static::updating(function (Coupon $coupon) {
             $coupon->slug = $coupon->code;
         });
+    }
+
+    /**
+     * Determine coupon entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.coupons.show', [$this]),
+                'label' => $this->name,
+                'has_image' => false,
+            ]
+        );
     }
 }

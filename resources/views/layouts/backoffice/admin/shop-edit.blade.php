@@ -18,8 +18,7 @@
                     <div class="row">
                         <div class="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center">
                             <div class="text-center mb-50">
-                                <h4>Boutique</h4>
-                                <h4><a href="">{{ $shop->name }}</a></h4>
+                                <h4>@include('partials.backoffice.admin.entity-data', ['model' => $shop, 'plain' => true])</h4>
                             </div>
                         </div>
                         <div class="col-12 col-md-8">

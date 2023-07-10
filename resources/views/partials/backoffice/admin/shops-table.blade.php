@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.status')</th>
@@ -16,26 +17,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($shops as $shop)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $shop])
-                </td>
-                <td>{{ $shop->name }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $shop])</td>
-                @if($organisation)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->organisation])</td>
-                @endif
-                @if($manager)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->manager])</td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -76,6 +62,20 @@
                         </div>
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $shop])
+                </td>
+                <td>{{ $shop->name }}</td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $shop])</td>
+                @if($organisation)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->organisation])</td>
+                @endif
+                @if($manager)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->manager])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

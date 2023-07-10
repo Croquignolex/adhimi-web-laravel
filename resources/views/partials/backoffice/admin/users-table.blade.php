@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.first_name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.role')
@@ -17,12 +18,36 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($users as $user)
             <tr>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                            <i data-feather="more-vertical"></i>
+                        </button>
+                        {{--<div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('admin.shops.show', [$user]) }}">
+                                <i data-feather="eye" class="mr-50 text-primary"></i>
+                                @lang('general.action.detail')
+                            </a>
+                            <a class="dropdown-item" href="{{ route('admin.shops.edit', [$user]) }}">
+                                <i data-feather="edit" class="mr-50 text-warning"></i>
+                                @lang('general.action.update')
+                            </a>
+                            <hr>
+                            <a href="javascript:void(0);" class="dropdown-item"
+                               data-toggle="modal" data-target="#toggle-status-modal-{{ $user->id }}"
+                            >
+                                <i data-feather="{{ $user->status_toggle['icon'] }}" class="mr-50 text-{{ $user->status_toggle['color'] }}"></i>
+                                <span>{{ $user->status_toggle['label'] }}</span>
+                            </a>
+                            <hr>
+                        </div>--}}
+                    </div>
+                </td>
                 <td style="white-space: nowrap;">
                     @include('partials.backoffice.date-badge', ['model' => $user])
                 </td>
@@ -45,31 +70,6 @@
                 @if($creator)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $user->creator])</td>
                 @endif
-                <td>
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                            <i data-feather="more-vertical"></i>
-                        </button>
-                        {{--<div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ route('admin.shops.show', [$user]) }}">
-                                <i data-feather="eye" class="mr-50 text-primary"></i>
-                                @lang('general.action.detail')
-                            </a>
-                            <a class="dropdown-item" href="{{ route('admin.shops.edit', [$user]) }}">
-                                <i data-feather="edit-2" class="mr-50 text-warning"></i>
-                                @lang('general.action.update')
-                            </a>
-                            <hr>
-                            <a href="javascript:void(0);" class="dropdown-item"
-                               data-toggle="modal" data-target="#toggle-status-modal-{{ $user->id }}"
-                            >
-                                <i data-feather="{{ $user->status_toggle['icon'] }}" class="mr-50 text-{{ $user->status_toggle['color'] }}"></i>
-                                <span>{{ $user->status_toggle['label'] }}</span>
-                            </a>
-                            <hr>
-                        </div>--}}
-                    </div>
-                </td>
             </tr>
         @empty
             <tr>

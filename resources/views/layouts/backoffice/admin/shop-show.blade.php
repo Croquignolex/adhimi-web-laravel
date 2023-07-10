@@ -53,21 +53,15 @@
                                         </tr>
                                         <tr>
                                             <th>@lang('field.organisation')</th>
-                                            <td>
-                                                @include('partials.backoffice.admin.organisation-data', ['organisation' => $shop->organisation])
-                                            </td>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->organisation])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.merchant')</th>
-                                            <td>
-                                                @include('partials.backoffice.admin.user-data', ['user' => $shop->manager])
-                                            </td>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->manager])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.creator')</th>
-                                            <td>
-                                                @include('partials.backoffice.admin.user-data', ['user' => $shop->creator])
-                                            </td>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $shop->creator])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.description')</th>

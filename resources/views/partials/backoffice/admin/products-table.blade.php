@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.status')</th>
@@ -16,36 +17,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($products as $product)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $product])
-                </td>
-                <td>{{ $product->name }}</td>
-                <td>
-                    <span class="badge badge-light-{{ $product->status_badge['color'] }}">
-                        {{ $product->status_badge['value'] }}
-                    </span>
-                </td>
-                @if($category)
-                    <td>
-                        @if($product->category)
-                            <a href="{{ route('admin.categories.show', [$product->category]) }}">
-                                {{ $product->category->name }}
-                            </a>
-                        @endif
-                    </td>
-                @endif
-                @if($brand)
-                    <td>@include('partials.backoffice.admin.brand-data', ['brand' => $product->brand])</td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $product->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -58,7 +34,7 @@
                             </a>
                             @if(auth()->user()->is_admin)
                                 <a class="dropdown-item" href="{{ route('admin.products.edit', [$product]) }}">
-                                    <i data-feather="edit-2" class="mr-50 text-warning"></i>
+                                    <i data-feather="edit" class="mr-50 text-warning"></i>
                                     @lang('general.action.update')
                                 </a>
                                 <hr>
@@ -72,6 +48,24 @@
                         </div>
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $product])
+                </td>
+                <td>{{ $product->name }}</td>
+                <td>
+                    <span class="badge badge-light-{{ $product->status_badge['color'] }}">
+                        {{ $product->status_badge['value'] }}
+                    </span>
+                </td>
+                @if($category)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $product->category])</td>
+                @endif
+                @if($brand)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $product->brand])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $product->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

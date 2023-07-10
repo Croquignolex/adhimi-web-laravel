@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
@@ -65,4 +66,23 @@ class Brand extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Determine organisation entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('logo');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.brands.show', [$this]),
+                'image' => $this->logo?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
+        );
+    }
 }

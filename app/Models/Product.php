@@ -83,6 +83,25 @@ class Product extends Model
     ];
 
     /**
+     * Determine product entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('galleryImages');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.products.show', [$this]),
+                'image' => $this->galleryImages()->first()?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
+        );
+    }
+
+    /**
      * Determine note, magic attribute $this->note.
      *
      * @return Attribute

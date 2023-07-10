@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
@@ -64,4 +65,20 @@ class State extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Determine country entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.states.show', [$this]),
+                'label' => $this->name,
+                'has_image' => false,
+            ]
+        );
+    }
 }

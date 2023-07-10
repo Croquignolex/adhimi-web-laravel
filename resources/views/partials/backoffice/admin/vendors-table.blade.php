@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.status')</th>
@@ -13,30 +14,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($vendors as $vendor)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $vendor])
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        @include('partials.backoffice.round-image', ['url' => $vendor->logo?->url, 'initials' => $vendor->initials, 'size' => 'xs'])
-                        <div class="ml-50">
-                            {{ $vendor->name }}
-                        </div>
-                    </div>
-                </td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $vendor])</td>
-                @if($organisation)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $vendor->organisation])</td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $vendor->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -62,6 +44,24 @@
                         </div>--}}
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $vendor])
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @include('partials.backoffice.round-image', ['url' => $vendor->logo?->url, 'initials' => $vendor->initials, 'size' => 'xs'])
+                        <div class="ml-50">
+                            {{ $vendor->name }}
+                        </div>
+                    </div>
+                </td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $vendor])</td>
+                @if($organisation)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $vendor->organisation])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $vendor->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

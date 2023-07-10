@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.status')</th>
@@ -13,23 +14,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($states as $state)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $state])
-                </td>
-                <td>{{ $state->name }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $state])</td>
-                @if($country)
-                    <td>@include('partials.backoffice.admin.country-data', ['country' => $state->country])</td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $state->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -42,7 +31,7 @@
                             </a>
                             @if(auth()->user()->is_admin)
                                 <a class="dropdown-item" href="{{ route('admin.states.edit', [$state]) }}">
-                                    <i data-feather="edit-2" class="mr-50 text-warning"></i>
+                                    <i data-feather="edit" class="mr-50 text-warning"></i>
                                     @lang('general.action.update')
                                 </a>
                                 <hr>
@@ -56,6 +45,17 @@
                         </div>
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $state])
+                </td>
+                <td>{{ $state->name }}</td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $state])</td>
+                @if($country)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $state->country])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $state->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>

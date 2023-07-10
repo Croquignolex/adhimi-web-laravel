@@ -74,18 +74,12 @@
                                             <td>@include('partials.backoffice.status-badge', ['model' => $category])</td>
                                         </tr>
                                         <tr>
-                                            <th>@lang('field.country')</th>
-                                            <td>
-                                                <a href="{{ route('admin.groups.show', [$category->group]) }}">
-                                                    {{ $category->group->name }}
-                                                </a>
-                                            </td>
+                                            <th>@lang('field.group')</th>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $category->group])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.creator')</th>
-                                            <td>
-                                                @include('partials.backoffice.admin.user-data', ['user' => $category->creator])
-                                            </td>
+                                            <td>@include('partials.backoffice.admin.entity-data', ['model' => $category->creator])</td>
                                         </tr>
                                         <tr>
                                             <th>@lang('field.description')</th>

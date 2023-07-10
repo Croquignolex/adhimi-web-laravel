@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center">
                             <div class="text-center mb-50">
-                                <h4>{{ $country->name }}</h4>
+                                <h4>@include('partials.backoffice.admin.entity-data', ['model' => $country, 'plain' => true])</h4>
                             </div>
                             <div class="text-center">
                                 @include('partials.backoffice.round-image', ['url' => $country->flag?->url, 'initials' => $country->initials])

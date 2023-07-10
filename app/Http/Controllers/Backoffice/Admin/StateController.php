@@ -88,11 +88,9 @@ class StateController extends Controller
      */
     public function show(State $state): View
     {
-        $state->load(['country.flag', 'creator.avatar', 'logs.creator.avatar']);
+        $state->load(['country.flag', 'creator.avatar']);
 
-        $logs = $state->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.states.show', compact(['state', 'logs']));
+        return view('backoffice.admin.states.show', compact(['state']));
     }
 
     /**
@@ -145,5 +143,20 @@ class StateController extends Controller
         LogEvent::dispatchUpdate($state, $request, $message);
 
         return back();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param State $state
+     * @return View
+     */
+    public function showLogs(State $state): View
+    {
+        $state->load(['country.flag', 'creator.avatar', 'logs.creator.avatar']);
+
+        $logs = $state->logs()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.states.show-logs', compact(['state', 'logs']));
     }
 }

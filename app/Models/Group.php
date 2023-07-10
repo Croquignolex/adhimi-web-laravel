@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphOneBannerTrait;
@@ -67,6 +68,25 @@ class Group extends Model
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Determine group entity, magic attribute $this->entity.
+     *
+     * @return Attribute
+     */
+    protected function entity(): Attribute
+    {
+        $this->load('banner');
+
+        return new Attribute(
+            get: fn () => [
+                'url' => route('admin.groups.show', [$this]),
+                'image' => $this->banner?->url,
+                'label' => $this->name,
+                'has_image' => true,
+            ]
+        );
+    }
 
     /**
      * Get categories associated with the group.

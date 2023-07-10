@@ -4,6 +4,7 @@
     <table class="table table-bordered table-hover mb-2">
         <thead>
         <tr>
+            <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i>
             </th>
@@ -14,27 +15,11 @@
             @if($creator)
                 <th>@lang('field.creator')</th>
             @endif
-            <th>@lang('field.actions')</th>
         </tr>
         </thead>
         <tbody>
         @forelse($categories as $category)
             <tr>
-                <td style="white-space: nowrap;">
-                    @include('partials.backoffice.date-badge', ['model' => $category])
-                </td>
-                <td>{{ $category->name }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $category])</td>
-                @if($group)
-                    <td>
-                        <a href="{{ route('admin.groups.show', [$category->group]) }}">
-                            {{ $category->group->name }}
-                        </a>
-                    </td>
-                @endif
-                @if($creator)
-                    <td>@include('partials.backoffice.admin.user-data', ['user' => $category->creator])</td>
-                @endif
                 <td>
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
@@ -73,6 +58,17 @@
                         </div>
                     </div>
                 </td>
+                <td style="white-space: nowrap;">
+                    @include('partials.backoffice.date-badge', ['model' => $category])
+                </td>
+                <td>{{ $category->name }}</td>
+                <td>@include('partials.backoffice.status-badge', ['model' => $category])</td>
+                @if($group)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $category->group])</td>
+                @endif
+                @if($creator)
+                    <td>@include('partials.backoffice.admin.entity-data', ['model' => $category->creator])</td>
+                @endif
             </tr>
         @empty
             <tr>
