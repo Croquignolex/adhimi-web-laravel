@@ -75,7 +75,7 @@
         'size' => 'modal-sm',
         'title' => $customer->status_toggle['label'],
     ])
-        <p>@lang('general.change_status_question', ['name' => $customer->first, 'action' => $customer->status_toggle['label']])?</p>
+        <p>@lang('general.change_status_question', ['name' => $customer->first_name, 'action' => $customer->status_toggle['label']])?</p>
         <form action="{{ route('admin.customers.status.toggle', [$customer]) }}" method="POST" class="text-right mt-50">
             @csrf
             <button type="submit" class="btn btn-{{ $customer->status_toggle['color'] }}">

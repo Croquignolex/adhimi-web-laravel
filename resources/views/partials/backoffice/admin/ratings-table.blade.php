@@ -13,7 +13,6 @@
             @if($customer)
                 <th>@lang('field.customer')</th>
             @endif
-            <th>@lang('field.comment')</th>
         </tr>
         </thead>
         <tbody>
@@ -30,7 +29,6 @@
                 @if($customer)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $rating->customer])</td>
                 @endif
-                <td>{{ $rating->comment }}</td>
             </tr>
         @empty
             <tr>
@@ -47,5 +45,24 @@
     </table>
 </div>
 <div class="card-body">
-    {{ $ratings->links('partials.backoffice.pagination') }}
+    @if(is_null($q))
+        {{ $ratings->links('partials.backoffice.pagination') }}
+    @endif
 </div>
+
+@foreach($ratings as $rating)
+    @component('components.modal', [
+        'color' => $rating->status_toggle['color'],
+        'id' => "toggle-status-modal-" . $rating->id,
+        'size' => 'modal-sm',
+        'title' => $rating->status_toggle['label'],
+    ])
+        <p>@lang('general.change_status_question', ['name' => $rating->customer->name, 'action' => $rating->status_toggle['label']])?</p>
+        <form action="{{ route('admin.ratings.status.toggle', [$rating]) }}" method="POST" class="text-right mt-50">
+            @csrf
+            <button type="submit" class="btn btn-{{ $rating->status_toggle['color'] }}">
+                @lang('general.yes')
+            </button>
+        </form>
+    @endcomponent
+@endforeach

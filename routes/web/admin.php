@@ -7,6 +7,7 @@ use App\Http\Controllers\Backoffice\Admin\CountryController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
 use App\Http\Controllers\Backoffice\Admin\VendorController;
 use App\Http\Controllers\Backoffice\Admin\CouponController;
+use App\Http\Controllers\Backoffice\Admin\RatingController;
 use App\Http\Controllers\Backoffice\Admin\BrandController;
 use App\Http\Controllers\Backoffice\Admin\StateController;
 use App\Http\Controllers\Backoffice\Admin\GroupController;
@@ -79,6 +80,16 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::post('{customer}/status-toggle', 'statusToggle')->name('status.toggle');
             Route::get('{customer}/add-rating', 'showAddRatingForm')->name('add.rating');
             Route::post('{customer}/add-rating', 'addRating');
+        });
+
+        /**
+         * @resource ratings
+         * @controller ratings
+         */
+        Route::resource('ratings', RatingController::class)->only(['index', 'show']);
+        Route::controller(RatingController::class)->prefix('ratings')->name('ratings.')->group(function () {
+            Route::get('{rating}/logs', 'showLogs')->name('show.logs');
+            Route::post('{rating}/status-toggle', 'statusToggle')->name('status.toggle');
         });
     });
 

@@ -244,6 +244,14 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- Ratings menu --}}
+                <li class="{{ active_page('admin.ratings.index') }} nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('admin.ratings.index') }}">
+                        <i data-feather="star"></i>
+                        <span class="menu-title text-truncate">@lang('page.ratings.all')</span>
+                    </a>
+                </li>
             @endif
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value]))

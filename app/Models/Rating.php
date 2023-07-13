@@ -10,11 +10,18 @@ use App\Traits\Models\BelongsToCustomerTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\EnableScopeTrait;
+use App\Traits\Models\SearchScopeTrait;
 use App\Enums\GeneralStatusEnum;
 
 class Rating extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToCustomerTrait, EnableScopeTrait, GeneralStatusBadgeTrait;
+    use HasUuids,
+        HasFactory,
+        SoftDeletes,
+        SearchScopeTrait,
+        EnableScopeTrait,
+        BelongsToCustomerTrait,
+        GeneralStatusBadgeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +53,7 @@ class Rating extends Model
      *
      * @var array<string>
      */
-    protected array $searchFields = ['comment', 'note'];
+    protected array $searchFields = ['note'];
 
     /**
      * Get the parent ratable models.

@@ -133,7 +133,7 @@ return [
     'ratings' => [
         'ratings' => 'Avis',
         'all' => 'Tous les avis',
-        'detail' => 'Détail de l\'avis',
+        'detail' => "Détail de l'avis",
     ],
 
 ];

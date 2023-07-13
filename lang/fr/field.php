@@ -27,6 +27,7 @@ return [
     'merchant' => 'Marchand',
     'actions' => 'Actions',
     'login' => 'Connexion',
+    'customer' => 'Client',
     'password' => 'Mot de passe',
     'first_name' => 'Prénom',
     'last_name' => 'Nom',
