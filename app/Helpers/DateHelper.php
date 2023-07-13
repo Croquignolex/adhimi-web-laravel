@@ -33,7 +33,7 @@ if(!function_exists('format_date'))
         $date = timezone_date($date);
 
         return match (App::getLocale()) {
-            LanguageEnum::English->value => $date->format('d-m-Y'),
+            LanguageEnum::French->value => $date->format('d-m-Y'),
             default => $date->format('Y-m-d')
         };
     }

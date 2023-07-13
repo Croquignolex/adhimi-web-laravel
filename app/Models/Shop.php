@@ -9,6 +9,7 @@ use App\Traits\Models\MorphOneDefaultAddressTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Models\BelongsToOrganisationTrait;
+use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManySellersTrait;
@@ -18,7 +19,6 @@ use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\HasManyUsersTrait;
 use App\Traits\Models\SearchScopeTrait;
-use App\Traits\Models\StatusBadgeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\UniqueSlugTrait;
@@ -33,13 +33,13 @@ class Shop extends Model
         UniqueSlugTrait,
         EnableScopeTrait,
         SearchScopeTrait,
-        StatusBadgeTrait,
         HasManyUsersTrait,
         SlugFromNameTrait,
         NameInitialsTrait,
         MorphManyLogsTrait,
         HasManySellersTrait,
         BelongsToCreatorTrait,
+        GeneralStatusBadgeTrait,
         BelongsToOrganisationTrait,
         MorphOneDefaultAddressTrait,
         HasManyInventoryHistoriesTrait;

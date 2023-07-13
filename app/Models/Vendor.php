@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
 use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphManyLogsTrait;
@@ -16,7 +17,6 @@ use App\Traits\Models\MorphOneLogoTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\SearchScopeTrait;
-use App\Traits\Models\StatusBadgeTrait;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
 
@@ -28,12 +28,12 @@ class Vendor extends Model
         UniqueSlugTrait,
         EnableScopeTrait,
         SearchScopeTrait,
-        StatusBadgeTrait,
         MorphOneLogoTrait,
         SlugFromNameTrait,
         NameInitialsTrait,
         MorphManyLogsTrait,
         BelongsToCreatorTrait,
+        GeneralStatusBadgeTrait,
         BelongsToOrganisationTrait,
         MorphOneDefaultAddressTrait;
 

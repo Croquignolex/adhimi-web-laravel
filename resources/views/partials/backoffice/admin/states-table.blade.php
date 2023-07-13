@@ -20,7 +20,7 @@
         @forelse($states as $state)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
@@ -49,7 +49,7 @@
                     @include('partials.backoffice.date-badge', ['model' => $state])
                 </td>
                 <td>{{ $state->name }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $state])</td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $state])</td>
                 @if($country)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $state->country])</td>
                 @endif

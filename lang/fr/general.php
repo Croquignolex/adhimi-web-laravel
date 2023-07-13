@@ -24,6 +24,9 @@ return [
     'change_status_question' => "Voulez-vous vraiment :action :name",
     'enable_toggle' => ':name désactivé avec succès',
     'disable_toggle' => ':name activé avec succès',
+    'default_address' => 'Adresse par défaut',
+    'billing_address' => 'Adresse de facturation',
+    'shipping_address' => 'Adresse de livraison',
 
     'action' => [
         'detail' => 'Détails',
@@ -191,6 +194,11 @@ return [
         'copyright' => 'Copyright',
         'all_rights_reserved' => 'tous les droits réservés',
         'designed_by' => 'Design par',
+    ],
+
+    'sex' => [
+        'male' => 'Masculin',
+        'female' => 'Féminin',
     ],
 
 ];

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
@@ -21,7 +22,6 @@ use App\Traits\Models\MorphOneLogoTrait;
 use App\Traits\Models\SearchScopeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Models\StatusBadgeTrait;
 use App\Traits\Models\MorphToManyTags;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Enums\GeneralStatusEnum;
@@ -35,7 +35,6 @@ class Organisation extends Model
         MorphToManyTags,
         UniqueSlugTrait,
         SearchScopeTrait,
-        StatusBadgeTrait,
         EnableScopeTrait,
         HasManyUsersTrait,
         MorphOneLogoTrait,
@@ -45,7 +44,8 @@ class Organisation extends Model
         HasManySellersTrait,
         MorphOneBannerTrait,
         HasManyProductsTrait,
-        BelongsToCreatorTrait;
+        BelongsToCreatorTrait,
+        GeneralStatusBadgeTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -106,6 +106,38 @@
                 </li>
             @endif
 
+            {{-- Staff menu --}}
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="javascript:void(0);">
+                    <i data-feather="grid"></i>
+                    <span class="menu-title text-truncate">@lang('page.staffs.staffs')</span>
+                </a>
+                <ul class="menu-content">
+                    {{-- All staffs menu item --}}
+                    <li class="{{ active_page('admin.users.index') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.users.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.staffs.all')</span>
+                        </a>
+                    </li>
+                    {{-- New staff menu item --}}
+                    <li class="{{ active_page('admin.users.create') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.users.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.staffs.new')</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            {{-- Customer menu --}}
+            <li class="{{ active_page('admin.customers.index') }} nav-item">
+                <a class="d-flex align-items-center" href="{{ route('admin.customers.index') }}">
+                    <i data-feather="users"></i>
+                    <span class="menu-title text-truncate">@lang('page.customers.all')</span>
+                </a>
+            </li>
+
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
                 <li class="navigation-header">
                     <span>Catalog</span>

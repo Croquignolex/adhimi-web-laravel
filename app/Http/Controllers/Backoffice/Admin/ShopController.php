@@ -90,7 +90,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $shop->load(['organisation.logo', 'manager.avatar', 'creator.avatar', 'users.creator.avatar'])
+        $shop->load(['organisation.logo', 'defaultAddress.state.country', 'manager.avatar', 'creator.avatar', 'users.creator.avatar'])
             ->loadCount('users');
 
         $query = $shop->users();
@@ -221,7 +221,7 @@ class ShopController extends Controller
      */
     public function showLogs(Shop $shop): View
     {
-        $shop->load(['organisation.logo', 'manager.avatar', 'creator.avatar', 'logs.creator.avatar'])
+        $shop->load(['organisation.logo', 'defaultAddress.state.country', 'manager.avatar', 'creator.avatar', 'logs.creator.avatar'])
             ->loadCount('users');
 
         $logs = $shop->logs()->orderBy('created_at', 'desc')->paginate();

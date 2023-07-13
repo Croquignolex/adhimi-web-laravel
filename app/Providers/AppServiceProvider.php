@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Organisation;
+use App\Models\Customer;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Vendor;
@@ -49,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
             'coupon' => Coupon::class,
             'country' => Country::class,
             'category' => Category::class,
+            'customer' => Customer::class,
             'organisation' => Organisation::class,
         ]);
     }

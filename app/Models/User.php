@@ -4,34 +4,32 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\Models\MorphOneDefaultAddressTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Models\BelongsToOrganisationTrait;
-use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
+use App\Traits\Models\UserStatusBadgeTrait;
+use App\Traits\Models\MorphOneAvatarTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\UserCreationsTrait;
+use App\Traits\Models\SlugFromNameTrait;
+use App\Traits\Models\NameInitialsTrait;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Models\SearchScopeTrait;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Traits\Models\RouteSlugTrait;
 use Illuminate\Support\Facades\Hash;
-use App\Enums\AddressTypeEnum;
 use App\Enums\UserStatusEnum;
-use App\Enums\MediaTypeEnum;
 use App\Enums\UserRoleEnum;
 use Illuminate\Support\Str;
-use App\Enums\GenderEnum;
 
-class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
+class User extends Authenticatable
 {
     use HasUuids,
         HasRoles,
@@ -41,9 +39,13 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         RouteSlugTrait,
         UniqueSlugTrait,
         SearchScopeTrait,
+        SlugFromNameTrait,
+        NameInitialsTrait,
         MorphManyLogsTrait,
         BelongsToShopTrait,
         UserCreationsTrait,
+        MorphOneAvatarTrait,
+        UserStatusBadgeTrait,
         BelongsToCreatorTrait,
         BelongsToOrganisationTrait,
         MorphOneDefaultAddressTrait;
@@ -54,17 +56,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'slug',
         'email',
         'password',
-        'profession',
-        'gender',
-        'birthdate',
         'status',
         'description',
-        'first_purchase',
         'default_password',
 
         'shop_id',
@@ -88,12 +85,15 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      * @var array<string, string>
      */
     protected $casts = [
-        'birthdate' => 'date',
-        'first_purchase' => 'boolean',
-        'default_password' => 'boolean',
         'status' => UserStatusEnum::class,
-        'gender' => GenderEnum::class,
     ];
+
+    /**
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
+     */
+    protected array $searchFields = ['name', 'email'];
 
     /**
      * The relationships that should always be loaded.
@@ -108,7 +108,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected static function booted(): void
     {
         static::creating(function (User $user) {
-            $user->slug = $user->first_name;
             $user->remember_token = Str::random(60);
             $user->password = Hash::make($user->password ?? config('app.default_password'));
         });
@@ -116,10 +115,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         static::created(function (User $user) {
             $user->setting()->create();
         });
+    }
 
-        static::updating(function (User $user) {
-            $user->slug = $user->first_name;
-        });
+    /**
+     * Scope a query to only include enable model.
+     */
+    public function scopeEnable(Builder $query): void
+    {
+        $query->where('status', UserStatusEnum::Active);
     }
 
     /**
@@ -131,59 +134,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return new Attribute(
             get: fn () => $this->hasRole([UserRoleEnum::SuperAdmin->value, UserRoleEnum::Admin->value])
-        );
-    }
-
-    /**
-     * Manage first name, attribute $this->first_name.
-     *
-     * @return Attribute
-     */
-    protected function firstName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
-            set: fn (string $value) => mb_strtolower($value, 'UTF-8'),
-        );
-    }
-
-    /**
-     * Manage last name, attribute $this->last_name.
-     *
-     * @return Attribute
-     */
-    protected function lastName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => mb_strtoupper($value, 'UTF-8'),
-            set: fn (string|null $value) => mb_strtolower($value, 'UTF-8'),
-        );
-    }
-
-    /**
-     * Determine timezone birthdate, magic attribute $this->tz_birthdate.
-     *
-     * @return Attribute
-     */
-    protected function TzBirthdate(): Attribute
-    {
-        $field = $this->birthdate;
-        return new Attribute(
-            get: fn () => is_null($field) ? $field : $this->timezoneDate($field)
-        );
-    }
-
-    /**
-     * Determine user full name, magic attribute $this->full_name.
-     *
-     * @return Attribute
-     */
-    protected function fullName(): Attribute
-    {
-        return new Attribute(
-            get: fn () => (is_null($this->last_name))
-                ? $this->first_name
-                : $this->first_name . " " . $this->last_name
         );
     }
 
@@ -212,27 +162,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             get: fn () => [
                 'url' => route('admin.users.show', [$this]),
                 'image' => $this->avatar?->url,
-                'label' => $this->first_name,
+                'label' => $this->name,
                 'has_image' => true,
             ]
-        );
-    }
-
-    /**
-     * Determine user initials, magic attribute $this->initials.
-     *
-     * @return Attribute
-     */
-    protected function initials(): Attribute
-    {
-        return new Attribute(
-            get: function () {
-                $nameArray = explode(' ', $this->full_name);
-                if(count($nameArray) > 1) {
-                    return mb_substr($nameArray[0], 0, 1) . mb_substr($nameArray[1], 0, 1);
-                }
-                return mb_substr($nameArray[0], 0, 2);
-            }
         );
     }
 
@@ -265,65 +197,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
                     'value' => __('general.role.' . UserRoleEnum::Seller->value),
                     'color' => 'secondary',
                 ],
-                UserRoleEnum::Customer->value => [
-                    'value' => __('general.role.' . UserRoleEnum::Customer->value),
-                    'color' => 'success',
-                ],
                 default => [
                     'value' => __('general.status.unknown'),
                     'color' => 'secondary',
-                ]
-            }
-        );
-    }
-
-    /**
-     * Determine user status badge, magic attribute $this->status_badge.
-     *
-     * @return Attribute
-     */
-    protected function statusBadge(): Attribute
-    {
-        return new Attribute(
-            get: fn () => match ($this->status) {
-                UserStatusEnum::Active => [
-                    'value' => __('general.status.' . UserStatusEnum::Active->value),
-                    'color' => 'success',
-                ],
-                UserStatusEnum::Blocked => [
-                    'value' => __('general.status.' . UserStatusEnum::Blocked->value),
-                    'color' => 'danger',
-                ],
-                default => [
-                    'value' => __('general.status.unknown'),
-                    'color' => 'secondary',
-                ]
-            }
-        );
-    }
-
-    /**
-     * Determine model's status toggle, magic attribute $this->status_toggle.
-     *
-     * @return Attribute
-     */
-    protected function statusToggle(): Attribute
-    {
-        return new Attribute(
-            get: fn () => match ($this->status) {
-                UserStatusEnum::Active => [
-                    'label' => __('general.action.disable'),
-                    'message' => __('general.enable_toggle', ['name' => $this->full_name]),
-                    'color' => 'danger',
-                    'icon' => 'lock',
-                    'next' => UserStatusEnum::Blocked,
-                ],
-                default => [
-                    'label' => __('general.action.enable'),
-                    'message' => __('general.disable_toggle', ['name' => $this->full_name]),
-                    'color' => 'success',
-                    'icon' => 'unlock',
-                    'next' => UserStatusEnum::Active,
                 ]
             }
         );
@@ -337,58 +213,5 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function setting(): HasOne
     {
         return $this->hasOne(Setting::class);
-    }
-
-    /**
-     * Get user avatar.
-     *
-     * @return MorphOne
-     */
-    public function avatar(): MorphOne
-    {
-        return $this->morphOne(Media::class, 'mediatable')
-            ->whereType(MediaTypeEnum::Avatar);
-    }
-
-    /**
-     * Get user billing address.
-     *
-     * @return MorphOne
-     */
-    public function billingAddress(): MorphOne
-    {
-        return $this->morphOne(Media::class, 'addressable')
-            ->whereType(AddressTypeEnum::Billing);
-    }
-
-    /**
-     * Get user shipping address.
-     *
-     * @return MorphOne
-     */
-    public function shippingAddress(): MorphOne
-    {
-        return $this->morphOne(Media::class, 'addressable')
-            ->whereType(AddressTypeEnum::Shipping);
-    }
-
-    /**
-     * Get ratings associated with the user.
-     *
-     * @return HasMany
-     */
-    public function ratings(): HasMany
-    {
-        return $this->hasMany(Rating::class);
-    }
-
-    /**
-     * Get invoices associated with the user.
-     *
-     * @return HasMany
-     */
-    public function invoices(): HasMany
-    {
-        return $this->hasMany(Invoice::class);
     }
 }

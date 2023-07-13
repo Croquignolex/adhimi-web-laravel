@@ -30,6 +30,8 @@ return [
     'password' => 'Mot de passe',
     'first_name' => 'Prénom',
     'last_name' => 'Nom',
+    'note' => 'Note',
+    'comment' => 'Commentaire',
     'profession' => 'Profession',
     'gender' => 'Genre',
     'birthdate' => 'Date de naissance',

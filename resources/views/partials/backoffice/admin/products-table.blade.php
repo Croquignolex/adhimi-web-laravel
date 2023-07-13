@@ -23,7 +23,7 @@
         @forelse($products as $product)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
@@ -52,11 +52,7 @@
                     @include('partials.backoffice.date-badge', ['model' => $product])
                 </td>
                 <td>{{ $product->name }}</td>
-                <td>
-                    <span class="badge badge-light-{{ $product->status_badge['color'] }}">
-                        {{ $product->status_badge['value'] }}
-                    </span>
-                </td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $product])</td>
                 @if($category)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $product->category])</td>
                 @endif

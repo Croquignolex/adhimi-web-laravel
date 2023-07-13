@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphOneBannerTrait;
@@ -14,7 +15,6 @@ use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\SearchScopeTrait;
-use App\Traits\Models\StatusBadgeTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\UniqueSlugTrait;
@@ -29,13 +29,13 @@ class Group extends Model
         MorphToManyTags,
         UniqueSlugTrait,
         SearchScopeTrait,
-        StatusBadgeTrait,
         EnableScopeTrait,
         NameInitialsTrait,
         SlugFromNameTrait,
         MorphManyLogsTrait,
         MorphOneBannerTrait,
-        BelongsToCreatorTrait;
+        BelongsToCreatorTrait,
+        GeneralStatusBadgeTrait;
 
     /**
      * The attributes that are mass assignable.

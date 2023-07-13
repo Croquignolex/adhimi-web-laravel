@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
+use App\Http\Requests\Coupon\UpdateCouponRequest;
+use App\Http\Requests\Coupon\StoreCouponRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
-use Spatie\Permission\Models\Role;
-use App\Enums\UserStatusEnum;
-use App\Models\Organisation;
 use Illuminate\Http\Request;
-use App\Enums\LogActionEnum;
-use App\Enums\ToastTypeEnum;
-use Illuminate\Support\Str;
-use App\Events\ToastEvent;
 use App\Events\LogEvent;
-use App\Models\User;
+use App\Models\Coupon;
 
 class UserController extends Controller
 {
@@ -29,11 +24,13 @@ class UserController extends Controller
     {
         $q = $request->query('q');
 
-        $organisations = ($q)
-            ? Organisation::with('merchant')->search($q)->orderBy('name')->get()
-            : Organisation::with('merchant')->orderBy('created_at', 'desc')->paginate();
+        $query = Coupon::with('creator.avatar');
 
-        return view('backoffice.admin.organisations.index', compact('organisations', 'q'));
+        $coupons = ($q)
+            ? $query->search($q)->orderBy('code')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.coupons.index', compact(['coupons', 'q']));
     }
 
     /**
@@ -43,119 +40,111 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('users.create');
+        return view('backoffice.admin.coupons.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreUserRequest $request
+     * @param StoreCouponRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(StoreCouponRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate']
+        $authUser = Auth::user();
+
+        $coupon = $authUser->createdCoupons()->create([
+            'code' => $validated['code'],
+            'discount' => $validated['discount'],
+            'promotion_started_at' => $validated['promotion_started_at'],
+            'promotion_ended_at' => $validated['promotion_ended_at'],
+            'description' => $validated['description'],
         ]);
 
-        LogEvent::dispatch($user, LogActionEnum::Create, "User $user->name created");
+        LogEvent::dispatchCreate($coupon, $request, __('general.coupon.created', ['code' => $coupon->code]));
 
-        return redirect(route('users.index'));
+        return redirect(route('admin.coupons.show', [$coupon]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param Coupon $coupon
      * @return View
      */
-    public function show(User $user): View
+    public function show(Coupon $coupon): View
     {
-        return view('users.show', compact('user'));
+        $coupon->load('creator.avatar');
+
+        return view('backoffice.admin.coupons.show', compact('coupon'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
-     * @return View|RedirectResponse
+     * @param Coupon $coupon
+     * @return View
      */
-    public function edit(User $user): View|RedirectResponse
+    public function edit(Coupon $coupon): View
     {
-        if(!$this->authorized($user)) return back();
-
-        return view('users.edit', compact('user'));
+        return view('backoffice.admin.coupons.edit', compact('coupon'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateUserRequest $request
-     * @param User $user
+     * @param UpdateCouponRequest $request
+     * @param Coupon $coupon
      * @return RedirectResponse
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UpdateCouponRequest $request, Coupon $coupon): RedirectResponse
     {
-        if(!$this->authorized($user)) return back();
-
         $validated = $request->validated();
 
-        $user->update([
-            'name' => $validated['name'],
-            'username' => Str::slug($validated['name']),
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
+        $coupon->update([
+            'code' => $validated['code'],
+            'discount' => $validated['discount'],
+            'promotion_started_at' => $validated['promotion_started_at'],
+            'promotion_ended_at' => $validated['promotion_ended_at'],
+            'description' => $validated['description'],
         ]);
 
-        $user->syncRoles([Role::findOrCreate($validated['role'], 'web')]);
+        LogEvent::dispatchUpdate($coupon, $request, __('general.coupon.updated', ['code' => $coupon->code]));
 
-        LogEvent::dispatch($user, LogActionEnum::Update, "User $user->name updated");
-
-        return redirect(route('users.show', [$user]));
+        return redirect(route('admin.coupons.show', [$coupon]));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Toggle coupon status.
      *
-     * @param User $user
+     * @param Request $request
+     * @param Coupon $coupon
      * @return RedirectResponse
      */
-    public function destroy(User $user): RedirectResponse
+    public function statusToggle(Request $request, Coupon $coupon): RedirectResponse
     {
-        if(!$this->authorized($user)) return back();
+        $message = $coupon->status_toggle['message'];
+        $coupon->update(['status' => $coupon->status_toggle['next']]);
 
-        $nextStatus = enums_equals($user->status, UserStatusEnum::Active)
-            ? UserStatusEnum::Blocked
-            : UserStatusEnum::Active;
-
-        $user->update(['status' => $nextStatus]);
-
-        $user->notify(new AccountDeactivatedNotification());
-
-        LogEvent::dispatch($user, LogActionEnum::Custom, "User $user->name status toggled");
+        LogEvent::dispatchUpdate($coupon, $request, $message);
 
         return back();
     }
 
     /**
-     * @param User $user
-     * @return bool
+     * Display the specified resource.
+     *
+     * @param Coupon $coupon
+     * @return View
      */
-    private function authorized(User $user): bool
+    public function showLogs(Coupon $coupon): View
     {
-        if(Auth::id() === $user->id)
-        {
-            ToastEvent::dispatch("You are not allow to perform this action", ToastTypeEnum::Warning);
-            return false;
-        }
+        $coupon->load(['creator.avatar', 'logs.creator.avatar']);
 
-        return true;
+        $logs = $coupon->logs()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.coupons.show-logs', compact(['coupon', 'logs']));
     }
 }

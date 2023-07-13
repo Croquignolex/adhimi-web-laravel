@@ -18,7 +18,7 @@
         @forelse($brands as $brand)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
                                 data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $brand])</td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $brand])</td>
                 @if($creator)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $brand->creator])</td>
                 @endif

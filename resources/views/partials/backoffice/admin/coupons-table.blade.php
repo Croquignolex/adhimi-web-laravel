@@ -19,7 +19,7 @@
         @forelse($coupons as $coupon)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
@@ -48,7 +48,7 @@
                 <td>{{ $coupon->code }}</td>
                 <td>{{ $coupon->discount }}%</td>
                 <td>{{ $coupon->total_use }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $coupon])</td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $coupon])</td>
                 @if($creator)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->creator])</td>
                 @endif

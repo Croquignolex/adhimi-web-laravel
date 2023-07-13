@@ -195,4 +195,14 @@ class Product extends Model
     {
         return $this->hasMany(InventoryHistory::class);
     }
+
+    /**
+     * Get all the morph model's ratings.
+     *
+     * @return MorphMany
+     */
+    public function ratings(): MorphMany
+    {
+        return $this->morphMany(Rating::class, 'ratable');
+    }
 }

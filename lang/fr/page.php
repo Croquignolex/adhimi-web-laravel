@@ -124,4 +124,16 @@ return [
         'detail' => 'Détail du produit',
     ],
 
+    'customers' => [
+        'customers' => 'Clients',
+        'all' => 'Tous les clients',
+        'detail' => 'Détail du client',
+    ],
+
+    'ratings' => [
+        'ratings' => 'Avis',
+        'all' => 'Tous les avis',
+        'detail' => 'Détail de l\'avis',
+    ],
+
 ];

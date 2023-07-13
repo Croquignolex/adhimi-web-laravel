@@ -21,7 +21,7 @@
         @forelse($categories as $category)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
                                 data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
@@ -62,7 +62,7 @@
                     @include('partials.backoffice.date-badge', ['model' => $category])
                 </td>
                 <td>{{ $category->name }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $category])</td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $category])</td>
                 @if($group)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $category->group])</td>
                 @endif

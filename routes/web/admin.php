@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backoffice\Admin\OrganisationController;
+use App\Http\Controllers\Backoffice\Admin\CustomerController;
 use App\Http\Controllers\Backoffice\Admin\CategoryController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
@@ -60,6 +61,25 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          * @controller users
          */
         Route::resource('users', UserController::class);
+        Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+            Route::get('{brand}/logs', 'showLogs')->name('show.logs');
+            Route::put('{brand}/change-avatar', 'changeAvatar')->name('avatar.change');
+            Route::delete('{brand}/remove-avatar', 'removeAvatar')->name('avatar.remove');
+            Route::post('{brand}/status-toggle', 'statusToggle')->name('status.toggle');
+        });
+
+        /**
+         * @resource customers
+         * @controller customers
+         */
+        Route::resource('customers', CustomerController::class)->only(['index', 'show']);
+        Route::controller(CustomerController::class)->prefix('customers')->name('customers.')->group(function () {
+            Route::get('{customer}/logs', 'showLogs')->name('show.logs');
+            Route::get('{customer}/ratings', 'showRatings')->name('show.ratings');
+            Route::post('{customer}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{customer}/add-rating', 'showAddRatingForm')->name('add.rating');
+            Route::post('{customer}/add-rating', 'addRating');
+        });
     });
 
     /**

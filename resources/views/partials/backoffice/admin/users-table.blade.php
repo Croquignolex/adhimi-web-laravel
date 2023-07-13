@@ -24,7 +24,7 @@
         @forelse($users as $user)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
@@ -60,7 +60,7 @@
                     </div>
                 </td>
                 <td>@include('partials.backoffice.role-badge', ['model' => $user])</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $user])</td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $user])</td>
                 @if($organisation)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $user->organisation])</td>
                 @endif

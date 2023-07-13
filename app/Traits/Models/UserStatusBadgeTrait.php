@@ -3,9 +3,9 @@
 namespace App\Traits\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use App\Enums\GeneralStatusEnum;
+use App\Enums\UserStatusEnum;
 
-trait StatusBadgeTrait
+trait UserStatusBadgeTrait
 {
     /**
      * Determine model's status badge, magic attribute $this->status_badge.
@@ -16,17 +16,13 @@ trait StatusBadgeTrait
     {
         return new Attribute(
             get: fn () => match ($this->status) {
-                GeneralStatusEnum::Enable => [
-                    'value' => __('general.status.' . GeneralStatusEnum::Enable->value),
+                UserStatusEnum::Active => [
+                    'value' => __('general.status.' . UserStatusEnum::Active->value),
                     'color' => 'success',
                 ],
-                GeneralStatusEnum::Disable => [
-                    'value' => __('general.status.' . GeneralStatusEnum::Disable->value),
+                UserStatusEnum::Blocked => [
+                    'value' => __('general.status.' . UserStatusEnum::Blocked->value),
                     'color' => 'danger',
-                ],
-                GeneralStatusEnum::StandBy => [
-                    'value' => __('general.status.' . GeneralStatusEnum::StandBy->value),
-                    'color' => 'warning',
                 ],
                 default => [
                     'value' => __('general.status.unknown'),
@@ -43,21 +39,23 @@ trait StatusBadgeTrait
      */
     protected function statusToggle(): Attribute
     {
+        $name = $this->first_name ?: $this->name;
+
         return new Attribute(
             get: fn () => match ($this->status) {
-                GeneralStatusEnum::Enable => [
+                UserStatusEnum::Active => [
                     'label' => __('general.action.disable'),
-                    'message' => __('general.enable_toggle', ['name' => $this->name]),
+                    'message' => __('general.enable_toggle', ['name' => $name]),
                     'color' => 'danger',
                     'icon' => 'lock',
-                    'next' => GeneralStatusEnum::Disable,
+                    'next' => UserStatusEnum::Blocked,
                 ],
                 default => [
                     'label' => __('general.action.enable'),
-                    'message' => __('general.disable_toggle', ['name' => $this->name]),
+                    'message' => __('general.disable_toggle', ['name' => $name]),
                     'color' => 'success',
                     'icon' => 'unlock',
-                    'next' => GeneralStatusEnum::Enable,
+                    'next' => UserStatusEnum::Active,
                 ]
             }
         );

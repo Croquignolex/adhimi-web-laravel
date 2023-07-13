@@ -70,7 +70,7 @@
                                 @foreach(\App\Enums\GenderEnum::values() as $gender)
                                     <option value="{{ $gender }}"
                                             {{ (old('gender') ?? $user->gender->value) == $gender ? 'selected' : '' }}>
-                                        {{ $gender }}
+                                        @lang('general.sex.' . $gender)
                                     </option>
                                 @endforeach
                             </select>

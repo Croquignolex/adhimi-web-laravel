@@ -8,7 +8,7 @@ enum GenderEnum: string
 {
     use EnumToolsTrait;
 
-    case Male = 'Male';
-    case Female = 'Female';
-    case Unknown = 'Unknown';
+    case Male = 'male';
+    case Female = 'female';
+    case Unknown = 'unknown';
 }

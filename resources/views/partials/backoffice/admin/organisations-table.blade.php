@@ -21,7 +21,7 @@
         @forelse($organisations as $organisation)
             <tr>
                 <td>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
@@ -89,7 +89,7 @@
                     </div>
                 </td>
                 <td>{{ $organisation->phone }}</td>
-                <td>@include('partials.backoffice.status-badge', ['model' => $organisation])</td>
+                <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $organisation])</td>
                 @if($merchant)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $organisation->merchant])</td>
                 @endif

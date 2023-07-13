@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use App\Traits\Models\GeneralStatusBadgeTrait;
+use App\Traits\Models\BelongsToCustomerTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Models\BelongsToUserTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\EnableScopeTrait;
 use App\Enums\GeneralStatusEnum;
 
 class Rating extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, BelongsToUserTrait, EnableScopeTrait;
+    use HasFactory, SoftDeletes, HasUuids, BelongsToCustomerTrait, EnableScopeTrait, GeneralStatusBadgeTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +29,7 @@ class Rating extends Model
         'ratable_type',
         'ratable_id',
 
-        'user_id',
+        'customer_id',
     ];
 
     /**
@@ -39,6 +40,13 @@ class Rating extends Model
     protected $casts = [
         'status' => GeneralStatusEnum::class,
     ];
+
+    /**
+     * The attributes that should be searchable.
+     *
+     * @var array<string>
+     */
+    protected array $searchFields = ['comment', 'note'];
 
     /**
      * Get the parent ratable models.
