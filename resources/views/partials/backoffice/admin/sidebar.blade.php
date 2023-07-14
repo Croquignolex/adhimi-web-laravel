@@ -121,10 +121,28 @@
                         </a>
                     </li>
                     {{-- New staff menu item --}}
-                    <li class="{{ active_page('admin.users.create') }}">
-                        <a class="d-flex align-items-center" href="{{ route('admin.users.create') }}">
+                    <li class="{{ active_page('admin.users.create.admin') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.users.create.admin') }}">
                             <i data-feather="circle"></i>
-                            <span class="menu-item">@lang('page.staffs.new')</span>
+                            <span class="menu-item">@lang('page.staffs.new_admin')</span>
+                        </a>
+                    </li>
+                    <li class="{{ active_page('admin.users.create.merchant') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.users.create.merchant') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.staffs.new_merchant')</span>
+                        </a>
+                    </li>
+                    <li class="{{ active_page('admin.users.create.manager') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.users.create.manager') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.staffs.new_manager')</span>
+                        </a>
+                    </li>
+                    <li class="{{ active_page('admin.users.create.seller') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.users.create.seller') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.staffs.new_seller')</span>
                         </a>
                     </li>
                 </ul>

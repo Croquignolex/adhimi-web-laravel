@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Shop;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAddSellerRequest extends FormRequest
+class UpdateAvatarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class StoreAddSellerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string|unique:users,name",
-            'email' => "required|email|unique:users,email",
-            'description' => "nullable|string",
+            'avatar' => "required|file|mimetypes:image/jpg,image/jpeg,image/png|max:1024",
         ];
     }
 }

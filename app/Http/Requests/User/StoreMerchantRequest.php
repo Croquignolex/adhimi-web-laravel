@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Profile;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateAvatarRequest extends FormRequest
+class StoreMerchantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,13 @@ class UpdateAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => "required|file|mimetypes:image/jpg,image/jpeg,image/png|max:1024",
+            'organisation' => [
+                'required',
+                Rule::exists('organisations', 'id')
+            ],
+            'name' => "required|string|unique:users,name",
+            'email' => "required|email|unique:users,email",
+            'description' => "nullable|string",
         ];
     }
 }

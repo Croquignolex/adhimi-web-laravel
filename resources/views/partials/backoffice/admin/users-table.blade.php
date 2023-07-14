@@ -6,7 +6,7 @@
         <tr>
             <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
-            <th>@lang('field.first_name') <i data-feather="search" class="text-secondary"></i></th>
+            <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i></th>
             <th>@lang('field.role')
             <th>@lang('field.status')</th>
             @if($organisation)
@@ -28,14 +28,10 @@
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                             <i data-feather="more-vertical"></i>
                         </button>
-                        {{--<div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ route('admin.shops.show', [$user]) }}">
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('admin.users.show', [$user]) }}">
                                 <i data-feather="eye" class="mr-50 text-primary"></i>
                                 @lang('general.action.detail')
-                            </a>
-                            <a class="dropdown-item" href="{{ route('admin.shops.edit', [$user]) }}">
-                                <i data-feather="edit" class="mr-50 text-warning"></i>
-                                @lang('general.action.update')
                             </a>
                             <hr>
                             <a href="javascript:void(0);" class="dropdown-item"
@@ -44,8 +40,7 @@
                                 <i data-feather="{{ $user->status_toggle['icon'] }}" class="mr-50 text-{{ $user->status_toggle['color'] }}"></i>
                                 <span>{{ $user->status_toggle['label'] }}</span>
                             </a>
-                            <hr>
-                        </div>--}}
+                        </div>
                     </div>
                 </td>
                 <td style="white-space: nowrap;">
@@ -55,7 +50,7 @@
                     <div class="d-flex align-items-center">
                         @include('partials.backoffice.round-image', ['url' => $user->avatar?->url, 'initials' => $user->initials, 'size' => 'xs'])
                         <div class="ml-50">
-                            {{ $user->first_name }}
+                            {{ $user->name }}
                         </div>
                     </div>
                 </td>
@@ -73,7 +68,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="7">
+                <td colspan="8">
                     <div class="alert alert-primary fade show" role="alert">
                         <div class="alert-body text-center">
                             @lang('general.no_records')
@@ -99,7 +94,7 @@
         'title' => $user->status_toggle['label'],
     ])
         <p>@lang('general.change_status_question', ['name' => $user->name, 'action' => $user->status_toggle['label']])?</p>
-        <form action="{{ route('admin.states.status.toggle', [$user]) }}" method="POST" class="text-right mt-50">
+        <form action="{{ route('admin.users.status.toggle', [$user]) }}" method="POST" class="text-right mt-50">
             @csrf
             <button type="submit" class="btn btn-{{ $user->status_toggle['color'] }}">
                 @lang('general.yes')

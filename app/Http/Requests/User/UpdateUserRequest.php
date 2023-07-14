@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Shop;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreAddSellerRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,13 @@ class StoreAddSellerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|string|unique:users,name",
-            'email' => "required|email|unique:users,email",
+            'name' => ['required', 'string', Rule::unique('organisations', 'name')->ignore($this->organisation)],
+            'email' => "nullable|email",
+            'website' => "nullable|string",
+            'phone' => "nullable|string",
             'description' => "nullable|string",
+            'seo_title' => "nullable|string",
+            'seo_description' => "nullable|string",
         ];
     }
 }

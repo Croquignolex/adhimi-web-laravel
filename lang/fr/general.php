@@ -188,6 +188,12 @@ return [
         'merchant_created' => 'Marchand :name créer',
         'manager_created' => 'Gestionnaire de boutique :name créer',
         'seller_created' => 'Vendeur :name créer',
+        'admin_created' => 'Administrateur :name créer',
+        'avatar_deleted' => 'Avatar du membre :name supprimé avec succès',
+        'avatar_created' => 'Avatar du membre :name ajouté avec succès',
+        'avatar_updated' => 'Avatar du membre :name mis à jour avec succès',
+        'delete_avatar_question' => "Voulez-vous vraiment supprimer l'avatar de ce membre",
+        'delete_avatar' => "Supprimer l'avatar du membre",
     ],
 
     'footer' => [

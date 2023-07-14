@@ -61,12 +61,18 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          * @resource users
          * @controller users
          */
-        Route::resource('users', UserController::class);
-        Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
-            Route::get('{brand}/logs', 'showLogs')->name('show.logs');
-            Route::put('{brand}/change-avatar', 'changeAvatar')->name('avatar.change');
-            Route::delete('{brand}/remove-avatar', 'removeAvatar')->name('avatar.remove');
-            Route::post('{brand}/status-toggle', 'statusToggle')->name('status.toggle');
+        Route::resource('users', UserController::class)->only(['index', 'show']);
+        Route::controller(UserController::class)->prefix('staffs')->name('users.')->group(function () {
+            Route::get('create-admin', 'createAdmin')->name('create.admin');
+            Route::post('create-admin', 'storeAdmin');
+            Route::get('create-merchant', 'createMerchant')->name('create.merchant');
+            Route::post('create-merchant', 'storeMerchant');
+            Route::get('create-manager', 'createManager')->name('create.manager');
+            Route::post('create-manager', 'storeManager');
+            Route::get('create-seller', 'createSeller')->name('create.seller');
+            Route::post('create-seller', 'storeSeller');
+            Route::get('{user}/logs', 'showLogs')->name('show.logs');
+            Route::post('{user}/status-toggle', 'statusToggle')->name('status.toggle');
         });
 
         /**

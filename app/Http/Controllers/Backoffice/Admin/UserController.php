@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Coupon\UpdateCouponRequest;
-use App\Http\Requests\Coupon\StoreCouponRequest;
+use App\Http\Requests\User\StoreMerchantRequest;
+use App\Http\Requests\User\StoreManagerRequest;
+use App\Http\Requests\User\StoreAdminRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
+use App\Models\Organisation;
 use Illuminate\Http\Request;
+use App\Enums\UserRoleEnum;
+use App\Events\ToastEvent;
 use App\Events\LogEvent;
-use App\Models\Coupon;
+use App\Models\Shop;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -24,13 +29,13 @@ class UserController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Coupon::with('creator.avatar');
+        $query = User::allow()->with(['creator.avatar', 'shop', 'organisation.logo']);
 
-        $coupons = ($q)
-            ? $query->search($q)->orderBy('code')->get()
+        $users = ($q)
+            ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.coupons.index', compact(['coupons', 'q']));
+        return view('backoffice.admin.users.index', compact(['users', 'q']));
     }
 
     /**
@@ -38,97 +43,150 @@ class UserController extends Controller
      *
      * @return View
      */
-    public function create(): View
+    public function createAdmin(): View
     {
-        return view('backoffice.admin.coupons.create');
+        return view('backoffice.admin.users.create-admin');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreCouponRequest $request
+     * @param StoreAdminRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreCouponRequest $request): RedirectResponse
+    public function storeAdmin(StoreAdminRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
         $authUser = Auth::user();
 
-        $coupon = $authUser->createdCoupons()->create([
-            'code' => $validated['code'],
-            'discount' => $validated['discount'],
-            'promotion_started_at' => $validated['promotion_started_at'],
-            'promotion_ended_at' => $validated['promotion_ended_at'],
+        $admin = $authUser->createdUsers()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
             'description' => $validated['description'],
         ]);
 
-        LogEvent::dispatchCreate($coupon, $request, __('general.coupon.created', ['code' => $coupon->code]));
+        $admin->syncRoles([UserRoleEnum::Admin->value]);
 
-        return redirect(route('admin.coupons.show', [$coupon]));
+        LogEvent::dispatchCreate($admin, $request, __('general.user.admin_created', ['name' => $admin->name]));
+
+        return redirect(route('admin.users.show', [$admin]));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function createMerchant(): View
+    {
+        return view('backoffice.admin.users.create-merchant');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreMerchantRequest $request
+     * @return RedirectResponse
+     */
+    public function storeMerchant(StoreMerchantRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $organisation = Organisation::find($validated['organisation']);
+
+        if(!$organisation->can_add_merchant) {
+            ToastEvent::dispatchWarning(__('general.permission_denied'));
+            return back();
+        }
+
+        $authUser = Auth::user();
+
+        $merchant = $organisation->users()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'description' => $validated['description'],
+            'creator_id' => $authUser->id,
+        ]);
+
+        $merchant->syncRoles([UserRoleEnum::Merchant->value]);
+
+        LogEvent::dispatchCreate($merchant, $request, __('general.user.merchant_created', ['name' => $merchant->name]));
+
+        return redirect(route('admin.users.show', [$merchant]));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function createManager(): View
+    {
+        return view('backoffice.admin.users.create-manager');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreManagerRequest $request
+     * @return RedirectResponse
+     */
+    public function storeManager(StoreManagerRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $organisation = Organisation::find($validated['organisation']);
+        $shop = Shop::find($validated['shop']);
+
+        if(!$organisation->can_add_manager || !$shop->can_add_manager) {
+            ToastEvent::dispatchWarning(__('general.permission_denied'));
+            return back();
+        }
+
+        $authUser = Auth::user();
+
+        $manager = $organisation->users()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'description' => $validated['description'],
+            'shop_id' => $validated['shop'],
+            'creator_id' => $authUser->id,
+        ]);
+
+        $manager->syncRoles([UserRoleEnum::ShopManager->value]);
+
+        LogEvent::dispatchCreate($manager, $request, __('general.user.manager_created', ['name' => $manager->name]));
+
+        return redirect(route('admin.users.show', [$manager]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Coupon $coupon
+     * @param User $user
      * @return View
      */
-    public function show(Coupon $coupon): View
+    public function show(User $user): View
     {
-        $coupon->load('creator.avatar');
+        $user->load(['creator.avatar', 'shop', 'organisation.logo']);
 
-        return view('backoffice.admin.coupons.show', compact('coupon'));
+        return view('backoffice.admin.users.show', compact('user'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Coupon $coupon
-     * @return View
-     */
-    public function edit(Coupon $coupon): View
-    {
-        return view('backoffice.admin.coupons.edit', compact('coupon'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateCouponRequest $request
-     * @param Coupon $coupon
-     * @return RedirectResponse
-     */
-    public function update(UpdateCouponRequest $request, Coupon $coupon): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $coupon->update([
-            'code' => $validated['code'],
-            'discount' => $validated['discount'],
-            'promotion_started_at' => $validated['promotion_started_at'],
-            'promotion_ended_at' => $validated['promotion_ended_at'],
-            'description' => $validated['description'],
-        ]);
-
-        LogEvent::dispatchUpdate($coupon, $request, __('general.coupon.updated', ['code' => $coupon->code]));
-
-        return redirect(route('admin.coupons.show', [$coupon]));
-    }
-
-    /**
-     * Toggle coupon status.
+     * Toggle user status.
      *
      * @param Request $request
-     * @param Coupon $coupon
+     * @param User $user
      * @return RedirectResponse
      */
-    public function statusToggle(Request $request, Coupon $coupon): RedirectResponse
+    public function statusToggle(Request $request, User $user): RedirectResponse
     {
-        $message = $coupon->status_toggle['message'];
-        $coupon->update(['status' => $coupon->status_toggle['next']]);
+        $message = $user->status_toggle['message'];
+        $user->update(['status' => $user->status_toggle['next']]);
 
-        LogEvent::dispatchUpdate($coupon, $request, $message);
+        LogEvent::dispatchUpdate($user, $request, $message);
 
         return back();
     }
@@ -136,15 +194,15 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Coupon $coupon
+     * @param User $user
      * @return View
      */
-    public function showLogs(Coupon $coupon): View
+    public function showLogs(User $user): View
     {
-        $coupon->load(['creator.avatar', 'logs.creator.avatar']);
+        $user->load(['creator.avatar', 'shop', 'organisation.logo', 'logs.creator.avatar']);
 
-        $logs = $coupon->logs()->orderBy('created_at', 'desc')->paginate();
+        $logs = $user->logs()->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.coupons.show-logs', compact(['coupon', 'logs']));
+        return view('backoffice.admin.users.show-logs', compact(['user', 'logs']));
     }
 }

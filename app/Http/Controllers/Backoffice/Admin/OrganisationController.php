@@ -171,7 +171,7 @@ class OrganisationController extends Controller
 
         $logo = $organisation->logo;
 
-        $logoName = Storage::disk('public')->put(MediaTypeEnum::Banner->value, $validated['logo']);
+        $logoName = Storage::disk('public')->put(MediaTypeEnum::Logo->value, $validated['logo']);
 
         if($logoName)
         {
@@ -320,7 +320,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'users.avatar', 'users.creator.avatar'])
+        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'users.avatar', 'users.creator.avatar', 'users.shop'])
             ->loadCount(['shops', 'vendors', 'users', 'products']);
 
         $query = $organisation->users();
@@ -386,12 +386,8 @@ class OrganisationController extends Controller
         $authUser = Auth::user();
 
         $merchant = $organisation->users()->create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
+            'name' => $validated['name'],
             'email' => $validated['email'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
             'description' => $validated['description'],
             'creator_id' => $authUser->id,
         ]);
@@ -435,12 +431,8 @@ class OrganisationController extends Controller
         $authUser = Auth::user();
 
         $manager = $organisation->users()->create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
+            'name' => $validated['name'],
             'email' => $validated['email'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
             'description' => $validated['description'],
             'shop_id' => $validated['shop'],
             'creator_id' => $authUser->id,
@@ -480,12 +472,8 @@ class OrganisationController extends Controller
         $authUser = Auth::user();
 
         $seller = $organisation->users()->create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
+            'name' => $validated['name'],
             'email' => $validated['email'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
             'description' => $validated['description'],
             'shop_id' => $validated['shop'],
             'creator_id' => $authUser->id,

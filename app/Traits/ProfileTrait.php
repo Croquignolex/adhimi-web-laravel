@@ -5,14 +5,14 @@ namespace App\Traits;
 use App\Http\Requests\Profile\UpdatePasswordRequest;
 use App\Http\Requests\Profile\UpdateSettingsRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
-use App\Http\Requests\Profile\UpdateAvatarRequest;
 use App\Http\Requests\UpdateAddressRequest;
+use App\Http\Requests\UpdateAvatarRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Enums\MediaTypeEnum;
 use Illuminate\Http\Request;
+use App\Enums\MediaTypeEnum;
 use App\Events\ToastEvent;
 use App\Events\LogEvent;
 
@@ -31,11 +31,7 @@ trait ProfileTrait
         $authUser = Auth::user();
 
         $authUser->update([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
+            'name' => $validated['name'],
             'description' => $validated['description'],
         ]);
 

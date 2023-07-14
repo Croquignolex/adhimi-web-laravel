@@ -86,6 +86,10 @@ return [
         'all' => 'Tous les membres',
         'edit' => 'Modifier le membre',
         'detail' => 'Détail du membre',
+        'new_admin' => 'Nouvel admin',
+        'new_merchant' => 'Nouveau marchant',
+        'new_manager' => 'Nouveau gestion...',
+        'new_seller' => 'Nouveau vendeur',
     ],
 
     'brands' => [

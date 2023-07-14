@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\OrganisationController;
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\StateController;
 use App\Http\Controllers\Api\V1\GroupController;
+use App\Http\Controllers\Api\V1\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,11 +34,15 @@ Route::resource('states', StateController::class)->only('index');
 Route::resource('groups', GroupController::class)->only('index');
 
 /**
+ * @resource shops
+ */
+Route::resource('shops', ShopController::class)->only('index');
+
+/**
  * @resource organisations
  * @controller organisations
  */
 Route::resource('organisations', OrganisationController::class)->only('index');
 Route::controller(OrganisationController::class)->prefix('organisations')->name('organisations.')->group(function () {
     Route::get('{organisation}/shops', 'shops')->name('shops');
-    Route::get('{organisation}/free-shops', 'freeShops')->name('shops.free');
 });

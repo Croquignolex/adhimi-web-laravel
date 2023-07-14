@@ -24,7 +24,6 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ?string ...$types): Response|RedirectResponse
     {
         $mappedTypes = collect($types)->map(fn (string $type) => match ($type) {
-            MiddlewareTypeEnum::Customer->value => UserRoleEnum::Customer->value,
             MiddlewareTypeEnum::Admin->value => UserRoleEnum::Admin->value,
             MiddlewareTypeEnum::Merchant->value => UserRoleEnum::Merchant->value,
             MiddlewareTypeEnum::ShopManager->value => UserRoleEnum::ShopManager->value,

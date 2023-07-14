@@ -21,6 +21,7 @@ use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\NameInitialsTrait;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Models\SearchScopeTrait;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Traits\Models\RouteSlugTrait;
@@ -93,7 +94,7 @@ class User extends Authenticatable
      *
      * @var array<string>
      */
-    protected array $searchFields = ['name', 'email'];
+    protected array $searchFields = ['name'];
 
     /**
      * The relationships that should always be loaded.
@@ -115,6 +116,18 @@ class User extends Authenticatable
         static::created(function (User $user) {
             $user->setting()->create();
         });
+    }
+
+    /**
+     * Scope a query to only include model without super admin.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+        $query
+            ->where('id', '<>', $this->id)
+            ->whereDoesntHave('roles', function (Builder $query) {
+                $query->where('name', UserRoleEnum::SuperAdmin->value);
+            });
     }
 
     /**
@@ -158,9 +171,13 @@ class User extends Authenticatable
     {
         $this->load('avatar');
 
+        $url = (Auth::id() === $this->id)
+            ? route('admin.profile.general')
+            : route('admin.users.show', [$this]);
+
         return new Attribute(
             get: fn () => [
-                'url' => route('admin.users.show', [$this]),
+                'url' => $url,
                 'image' => $this->avatar?->url,
                 'label' => $this->name,
                 'has_image' => true,

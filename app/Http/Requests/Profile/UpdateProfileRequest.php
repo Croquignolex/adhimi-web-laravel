@@ -3,7 +3,8 @@
 namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\GenderEnum;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -24,14 +25,10 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $genders = GenderEnum::stringify();
+        $authUser = Auth::user();
 
         return [
-            'first_name' => "required|string",
-            'last_name' => "nullable|string",
-            'profession' => "nullable|string",
-            'gender' => "required|in:$genders",
-            'birthdate' => "nullable|date",
+            'name' => ['required', 'string', Rule::unique('users', 'name')->ignore($authUser)],
             'description' => "nullable|string",
         ];
     }

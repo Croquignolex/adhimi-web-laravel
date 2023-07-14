@@ -90,7 +90,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $shop->load(['organisation.logo', 'defaultAddress.state.country', 'manager.avatar', 'creator.avatar', 'users.creator.avatar'])
+        $shop->load(['organisation.logo', 'defaultAddress.state.country', 'manager.avatar', 'creator.avatar', 'users.creator.avatar', 'users.organisation.logo'])
             ->loadCount('users');
 
         $query = $shop->users();
@@ -259,12 +259,8 @@ class ShopController extends Controller
         $authUser = Auth::user();
 
         $manager = $shop->users()->create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
+            'name' => $validated['name'],
             'email' => $validated['email'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
             'description' => $validated['description'],
             'organisation_id' => $shop->organisation->id,
             'creator_id' => $authUser->id,
@@ -302,12 +298,8 @@ class ShopController extends Controller
         $authUser = Auth::user();
 
         $seller = $shop->users()->create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'profession' => $validated['profession'],
+            'name' => $validated['name'],
             'email' => $validated['email'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
             'description' => $validated['description'],
             'organisation_id' => $shop->organisation->id,
             'creator_id' => $authUser->id,

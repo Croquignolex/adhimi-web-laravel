@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\GenderEnum;
 
 class StoreAddManagerRequest extends FormRequest
 {
@@ -24,15 +23,9 @@ class StoreAddManagerRequest extends FormRequest
      */
     public function rules(): array
     {
-        $genders = GenderEnum::stringify();
-
         return [
-            'first_name' => "required|string",
-            'last_name' => "nullable|string",
+            'name' => "required|string|unique:users,name",
             'email' => "required|email|unique:users,email",
-            'profession' => "nullable|string",
-            'gender' => "required|in:$genders",
-            'birthdate' => "nullable|string",
             'description' => "nullable|string",
         ];
     }

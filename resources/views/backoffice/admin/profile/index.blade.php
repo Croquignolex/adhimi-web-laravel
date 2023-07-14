@@ -33,17 +33,10 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         @include('partials.input.text', [
-                            'value' => $user->first_name,
-                            'label' => __('field.first_name'),
-                            'field' => 'first_name',
+                            'value' => $user->name,
+                            'label' => __('field.name'),
+                            'field' => 'name',
                             'required' => true,
-                        ])
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        @include('partials.input.text', [
-                            'value' => $user->last_name,
-                            'label' => __('field.last_name'),
-                            'field' => 'last_name',
                         ])
                     </div>
                     <div class="col-12 col-sm-6">
@@ -51,37 +44,6 @@
                             @include('partials.input.label', ['label' => __('field.email'), 'field' => 'email'])
                             <input type="text" class="form-control" value="{{ $user->email }}" disabled />
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        @include('partials.input.text', [
-                            'value' => $user->profession,
-                            'label' => __('field.profession'),
-                            'field' => 'profession',
-                        ])
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                            @include('partials.input.label', [
-                                'label' => __('field.gender'),
-                                'required' => true,
-                                'field' => 'gender',
-                            ])
-                            <select class="select2 form-control" id="gender" name="gender">
-                                @foreach(\App\Enums\GenderEnum::values() as $gender)
-                                    <option value="{{ $gender }}"
-                                            {{ (old('gender') ?? $user->gender->value) == $gender ? 'selected' : '' }}>
-                                        @lang('general.sex.' . $gender)
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        @include('partials.input.date', [
-                            'value' => $user->birthdate,
-                            'label' => __('field.birthdate'),
-                            'field' => 'birthdate',
-                        ])
                     </div>
                     <div class="col-12">
                         @include('partials.input.textarea', ['value' => $user->description])

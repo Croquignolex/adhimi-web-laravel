@@ -7,17 +7,21 @@ use App\Http\Resources\ShopResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Models\Organisation;
+use Illuminate\Http\Request;
 
 class OrganisationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index() : JsonResponse
+    public function index(Request $request) : JsonResponse
     {
-        $organisations = Organisation::orderBy('name')->get();
+        $free = $request->query('free');
+
+        $organisations = Organisation::free($free)->orderBy('name')->get();
 
         return response()->json(OrganisationResource::collection($organisations));
     }
@@ -25,25 +29,15 @@ class OrganisationController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @param Organisation $organisation
      * @return JsonResponse
      */
-    public function shops(Organisation $organisation) : JsonResponse
+    public function shops(Request $request, Organisation $organisation) : JsonResponse
     {
-        $shops = $organisation->shops()->orderBy('name')->get();
+        $free = $request->query('free');
 
-        return response()->json(ShopResource::collection($shops));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Organisation $organisation
-     * @return JsonResponse
-     */
-    public function freeShops(Organisation $organisation) : JsonResponse
-    {
-        $shops = $organisation->shops()->whereDoesntHave('manager')->orderBy('name')->get();
+        $shops = $organisation->shops()->free($free)->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }

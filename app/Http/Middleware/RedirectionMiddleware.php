@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Enums\MiddlewareTypeEnum;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\Enums\UserRoleEnum;
+use App\Models\Customer;
 use Closure;
 
 class RedirectionMiddleware
@@ -32,9 +32,13 @@ class RedirectionMiddleware
                 break;
             case MiddlewareTypeEnum::Guest->value:
                 if ($authCheck) {
-                    if (Auth::user()->hasRole([UserRoleEnum::Customer->value])) {
+                    if(Auth::user() instanceof Customer) {
                         return redirect(route('customer.home'));
                     }
+
+                    /*if (Auth::user()->hasRole([UserRoleEnum::Customer->value])) {
+                        return redirect(route('customer.home'));
+                    }*/
 
                     return redirect(route('admin.home'));
                 }
