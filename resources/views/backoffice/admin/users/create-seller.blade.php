@@ -1,5 +1,5 @@
 @extends('layouts.admin', [
-    'title' => __('page.staffs.new_manager'),
+    'title' => __('page.staffs.new_seller'),
     'breadcrumb_items' => [
         ['url' => route('admin.home'), 'label' => __('page.home')],
         ['url' => route('admin.users.index'), 'label' => __('page.staffs.staffs')]
@@ -37,7 +37,7 @@
                                                'field' => 'shop',
                                                'add_url' => route('admin.shops.create'),
                                                'add_text' => __('general.action.add_shop'),
-                                               'route' => route('api.shops.index') . '?q=free',
+                                               'route' => route('api.shops.index'),
                                             ])
                                         </div>
                                     </div>

@@ -19,9 +19,13 @@ class OrganisationController extends Controller
      */
     public function index(Request $request) : JsonResponse
     {
-        $free = $request->query('free');
+        $q = $request->query('q');
 
-        $organisations = Organisation::free($free)->orderBy('name')->get();
+        $query = ($q === 'free')
+            ? Organisation::whereDoesntHave('merchant')
+            : Organisation::query();
+
+        $organisations = $query->orderBy('name')->get();
 
         return response()->json(OrganisationResource::collection($organisations));
     }
@@ -35,9 +39,13 @@ class OrganisationController extends Controller
      */
     public function shops(Request $request, Organisation $organisation) : JsonResponse
     {
-        $free = $request->query('free');
+        $q = $request->query('q');
 
-        $shops = $organisation->shops()->free($free)->orderBy('name')->get();
+        $query = ($q === 'free')
+            ? $organisation->shops()->whereDoesntHave('manager')
+            : $organisation->shops();
+
+        $shops = $query->with('organisation')->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice\Admin;
 use App\Http\Requests\User\StoreMerchantRequest;
 use App\Http\Requests\User\StoreManagerRequest;
 use App\Http\Requests\User\StoreAdminRequest;
+use App\Http\Requests\User\StoreSellerRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -159,6 +160,44 @@ class UserController extends Controller
         LogEvent::dispatchCreate($manager, $request, __('general.user.manager_created', ['name' => $manager->name]));
 
         return redirect(route('admin.users.show', [$manager]));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function createSeller(): View
+    {
+        return view('backoffice.admin.users.create-seller');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreSellerRequest $request
+     * @return RedirectResponse
+     */
+    public function storeSeller(StoreSellerRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $authUser = Auth::user();
+
+        $seller = $authUser->createdUsers()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'description' => $validated['description'],
+            'shop_id' => $validated['shop'],
+            'organisation_id' => $validated['organisation'],
+            'creator_id' => $authUser->id,
+        ]);
+
+        $seller->syncRoles([UserRoleEnum::Seller->value]);
+
+        LogEvent::dispatchCreate($seller, $request, __('general.user.manager_created', ['name' => $seller->name]));
+
+        return redirect(route('admin.users.show', [$seller]));
     }
 
     /**

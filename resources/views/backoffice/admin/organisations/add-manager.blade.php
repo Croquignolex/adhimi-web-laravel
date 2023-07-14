@@ -11,7 +11,7 @@
                    'field' => 'shop',
                    'add_url' => route('admin.organisations.add.shop', [$organisation]),
                    'add_text' => __('general.action.add_shop'),
-                   'route' => route('api.organisations.shops', [$organisation]) . '?free=' . \App\Enums\UserRoleEnum::ShopManager->value,
+                   'route' => route('api.organisations.shops', [$organisation]) . '?q=free',
                 ])
             </div>
         </div>

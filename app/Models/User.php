@@ -204,7 +204,7 @@ class User extends Authenticatable
                 ],
                 UserRoleEnum::Merchant->value => [
                     'value' => __('general.role.' . UserRoleEnum::Merchant->value),
-                    'color' => 'primary',
+                    'color' => 'success',
                 ],
                 UserRoleEnum::ShopManager->value => [
                     'value' => __('general.role.' . UserRoleEnum::ShopManager->value),
@@ -212,7 +212,7 @@ class User extends Authenticatable
                 ],
                 UserRoleEnum::Seller->value => [
                     'value' => __('general.role.' . UserRoleEnum::Seller->value),
-                    'color' => 'secondary',
+                    'color' => 'primary',
                 ],
                 default => [
                     'value' => __('general.status.unknown'),

@@ -268,7 +268,7 @@ class ShopController extends Controller
 
         $manager->syncRoles([UserRoleEnum::ShopManager->value]);
 
-        LogEvent::dispatchCreate($manager, $request, __('general.user.manager_created', ['name' => $manager->full_name]));
+        LogEvent::dispatchCreate($manager, $request, __('general.user.manager_created', ['name' => $manager->name]));
 
         return redirect(route('admin.shops.show', [$shop]));
     }
@@ -307,7 +307,7 @@ class ShopController extends Controller
 
         $seller->syncRoles([UserRoleEnum::Seller->value]);
 
-        LogEvent::dispatchCreate($seller, $request, __('general.user.seller_created', ['name' => $seller->full_name]));
+        LogEvent::dispatchCreate($seller, $request, __('general.user.seller_created', ['name' => $seller->name]));
 
         return redirect(route('admin.shops.show', [$shop]));
     }

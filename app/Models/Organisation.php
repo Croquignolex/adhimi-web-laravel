@@ -83,22 +83,6 @@ class Organisation extends Model
     protected array $searchFields = ['name', 'phone'];
 
     /**
-     * Scope a query to only include free model.
-     */
-    public function scopeFree(Builder $query, ?string $free = null): void
-    {
-        switch ($free)
-        {
-            case UserRoleEnum::Merchant->value:
-                $query->whereDoesntHave('merchant');
-                break;
-            case UserRoleEnum::ShopManager->value:
-                $query->whereDoesntHave('manager');
-                break;
-        }
-    }
-
-    /**
      * Determine if merchant can be added to organisation, magic attribute $this->can_add_merchant.
      *
      * @return Attribute

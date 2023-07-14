@@ -18,9 +18,13 @@ class ShopController extends Controller
      */
     public function index(Request $request) : JsonResponse
     {
-        $free = $request->query('free');
+        $q = $request->query('q');
 
-        $shops = Shop::free($free)->orderBy('name')->get();
+        $query = ($q === 'free')
+            ? Shop::whereDoesntHave('manager')
+            : Shop::query();
+
+        $shops = $query->with('organisation')->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }

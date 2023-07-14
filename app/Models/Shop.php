@@ -76,16 +76,6 @@ class Shop extends Model
     protected array $searchFields = ['name'];
 
     /**
-     * Scope a query to only include free model.
-     */
-    public function scopeFree(Builder $query, ?string $free = null): void
-    {
-        if(UserRoleEnum::ShopManager->value === $free) {
-            $query->whereDoesntHave('manager');
-        }
-    }
-
-    /**
      * Determine if manager can be added to shop, magic attribute $this->can_add_manager.
      *
      * @return Attribute

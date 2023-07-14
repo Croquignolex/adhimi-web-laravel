@@ -27,7 +27,7 @@
                                                'field' => 'organisation',
                                                'add_url' => route('admin.organisations.create'),
                                                'add_text' => __('general.action.add_organisation'),
-                                               'route' => route('api.organisations.index') . '?free=' . \App\Enums\UserRoleEnum::Merchant->value,
+                                               'route' => route('api.organisations.index') . '?q=free',
                                             ])
                                         </div>
                                     </div>
