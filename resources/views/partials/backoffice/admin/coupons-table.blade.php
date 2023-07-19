@@ -46,8 +46,8 @@
                     @include('partials.backoffice.date-badge', ['model' => $coupon])
                 </td>
                 <td>{{ $coupon->code }}</td>
-                <td>{{ $coupon->discount }}%</td>
-                <td>{{ $coupon->total_use }}</td>
+                <td class="text-right">{{ $coupon->discount }}%</td>
+                <td class="text-right">{{ $coupon->total_use }}</td>
                 <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $coupon])</td>
                 @if($creator)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $coupon->creator])</td>

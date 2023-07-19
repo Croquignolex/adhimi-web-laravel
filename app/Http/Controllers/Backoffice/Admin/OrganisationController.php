@@ -35,7 +35,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Organisation::allow();
+        $query = Organisation::allowed();
 
         $organisations = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -92,7 +92,7 @@ class OrganisationController extends Controller
 
         $organisation->load('banner')->loadCount(['shops', 'vendors', 'users', 'products']);
 
-        $query = $organisation->shops()->allow();
+        $query = $organisation->shops()->allowed();
 
         $shops = ($q)
             ? $query->search($q)->orderBy('name')->get()

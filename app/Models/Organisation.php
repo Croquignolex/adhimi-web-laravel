@@ -92,9 +92,19 @@ class Organisation extends Model
     /**
      * Scope a query to only include allowed model.
      */
-    public function scopeAllow(Builder $query): void
+    public function scopeAllowed(Builder $query): void
     {
 
+    }
+
+    /**
+     * Scope a query to only include free model.
+     */
+    public function scopeFree(Builder $query, string $q): void
+    {
+        if($q === 'free') {
+            $query->whereDoesntHave('merchant');
+        }
     }
 
     /**

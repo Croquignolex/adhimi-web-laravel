@@ -21,7 +21,7 @@ class RatingController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Rating::allow();
+        $query = Rating::allowed();
 
         $ratings = ($q)
             ? $query->search($q)->orderBy('note')->get()

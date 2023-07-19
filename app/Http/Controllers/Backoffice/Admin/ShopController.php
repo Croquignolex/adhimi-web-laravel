@@ -39,7 +39,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Shop::allow();
+        $query = Shop::allowed();
 
         $shops = ($q)
             ? $query->search($q)->orderBy('name')->get()

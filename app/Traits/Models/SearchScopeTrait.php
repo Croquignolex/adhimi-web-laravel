@@ -11,7 +11,6 @@ trait SearchScopeTrait
      */
     public function scopeSearch(Builder $query, string $q): void
     {
-        $chainedBuilder = $query;
         $needles = explode(' ', $q);
 
         foreach ($needles as $key => $needle)
@@ -20,15 +19,14 @@ trait SearchScopeTrait
             {
                 foreach ($this->searchFields as $index => $field)
                 {
-                    $chainedBuilder = ($index === 0)
-                        ? $chainedBuilder->where($field, 'LIKE', "%$needle%")
-                        : $chainedBuilder->orWhere($field, 'LIKE', "%$needle%");
+                    if($index === 0) $query->where($field, 'LIKE', "%$needle%");
+                    else $query->orWhere($field, 'LIKE', "%$needle%");
                 }
             }
             else
             {
-                foreach ($this->searchFields as $key => $field) {
-                    $chainedBuilder = $chainedBuilder->orWhere($field, 'LIKE', "%$needle%");
+                foreach ($this->searchFields as $field) {
+                    $query->orWhere($field, 'LIKE', "%$needle%");
                 }
             }
         }

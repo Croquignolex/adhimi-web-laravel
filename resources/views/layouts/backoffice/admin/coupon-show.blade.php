@@ -53,7 +53,7 @@
                                         <tr>
                                             <th>@lang('field.promotion_started_at')</th>
                                             <td>
-                                                <span class="badge badge-light-secondary">
+                                                <span class="badge badge-light-info">
                                                     {{ format_date($coupon->promotion_started_at) }}
                                                 </span>
                                             </td>

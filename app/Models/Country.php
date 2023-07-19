@@ -82,7 +82,7 @@ class Country extends Model
     /**
      * Scope a query to only include allowed model.
      */
-    public function scopeAllow(Builder $query): void
+    public function scopeAllowed(Builder $query): void
     {
 
     }

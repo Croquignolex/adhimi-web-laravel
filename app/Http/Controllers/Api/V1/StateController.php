@@ -16,7 +16,7 @@ class StateController extends Controller
      */
     public function index() : JsonResponse
     {
-        $states = State::with('country')->orderBy('name')->get();
+        $states = State::orderBy('name')->get();
 
         return response()->json(StateResource::collection($states));
 

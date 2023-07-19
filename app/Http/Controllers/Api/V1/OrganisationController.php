@@ -21,11 +21,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $query = ($q === 'free')
-            ? Organisation::whereDoesntHave('merchant')
-            : Organisation::query();
-
-        $organisations = $query->orderBy('name')->get();
+        $organisations = Organisation::free($q)->orderBy('name')->get();
 
         return response()->json(OrganisationResource::collection($organisations));
     }
@@ -41,11 +37,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $query = ($q === 'free')
-            ? $organisation->shops()->whereDoesntHave('manager')
-            : $organisation->shops();
-
-        $shops = $query->with('organisation')->orderBy('name')->get();
+        $shops = $organisation->shops()->free($q)->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }

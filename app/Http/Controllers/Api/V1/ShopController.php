@@ -20,11 +20,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $query = ($q === 'free')
-            ? Shop::whereDoesntHave('manager')
-            : Shop::query();
-
-        $shops = $query->with('organisation')->orderBy('name')->get();
+        $shops = Shop::free($q)->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }

@@ -43,18 +43,20 @@ trait GeneralStatusBadgeTrait
      */
     protected function statusToggle(): Attribute
     {
+        $name = $this->name ?: $this->code;
+
         return new Attribute(
             get: fn () => match ($this->status) {
                 GeneralStatusEnum::Enable => [
                     'label' => __('general.action.disable'),
-                    'message' => __('general.enable_toggle', ['name' => $this->name]),
+                    'message' => __('general.enable_toggle', ['name' => $name]),
                     'color' => 'danger',
                     'icon' => 'lock',
                     'next' => GeneralStatusEnum::Disable,
                 ],
                 default => [
                     'label' => __('general.action.enable'),
-                    'message' => __('general.disable_toggle', ['name' => $this->name]),
+                    'message' => __('general.disable_toggle', ['name' => $name]),
                     'color' => 'success',
                     'icon' => 'unlock',
                     'next' => GeneralStatusEnum::Enable,

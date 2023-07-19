@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $q = $request->query('q');
 
-        $query = User::allow()->with(['creator.avatar', 'shop', 'organisation.logo']);
+        $query = User::allowed()->with(['creator.avatar', 'shop', 'organisation.logo']);
 
         $users = ($q)
             ? $query->search($q)->orderBy('name')->get()
