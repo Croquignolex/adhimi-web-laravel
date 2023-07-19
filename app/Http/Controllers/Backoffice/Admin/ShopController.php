@@ -39,7 +39,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Shop::allowed();
+        $query = Shop::with(['organisation', 'manager', 'creator'])->allowed();
 
         $shops = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -90,16 +90,30 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $shop->load(['organisation.logo', 'defaultAddress.state.country', 'manager.avatar', 'creator.avatar', 'users.creator.avatar', 'users.organisation.logo'])
-            ->loadCount('users');
+        $shop->load(['organisation', 'defaultAddress.state.country', 'manager', 'creator'])->loadCount('users');
 
-        $query = $shop->users();
+        $query = $shop->users()->allowed();
 
         $users = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.shops.show', compact(['shop', 'users', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Shop $shop
+     * @return View
+     */
+    public function showLogs(Shop $shop): View
+    {
+        $shop->load(['organisation', 'defaultAddress.state.country', 'manager', 'creator'])->loadCount('users');
+
+        $logs = $shop->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.shops.show-logs', compact(['shop', 'logs']));
     }
 
     /**
@@ -110,6 +124,8 @@ class ShopController extends Controller
      */
     public function edit(Shop $shop): View|RedirectResponse
     {
+        $shop->load('organisation');
+
         return view('backoffice.admin.shops.edit', compact('shop'));
     }
 
@@ -214,22 +230,6 @@ class ShopController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param Shop $shop
-     * @return View
-     */
-    public function showLogs(Shop $shop): View
-    {
-        $shop->load(['organisation.logo', 'defaultAddress.state.country', 'manager.avatar', 'creator.avatar', 'logs.creator.avatar'])
-            ->loadCount('users');
-
-        $logs = $shop->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.shops.show-logs', compact(['shop', 'logs']));
-    }
-
-    /**
      * Show the form for adding a manager.
      *
      * @param Shop $shop
@@ -254,6 +254,11 @@ class ShopController extends Controller
      */
     public function addManager(StoreAddManagerRequest $request, Shop $shop): RedirectResponse
     {
+        if(!$shop->can_add_manager) {
+            ToastEvent::dispatchWarning(__('general.permission_denied'));
+            return back();
+        }
+
         $validated = $request->validated();
 
         $authUser = Auth::user();

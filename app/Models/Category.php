@@ -70,7 +70,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $with = ['group.banner', 'creator.avatar'];
+    protected $with = ['banner'];
 
     /**
      * The attributes that should be searchable.

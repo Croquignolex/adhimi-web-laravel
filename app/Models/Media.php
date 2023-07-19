@@ -43,13 +43,6 @@ class Media extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['creator.avatar'];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>

@@ -40,7 +40,7 @@ class VendorController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Vendor::query();
+        $query = Vendor::with(['organisation', 'creator'])->allowed();
 
         $vendors = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -96,18 +96,24 @@ class VendorController extends Controller
     {
         $q = $request->query('q');
 
-//        $vendor->load(['logo', 'organisation.logo', 'creator.avatar', 'products.creator.avatar'])
-//            ->loadCount('products');
-
-        $vendor->load(['logo', 'organisation.logo', 'creator.avatar']);
-
-//        $query = $vendor->products();
-//
-//        $products = ($q)
-//            ? $query->search($q)->orderBy('name')->get()
-//            : $query->orderBy('created_at', 'desc')->paginate();
+        $vendor->load(['defaultAddress.state.country', 'organisation', 'creator']);
 
         return view('backoffice.admin.vendors.show', compact(['vendor', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Vendor $vendor
+     * @return View
+     */
+    public function showLogs(Vendor $vendor): View
+    {
+        $vendor->load(['defaultAddress.state.country', 'organisation', 'creator']);
+
+        $logs = $vendor->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.vendors.show-logs', compact(['vendor', 'logs']));
     }
 
     /**
@@ -118,6 +124,8 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor): View
     {
+        $vendor->load('organisation');
+
         return view('backoffice.admin.vendors.edit', compact('vendor'));
     }
 
@@ -275,23 +283,5 @@ class VendorController extends Controller
         LogEvent::dispatchDelete($vendor, $request, __('general.vendor.logo_deleted', ['name' => $vendor->name]));
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Vendor $vendor
-     * @return View
-     */
-    public function showLogs(Vendor $vendor): View
-    {
-//        $vendor->load(['logo', 'organisation.logo', 'creator.avatar', 'logs.creator.avatar'])
-//            ->loadCount('products');
-
-        $vendor->load(['logo', 'organisation.logo', 'creator.avatar', 'logs.creator.avatar']);
-
-        $logs = $vendor->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.vendors.show-logs', compact(['vendor', 'logs']));
     }
 }

@@ -88,7 +88,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $with = ['galleryImages', 'organisation.logo', 'brand.logo', 'creator.avatar'];
+    protected $with = ['galleryImages'];
 
     /**
      * Scope a query to only include allowed model.

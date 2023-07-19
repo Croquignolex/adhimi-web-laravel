@@ -66,7 +66,7 @@ class Brand extends Model
      *
      * @var array
      */
-    protected $with = ['logo', 'creator.avatar'];
+    protected $with = ['logo'];
 
     /**
      * The attributes that should be searchable.

@@ -20,7 +20,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $shops = Shop::free($q)->orderBy('name')->get();
+        $shops = Shop::with('organisation')->free($q)->orderBy('name')->get();
 
         return response()->json(ShopResource::collection($shops));
     }

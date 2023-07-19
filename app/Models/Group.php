@@ -68,7 +68,7 @@ class Group extends Model
      *
      * @var array
      */
-    protected $with = ['banner', 'creator.avatar'];
+    protected $with = ['banner'];
 
     /**
      * The attributes that should be searchable.

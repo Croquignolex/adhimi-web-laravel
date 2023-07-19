@@ -35,7 +35,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Organisation::allowed();
+        $query = Organisation::with(['merchant', 'creator'])->allowed();
 
         $organisations = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -90,7 +90,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $organisation->load('banner')->loadCount(['shops', 'vendors', 'users', 'products']);
+        $organisation->load(['merchant', 'creator'])->loadCount(['shops', 'vendors', 'users', 'products']);
 
         $query = $organisation->shops()->allowed();
 
@@ -102,6 +102,87 @@ class OrganisationController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showVendors(Request $request, Organisation $organisation): View
+    {
+        $q = $request->query('q');
+
+        $organisation->load(['merchant', 'creator'])->loadCount(['shops', 'vendors', 'users', 'products']);
+
+        $query = $organisation->vendors()->allowed();
+
+        $vendors = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-vendors', compact(['organisation', 'vendors', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showUsers(Request $request, Organisation $organisation): View
+    {
+        $q = $request->query('q');
+
+        $organisation->load(['merchant', 'creator'])->loadCount(['shops', 'vendors', 'users', 'products']);
+
+        $query = $organisation->users()->allowed();
+
+        $users = ($q)
+            ? $query->search($q)->orderBy('first_name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-users', compact(['organisation', 'users', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showProducts(Request $request, Organisation $organisation): View
+    {
+        $q = $request->query('q');
+
+        $organisation->load(['merchant', 'creator'])->loadCount(['shops', 'vendors', 'users', 'products']);
+
+        $query = $organisation->products()->allowed();
+
+        $products = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-products', compact(['organisation', 'products', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Organisation $organisation
+     * @return View
+     */
+    public function showLogs(Organisation $organisation): View
+    {
+        $organisation->load(['merchant', 'creator'])->loadCount(['shops', 'vendors', 'users', 'products']);
+
+        $logs = $organisation->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-logs', compact(['organisation', 'logs']));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param Organisation $organisation
@@ -109,8 +190,6 @@ class OrganisationController extends Controller
      */
     public function edit(Organisation $organisation): View|RedirectResponse
     {
-        $organisation->load('logo');
-
         return view('backoffice.admin.organisations.edit', compact('organisation'));
     }
 
@@ -270,90 +349,6 @@ class OrganisationController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param Organisation $organisation
-     * @return View
-     */
-    public function showLogs(Organisation $organisation): View
-    {
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'logs.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products']);
-
-        $logs = $organisation->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-logs', compact(['organisation', 'logs']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Organisation $organisation
-     * @return View
-     */
-    public function showVendors(Request $request, Organisation $organisation): View
-    {
-        $q = $request->query('q');
-
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'vendors.logo', 'vendors.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products']);
-
-        $query = $organisation->vendors();
-
-        $vendors = ($q)
-            ? $query->search($q)->orderBy('name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-vendors', compact(['organisation', 'vendors', 'q']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Organisation $organisation
-     * @return View
-     */
-    public function showUsers(Request $request, Organisation $organisation): View
-    {
-        $q = $request->query('q');
-
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'users.avatar', 'users.creator.avatar', 'users.shop'])
-            ->loadCount(['shops', 'vendors', 'users', 'products']);
-
-        $query = $organisation->users();
-        $users = ($q)
-            ? $query->search($q)->orderBy('first_name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-users', compact(['organisation', 'users', 'q']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Organisation $organisation
-     * @return View
-     */
-    public function showProducts(Request $request, Organisation $organisation): View
-    {
-        $q = $request->query('q');
-
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'products.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products']);
-
-        $query = $organisation->products()->with('creator.avatar');
-
-        $products = ($q)
-            ? $query->search($q)->orderBy('name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-products', compact(['organisation', 'products', 'q']));
-    }
-
-    /**
      * Show the form for adding a merchant.
      *
      * @param Organisation $organisation
@@ -365,8 +360,6 @@ class OrganisationController extends Controller
             ToastEvent::dispatchWarning(__('general.permission_denied'));
             return back();
         }
-
-        $organisation->load('logo');
 
         return view('backoffice.admin.organisations.add-merchant', compact('organisation'));
     }
@@ -380,6 +373,11 @@ class OrganisationController extends Controller
      */
     public function addMerchant(StoreAddMerchantRequest $request, Organisation $organisation): RedirectResponse
     {
+        if(!$organisation->can_add_merchant) {
+            ToastEvent::dispatchWarning(__('general.permission_denied'));
+            return back();
+        }
+
         $validated = $request->validated();
 
         $authUser = Auth::user();
@@ -411,8 +409,6 @@ class OrganisationController extends Controller
             return back();
         }
 
-        $organisation->load('logo');
-
         return view('backoffice.admin.organisations.add-manager', compact('organisation'));
     }
 
@@ -425,6 +421,11 @@ class OrganisationController extends Controller
      */
     public function addManager(StoreAddManagerRequest $request, Organisation $organisation): RedirectResponse
     {
+        if(!$organisation->can_add_manager) {
+            ToastEvent::dispatchWarning(__('general.permission_denied'));
+            return back();
+        }
+
         $validated = $request->validated();
 
         $authUser = Auth::user();
@@ -452,8 +453,6 @@ class OrganisationController extends Controller
      */
     public function showAddSellerForm(Organisation $organisation): View|RedirectResponse
     {
-        $organisation->load('logo');
-
         return view('backoffice.admin.organisations.add-seller', compact('organisation'));
     }
 
@@ -493,8 +492,6 @@ class OrganisationController extends Controller
      */
     public function showAddShopForm(Organisation $organisation): View
     {
-        $organisation->load('logo');
-
         return view('backoffice.admin.organisations.add-shop', compact('organisation'));
     }
 
@@ -530,8 +527,6 @@ class OrganisationController extends Controller
      */
     public function showAddVendorForm(Organisation $organisation): View
     {
-        $organisation->load('logo');
-
         return view('backoffice.admin.organisations.add-vendor', compact('organisation'));
     }
 

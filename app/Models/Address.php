@@ -58,13 +58,6 @@ class Address extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['state.country', 'creator.avatar'];
-
-    /**
      * Scope a query to only include allowed model.
      */
     public function scopeAllowed(Builder $query): void

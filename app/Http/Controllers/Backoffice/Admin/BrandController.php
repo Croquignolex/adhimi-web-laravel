@@ -39,7 +39,7 @@ class BrandController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Brand::with(['logo', 'creator.avatar']);
+        $query = Brand::with('creator')->allowed();
 
         $brands = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -97,15 +97,30 @@ class BrandController extends Controller
     {
         $q = $request->query('q');
 
-        $brand->load(['logo', 'creator.avatar', 'products.creator.avatar'])->loadCount('products');
+        $brand->load('creator')->loadCount('products');
 
-        $query = $brand->products();
+        $query = $brand->products()->allowed();
 
         $products = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.brands.show', compact(['brand', 'products', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Brand $brand
+     * @return View
+     */
+    public function showLogs(Brand $brand): View
+    {
+        $brand->load('creator')->loadCount('products');
+
+        $logs = $brand->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.brands.show-logs', compact(['brand', 'logs']));
     }
 
     /**
@@ -116,8 +131,6 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand): View
     {
-        $brand->load('logo');
-
         return view('backoffice.admin.brands.edit', compact('brand'));
     }
 
@@ -216,20 +229,5 @@ class BrandController extends Controller
         LogEvent::dispatchDelete($brand, $request, __('general.brand.logo_deleted', ['name' => $brand->name]));
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Brand $brand
-     * @return View
-     */
-    public function showLogs(Brand $brand): View
-    {
-        $brand->load(['logo', 'creator.avatar', 'logs.creator.avatar'])->loadCount('products');
-
-        $logs = $brand->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.brands.show-logs', compact(['brand', 'logs']));
     }
 }

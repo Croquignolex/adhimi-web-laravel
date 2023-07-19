@@ -21,7 +21,7 @@ class RatingController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Rating::allowed();
+        $query = Rating::with('customer')->allowed();
 
         $ratings = ($q)
             ? $query->search($q)->orderBy('note')->get()
@@ -38,7 +38,24 @@ class RatingController extends Controller
      */
     public function show(Rating $rating): View
     {
+        $rating->load('customer');
+
         return view('backoffice.admin.ratings.show', compact('rating'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Rating $rating
+     * @return View
+     */
+    public function showLogs(Rating $rating): View
+    {
+        $rating->load('customer');
+
+        $logs = $rating->logs()->allow()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.ratings.show-logs', compact(['rating', 'logs']));
     }
 
     /**
@@ -56,18 +73,5 @@ class RatingController extends Controller
         LogEvent::dispatchUpdate($rating, $request, $message);
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Rating $rating
-     * @return View
-     */
-    public function showLogs(Rating $rating): View
-    {
-        $logs = $rating->logs()->allow()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.ratings.show-logs', compact(['rating', 'logs']));
     }
 }

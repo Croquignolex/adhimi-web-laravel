@@ -40,7 +40,7 @@ class GroupController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Group::with(['banner', 'creator.avatar']);
+        $query = Group::with('creator')->allowed();
 
         $groups = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -97,16 +97,52 @@ class GroupController extends Controller
     {
         $q = $request->query('q');
 
-        $group->load(['banner', 'tags', 'creator.avatar', 'categories.creator.avatar'])
-            ->loadCount(['categories', 'products']);
+        $group->load('creator')->loadCount(['categories', 'products']);
 
-        $query = $group->categories();
+        $query = $group->categories()->allowed();
 
         $categories = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.groups.show', compact(['group', 'categories', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Group $group
+     * @return View
+     */
+    public function showProducts(Request $request, Group $group): View
+    {
+        $q = $request->query('q');
+
+        $group->load('creator')->loadCount(['categories', 'products']);
+
+        $query = $group->products()->allowed();
+
+        $products = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.groups.show-products', compact(['group', 'products', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Group $group
+     * @return View
+     */
+    public function showLogs(Group $group): View
+    {
+        $group->load('creator')->loadCount(['categories', 'products']);
+
+        $logs = $group->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.groups.show-logs', compact(['group', 'logs']));
     }
 
     /**
@@ -117,8 +153,6 @@ class GroupController extends Controller
      */
     public function edit(Group $group): View
     {
-        $group->load('banner');
-
         return view('backoffice.admin.groups.edit', compact('group'));
     }
 
@@ -219,45 +253,6 @@ class GroupController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param Group $group
-     * @return View
-     */
-    public function showLogs(Group $group): View
-    {
-        $group->load(['banner', 'tags', 'creator.avatar', 'logs.creator.avatar'])
-            ->loadCount(['categories', 'products']);
-
-        $logs = $group->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.groups.show-logs', compact(['group', 'logs']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Group $group
-     * @return View
-     */
-    public function showProducts(Request $request, Group $group): View
-    {
-        $q = $request->query('q');
-
-        $group->load(['banner', 'tags', 'creator.avatar', 'products.creator.avatar'])
-            ->loadCount(['categories', 'products']);
-
-        $query = $group->products();
-
-        $products = ($q)
-            ? $query->search($q)->orderBy('code')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.groups.show-products', compact(['group', 'products', 'q']));
-    }
-
-    /**
      * Show the form for adding a category.
      *
      * @param Group $group
@@ -265,8 +260,6 @@ class GroupController extends Controller
      */
     public function showAddCategoryForm(Group $group): View
     {
-        $group->load('banner');
-
         return view('backoffice.admin.groups.add-category', compact('group'));
     }
 

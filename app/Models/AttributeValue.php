@@ -62,13 +62,6 @@ class AttributeValue extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['attribute', 'creator.avatar'];
-
-    /**
      * The attributes that should be searchable.
      *
      * @var array<string>

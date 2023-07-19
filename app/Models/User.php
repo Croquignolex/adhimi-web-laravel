@@ -94,7 +94,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $with = ['roles', 'avatar', 'shop', 'organisation.logo', 'creator.avatar'];
+    protected $with = ['avatar'];
 
     /**
      * The attributes that should be searchable.

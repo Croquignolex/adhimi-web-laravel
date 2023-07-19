@@ -21,7 +21,7 @@ class CustomerController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Customer::with('avatar');
+        $query = Customer::allowed();
 
         $customers = ($q)
             ? $query->search($q)->orderBy('first_name')->get()
@@ -38,10 +38,46 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer): View
     {
-        $customer->load(['avatar', 'defaultAddress.state.country', 'billingAddress.state.country', 'shippingAddress.state.country'])
-            ->loadCount('ratings');
+        $customer->loadCount('ratings');
 
         return view('backoffice.admin.customers.show', compact('customer'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Customer $customer
+     * @return View
+     */
+    public function showRatings(Request $request, Customer $customer): View
+    {
+        $q = $request->query('q');
+
+        $customer->loadCount('ratings');
+
+        $query = $customer->ratings()->allowed();
+
+        $ratings = ($q)
+            ? $query->search($q)->orderBy('note')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.customers.show-ratings', compact(['customer', 'ratings', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Customer $customer
+     * @return View
+     */
+    public function showLogs(Customer $customer): View
+    {
+        $customer->loadCount('ratings');
+
+        $logs = $customer->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.customers.show-logs', compact(['customer', 'logs']));
     }
 
     /**
@@ -59,44 +95,5 @@ class CustomerController extends Controller
         LogEvent::dispatchUpdate($customer, $request, $message);
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Customer $customer
-     * @return View
-     */
-    public function showLogs(Customer $customer): View
-    {
-        $customer->load(['avatar', 'defaultAddress.state.country', 'billingAddress.state.country', 'shippingAddress.state.country', 'logs.creator.avatar'])
-            ->loadCount('ratings');
-
-        $logs = $customer->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.customers.show-logs', compact(['customer', 'logs']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Customer $customer
-     * @return View
-     */
-    public function showRatings(Request $request, Customer $customer): View
-    {
-        $q = $request->query('q');
-
-        $customer->load(['avatar', 'defaultAddress.state.country', 'billingAddress.state.country', 'shippingAddress.state.country', 'ratings'])
-            ->loadCount('ratings');
-
-        $query = $customer->ratings();
-
-        $ratings = ($q)
-            ? $query->search($q)->orderBy('note')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.customers.show-ratings', compact(['customer', 'ratings', 'q']));
     }
 }

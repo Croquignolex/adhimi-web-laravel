@@ -55,13 +55,6 @@ class Setting extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['user.avatar'];
-
-    /**
      * Scope a query to only include allowed model.
      */
     public function scopeAllowed(Builder $query): void

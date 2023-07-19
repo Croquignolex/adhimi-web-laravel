@@ -24,7 +24,7 @@ class CouponController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Coupon::allowed();
+        $query = Coupon::with('creator')->allowed();
 
         $coupons = ($q)
             ? $query->search($q)->orderBy('code')->get()
@@ -76,7 +76,24 @@ class CouponController extends Controller
      */
     public function show(Coupon $coupon): View
     {
+        $coupon->load('creator');
+
         return view('backoffice.admin.coupons.show', compact('coupon'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Coupon $coupon
+     * @return View
+     */
+    public function showLogs(Coupon $coupon): View
+    {
+        $coupon->load('creator');
+
+        $logs = $coupon->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.coupons.show-logs', compact(['coupon', 'logs']));
     }
 
     /**
@@ -129,18 +146,5 @@ class CouponController extends Controller
         LogEvent::dispatchUpdate($coupon, $request, $message);
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Coupon $coupon
-     * @return View
-     */
-    public function showLogs(Coupon $coupon): View
-    {
-        $logs = $coupon->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.coupons.show-logs', compact(['coupon', 'logs']));
     }
 }

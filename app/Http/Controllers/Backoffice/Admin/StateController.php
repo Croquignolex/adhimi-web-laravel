@@ -35,7 +35,7 @@ class StateController extends Controller
     {
         $q = $request->query('q');
 
-        $query = State::with(['country.flag', 'creator.avatar']);
+        $query = State::with(['country', 'creator'])->allowed();
 
         $states = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -88,9 +88,24 @@ class StateController extends Controller
      */
     public function show(State $state): View
     {
-        $state->load(['country.flag', 'creator.avatar']);
+        $state->load(['country', 'creator']);
 
         return view('backoffice.admin.states.show', compact(['state']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param State $state
+     * @return View
+     */
+    public function showLogs(State $state): View
+    {
+        $state->load(['country', 'creator']);
+
+        $logs = $state->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.states.show-logs', compact(['state', 'logs']));
     }
 
     /**
@@ -143,20 +158,5 @@ class StateController extends Controller
         LogEvent::dispatchUpdate($state, $request, $message);
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param State $state
-     * @return View
-     */
-    public function showLogs(State $state): View
-    {
-        $state->load(['country.flag', 'creator.avatar', 'logs.creator.avatar']);
-
-        $logs = $state->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.states.show-logs', compact(['state', 'logs']));
     }
 }

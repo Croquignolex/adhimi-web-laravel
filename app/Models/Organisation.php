@@ -80,7 +80,7 @@ class Organisation extends Model
      *
      * @var array
      */
-    protected $with = ['logo', 'merchant.avatar', 'creator.avatar'];
+    protected $with = ['logo', 'banner'];
 
     /**
      * The attributes that should be searchable.
@@ -100,7 +100,7 @@ class Organisation extends Model
     /**
      * Scope a query to only include free model.
      */
-    public function scopeFree(Builder $query, string $q): void
+    public function scopeFree(Builder $query, ?string $q = null): void
     {
         if($q === 'free') {
             $query->whereDoesntHave('merchant');

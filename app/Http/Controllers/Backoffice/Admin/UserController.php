@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backoffice\Admin;
 
 use App\Http\Requests\User\StoreMerchantRequest;
 use App\Http\Requests\User\StoreManagerRequest;
-use App\Http\Requests\User\StoreAdminRequest;
 use App\Http\Requests\User\StoreSellerRequest;
+use App\Http\Requests\User\StoreAdminRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $q = $request->query('q');
 
-        $query = User::allowed()->with(['creator.avatar', 'shop', 'organisation.logo']);
+        $query = User::with(['shop', 'organisation', 'creator'])->allowed();
 
         $users = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -208,9 +208,24 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
-        $user->load(['creator.avatar', 'shop', 'organisation.logo']);
+        $user->load(['shop', 'organisation', 'creator']);
 
         return view('backoffice.admin.users.show', compact('user'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param User $user
+     * @return View
+     */
+    public function showLogs(User $user): View
+    {
+        $user->load(['shop', 'organisation', 'creator']);
+
+        $logs = $user->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.users.show-logs', compact(['user', 'logs']));
     }
 
     /**
@@ -228,20 +243,5 @@ class UserController extends Controller
         LogEvent::dispatchUpdate($user, $request, $message);
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param User $user
-     * @return View
-     */
-    public function showLogs(User $user): View
-    {
-        $user->load(['creator.avatar', 'shop', 'organisation.logo', 'logs.creator.avatar']);
-
-        $logs = $user->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.users.show-logs', compact(['user', 'logs']));
     }
 }

@@ -39,7 +39,7 @@ class CategoryController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Category::with(['banner', 'creator.avatar']);
+        $query = Category::with(['group', 'creator'])->allowed();
 
         $categories = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -97,16 +97,30 @@ class CategoryController extends Controller
     {
         $q = $request->query('q');
 
-        $category->load(['banner', 'tags', 'creator.avatar', 'products.creator.avatar'])
-            ->loadCount('products');
+        $category->load(['group', 'creator'])->loadCount('products');
 
-        $query = $category->products();
+        $query = $category->products()->allowed();
 
         $products = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.categories.show', compact(['category', 'products', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Category $category
+     * @return View
+     */
+    public function showLogs(Category $category): View
+    {
+        $category->load(['group', 'creator'])->loadCount('products');
+
+        $logs = $category->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.categories.show-logs', compact(['category', 'logs']));
     }
 
     /**
@@ -117,7 +131,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): View
     {
-        $category->load('banner');
+        $category->load('group');
 
         return view('backoffice.admin.categories.edit', compact('category'));
     }
@@ -217,21 +231,5 @@ class CategoryController extends Controller
         LogEvent::dispatchDelete($category, $request, __('general.category.banner_deleted', ['name' => $category->name]));
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Category $category
-     * @return View
-     */
-    public function showLogs(Category $category): View
-    {
-        $category->load(['banner', 'tags', 'creator.avatar', 'logs.creator.avatar'])
-            ->loadCount('products');
-
-        $logs = $category->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.categories.show-logs', compact(['category', 'logs']));
     }
 }

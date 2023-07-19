@@ -18,7 +18,7 @@ class ProfileController extends Controller
      */
     public function showInfoForm(): View
     {
-        $user = Auth::user();
+        $user = Auth::user()->load(['organisation', 'shop']);
 
         return view('backoffice.admin.profile.index', compact('user'));
     }

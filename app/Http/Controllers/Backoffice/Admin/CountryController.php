@@ -40,7 +40,7 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Country::with(['flag', 'creator.avatar']);
+        $query = Country::with('creator')->allowed();
 
         $countries = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -96,15 +96,30 @@ class CountryController extends Controller
     {
         $q = $request->query('q');
 
-        $country->load(['flag', 'creator.avatar', 'states.creator.avatar'])->loadCount('states');
+        $country->load('creator')->loadCount('states');
 
-        $query = $country->states();
+        $query = $country->states()->allowed();
 
         $states = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.countries.show', compact(['country', 'states', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Country $country
+     * @return View
+     */
+    public function showLogs(Country $country): View
+    {
+        $country->load('creator')->loadCount('states');
+
+        $logs = $country->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.countries.show-logs', compact(['country', 'logs']));
     }
 
     /**
@@ -115,8 +130,6 @@ class CountryController extends Controller
      */
     public function edit(Country $country): View
     {
-        $country->load('flag');
-
         return view('backoffice.admin.countries.edit', compact('country'));
     }
 
@@ -216,21 +229,6 @@ class CountryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param Country $country
-     * @return View
-     */
-    public function showLogs(Country $country): View
-    {
-        $country->load(['flag', 'creator.avatar', 'logs.creator.avatar'])->loadCount('states');
-
-        $logs = $country->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.countries.show-logs', compact(['country', 'logs']));
-    }
-
-    /**
      * Show the form for adding a state.
      *
      * @param Country $country
@@ -238,8 +236,6 @@ class CountryController extends Controller
      */
     public function showAddStateForm(Country $country): View
     {
-        $country->load('flag');
-
         return view('backoffice.admin.countries.add-state', compact('country'));
     }
 

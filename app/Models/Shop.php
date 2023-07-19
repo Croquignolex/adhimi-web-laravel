@@ -69,13 +69,6 @@ class Shop extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['organisation.logo', 'manager.avatar', 'creator.avatar'];
-
-    /**
      * The attributes that should be searchable.
      *
      * @var array<string>

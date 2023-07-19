@@ -61,13 +61,6 @@ class State extends Model
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['country.flag', 'creator.avatar'];
-
-    /**
      * The attributes that should be searchable.
      *
      * @var array<string>

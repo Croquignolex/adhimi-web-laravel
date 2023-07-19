@@ -70,7 +70,7 @@ class Country extends Model
      *
      * @var array
      */
-    protected $with = ['flag', 'creator.avatar'];
+    protected $with = ['flag'];
 
     /**
      * The attributes that should be searchable.

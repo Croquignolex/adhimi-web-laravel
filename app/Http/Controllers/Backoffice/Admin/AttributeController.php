@@ -35,7 +35,7 @@ class AttributeController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Attribute::with('creator.avatar');
+        $query = Attribute::with('creator')->allowed();
 
         $attrs = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -90,16 +90,52 @@ class AttributeController extends Controller
     {
         $q = $request->query('q');
 
-        $attribute->load(['creator.avatar', 'attributeValues.creator.avatar'])
-            ->loadCount(['attributedProducts', 'attributeValues']);
+        $attribute->load('creator')->loadCount(['attributedProducts', 'attributeValues']);
 
-        $query = $attribute->attributeValues();
+        $query = $attribute->attributeValues()->allowed();
 
         $attributeValues = ($q)
             ? $query->search($q)->orderBy('name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate() ;dd($attribute, $attributeValues);
+            : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.attributes.show', compact(['attribute', 'attributeValues', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Attribute $attribute
+     * @return View
+     */
+    public function showProducts(Request $request, Attribute $attribute): View
+    {
+        $q = $request->query('q');
+
+        $attribute->load('creator.avatar')->loadCount(['attributedProducts', 'attributesValues']);
+
+        $query = $attribute->attributedProducts()->allowed();
+
+        $products = ($q)
+            ? $query->search($q)->orderBy('name')->get()
+            : $query->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.organisations.show-products', compact(['attribute', 'products', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Attribute $attribute
+     * @return View
+     */
+    public function showLogs(Attribute $attribute): View
+    {
+        $attribute->load('creator')->loadCount(['attributedProducts', 'attributesValues']);
+
+        $logs = $attribute->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.attributes.show-logs', compact(['attribute', 'logs']));
     }
 
     /**
@@ -149,44 +185,5 @@ class AttributeController extends Controller
         LogEvent::dispatchUpdate($attribute, $request, $message);
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Attribute $attribute
-     * @return View
-     */
-    public function showLogs(Attribute $attribute): View
-    {
-        $attribute->load(['creator.avatar', 'logs.creator.avatar'])
-            ->loadCount(['attributedProducts', 'attributesValues']);
-
-        $logs = $attribute->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.attributes.show-logs', compact(['attribute', 'logs']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Attribute $attribute
-     * @return View
-     */
-    public function showProducts(Request $request, Attribute $attribute): View
-    {
-        $q = $request->query('q');
-
-        $attribute->load(['creator.avatar', 'attributedProducts.creator.avatar'])
-            ->loadCount(['attributedProducts', 'attributesValues']);
-
-        $query = $attribute->attributedProducts();
-
-        $products = ($q)
-            ? $query->search($q)->orderBy('name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.organisations.show-products', compact(['attribute', 'products', 'q']));
     }
 }
