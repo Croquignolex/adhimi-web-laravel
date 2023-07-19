@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToUserTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
@@ -52,4 +53,19 @@ class Setting extends Model
         'enable_purchase_notification' => 'boolean',
         'enable_product_notification' => 'boolean',
     ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['user.avatar'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 }

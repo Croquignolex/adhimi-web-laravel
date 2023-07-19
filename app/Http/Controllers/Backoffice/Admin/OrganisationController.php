@@ -35,7 +35,7 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Organisation::with(['logo', 'merchant.avatar', 'creator.avatar']);
+        $query = Organisation::allow();
 
         $organisations = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -90,10 +90,9 @@ class OrganisationController extends Controller
     {
         $q = $request->query('q');
 
-        $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'shops.creator.avatar'])
-            ->loadCount(['shops', 'vendors', 'users', 'products']);
+        $organisation->load('banner')->loadCount(['shops', 'vendors', 'users', 'products']);
 
-        $query = $organisation->shops();
+        $query = $organisation->shops()->allow();
 
         $shops = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -345,10 +344,10 @@ class OrganisationController extends Controller
         $organisation->load(['logo', 'banner', 'creator.avatar', 'merchant.avatar', 'products.creator.avatar'])
             ->loadCount(['shops', 'vendors', 'users', 'products']);
 
-        $query = $organisation->products();
+        $query = $organisation->products()->with('creator.avatar');
 
         $products = ($q)
-            ? $query->search($q)->orderBy('code')->get()
+            ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.organisations.show-products', compact(['organisation', 'products', 'q']));

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\MorphOneHardCopyTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\BelongsToUserTrait;
 use App\Traits\Models\MorphManyLogsTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -43,6 +44,14 @@ class Invoice extends Model
     protected $casts = [
         'status' => InvoiceStatusEnum::class
     ];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine if invoice is paid, magic attribute $this->is_paid.

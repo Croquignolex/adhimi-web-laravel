@@ -48,6 +48,7 @@ return [
         'add_category' => 'Ajouter une catégorie',
         'add_group' => 'Ajouter un groupe',
         'add_organisation' => 'Ajouter un magasin',
+        'add_attribute_value' => 'Ajouter une valeur',
     ],
 
     'role' => [
@@ -160,6 +161,11 @@ return [
         'banner_updated' => 'Bannière de la catégorie :name mise à jour avec succès',
         'delete_banner_question' => 'Voulez-vous vraiment supprimer la bannière de cette catégorie',
         'delete_banner' => 'Supprimer la bannière de la catégorie',
+    ],
+
+    'attribute' => [
+        'created' => 'Attribut :name créer',
+        'updated' => 'Attribut :name mise à jour',
     ],
 
     'state' => [

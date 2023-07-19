@@ -21,10 +21,10 @@ use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\NameInitialsTrait;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Models\SearchScopeTrait;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\Models\UniqueSlugTrait;
 use App\Traits\Models\RouteSlugTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Enums\UserStatusEnum;
 use App\Enums\UserRoleEnum;
@@ -90,18 +90,18 @@ class User extends Authenticatable
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['roles', 'avatar', 'shop', 'organisation.logo', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name'];
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['roles'];
 
     /**
      * @return void
@@ -119,7 +119,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope a query to only include model without super admin.
+     * Scope a query to only include allowed model.
      */
     public function scopeAllow(Builder $query): void
     {
@@ -169,8 +169,6 @@ class User extends Authenticatable
      */
     protected function entity(): Attribute
     {
-        $this->load('avatar');
-
         $url = (Auth::id() === $this->id)
             ? route('admin.profile.general')
             : route('admin.users.show', [$this]);

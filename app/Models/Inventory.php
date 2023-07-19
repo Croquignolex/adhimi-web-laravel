@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use App\Traits\Models\TimezonePromotionDateTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToProductTrait;
 use App\Traits\Models\BelongsToCountryTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\BelongsToShopTrait;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -27,8 +27,7 @@ class Inventory extends Model
         BelongsToShopTrait,
         BelongsToProductTrait,
         BelongsToCountryTrait,
-        BelongsToCreatorTrait,
-        TimezonePromotionDateTrait;
+        BelongsToCreatorTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -66,6 +65,14 @@ class Inventory extends Model
         'promotion_started_at' => 'datetime',
         'promotion_ended_at' => 'datetime',
     ];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Get the vendor that owns the current model.

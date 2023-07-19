@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
+use App\Models\AttributeValue;
 use App\Models\Organisation;
+use App\Models\Attribute;
 use App\Models\Customer;
 use App\Models\Category;
 use App\Models\Country;
@@ -51,7 +53,9 @@ class AppServiceProvider extends ServiceProvider
             'country' => Country::class,
             'category' => Category::class,
             'customer' => Customer::class,
+            'attribute' => Attribute::class,
             'organisation' => Organisation::class,
+            'attribute-value' => AttributeValue::class,
         ]);
     }
 }

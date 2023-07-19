@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\MediaTypeEnum;
@@ -42,6 +43,13 @@ class Media extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['creator.avatar'];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -50,6 +58,14 @@ class Media extends Model
         'type' => MediaTypeEnum::class,
         'is_local' => 'boolean',
     ];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Get the parent mediatable models.

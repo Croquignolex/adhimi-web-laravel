@@ -19,6 +19,7 @@ return [
     'brand' => 'Marque',
     'entity' => 'Entité',
     'creation' => 'Création',
+    'attribute' => 'Attribute',
     'creator' => 'Créateur',
     'name' => 'Nom',
     'user' => 'Utilisateur',

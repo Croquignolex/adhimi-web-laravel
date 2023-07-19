@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\MorphOneHardCopyTrait;
 use App\Traits\Models\MorphManyLogsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\PaymentProviderEnum;
 use App\Enums\PaymentStatusEnum;
@@ -47,6 +48,14 @@ class Payment extends Model
         'data' => 'array',
         'provider' => PaymentProviderEnum::class,
     ];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine invoice status badge, magic attribute $this->status_badge.

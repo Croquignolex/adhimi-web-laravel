@@ -76,11 +76,26 @@ class Organisation extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['logo', 'merchant.avatar', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name', 'phone'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine if merchant can be added to organisation, magic attribute $this->can_add_merchant.
@@ -113,8 +128,6 @@ class Organisation extends Model
      */
     protected function entity(): Attribute
     {
-        $this->load('logo');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.organisations.show', [$this]),

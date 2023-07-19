@@ -9,6 +9,7 @@ use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\SlugFromNameTrait;
@@ -61,11 +62,26 @@ class Brand extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['logo', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine organisation entity, magic attribute $this->entity.
@@ -74,8 +90,6 @@ class Brand extends Model
      */
     protected function entity(): Attribute
     {
-        $this->load('logo');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.brands.show', [$this]),

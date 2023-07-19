@@ -69,11 +69,26 @@ class Shop extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['organisation.logo', 'manager.avatar', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine if manager can be added to shop, magic attribute $this->can_add_manager.

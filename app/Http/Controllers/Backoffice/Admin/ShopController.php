@@ -39,7 +39,7 @@ class ShopController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Shop::with(['organisation.logo', 'manager.avatar', 'creator.avatar']);
+        $query = Shop::allow();
 
         $shops = ($q)
             ? $query->search($q)->orderBy('name')->get()

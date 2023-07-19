@@ -83,6 +83,13 @@ class Customer extends Authenticatable implements MustVerifyEmail, CanResetPassw
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
@@ -103,6 +110,14 @@ class Customer extends Authenticatable implements MustVerifyEmail, CanResetPassw
         static::updating(function (Customer $customer) {
             $customer->slug = $customer->first_name;
         });
+    }
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
     }
 
     /**
@@ -160,8 +175,6 @@ class Customer extends Authenticatable implements MustVerifyEmail, CanResetPassw
      */
     protected function entity(): Attribute
     {
-        $this->load('avatar');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.customers.show', [$this]),

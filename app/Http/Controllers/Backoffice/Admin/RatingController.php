@@ -21,7 +21,7 @@ class RatingController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Rating::with('customer.avatar');
+        $query = Rating::allow();
 
         $ratings = ($q)
             ? $query->search($q)->orderBy('note')->get()
@@ -38,8 +38,6 @@ class RatingController extends Controller
      */
     public function show(Rating $rating): View
     {
-        $rating->load('customer.avatar');
-
         return view('backoffice.admin.ratings.show', compact('rating'));
     }
 
@@ -68,9 +66,7 @@ class RatingController extends Controller
      */
     public function showLogs(Rating $rating): View
     {
-        $rating->load(['customer.avatar', 'logs.creator.avatar']);
-
-        $logs = $rating->logs()->orderBy('created_at', 'desc')->paginate();
+        $logs = $rating->logs()->allow()->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.ratings.show-logs', compact(['rating', 'logs']));
     }

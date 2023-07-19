@@ -14,6 +14,7 @@ use App\Traits\Models\BelongsToOrganisationTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\EnableScopeTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\MorphToManyTags;
@@ -83,14 +84,27 @@ class Product extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['galleryImages', 'organisation.logo', 'brand.logo', 'creator.avatar'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
+
+    /**
      * Determine product entity, magic attribute $this->entity.
      *
      * @return Attribute
      */
     protected function entity(): Attribute
     {
-        $this->load('galleryImages');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.products.show', [$this]),

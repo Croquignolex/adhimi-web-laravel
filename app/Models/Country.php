@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\SlugFromNameTrait;
 use App\Traits\Models\NameInitialsTrait;
@@ -65,11 +66,26 @@ class Country extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['flag', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name', 'phone_code'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine country entity, magic attribute $this->entity.
@@ -78,8 +94,6 @@ class Country extends Model
      */
     protected function entity(): Attribute
     {
-        $this->load('flag');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.countries.show', [$this]),

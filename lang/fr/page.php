@@ -120,6 +120,25 @@ return [
         'add_product' => 'Ajouter un produit',
     ],
 
+    'attributes' => [
+        'attributes' => 'Attributs',
+        'new' => 'Nouvel attribut',
+        'all' => 'Tous les attributs',
+        'detail' => "Détail de l'attribut",
+        'edit' => "Modifier l'attribut",
+        'add_product' => 'Ajouter un produit',
+        'add_attribute_value' => 'Ajouter une valeur',
+    ],
+
+    'attribute_values' => [
+        'attribute_values' => "Valeurs d'attributs",
+        'new' => 'Nouvelle valeur',
+        'all' => 'Toutes les valeurs',
+        'detail' => "Détail de la valeur",
+        'edit' => "Modifier la valeur",
+        'add_product' => 'Ajouter un produit',
+    ],
+
     'products' => [
         'products' => 'Produits',
         'new' => 'Nouveau produit',

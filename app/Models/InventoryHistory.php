@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToProductTrait;
 use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\BelongsToShopTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,4 +43,12 @@ class InventoryHistory extends Model
         'creator_id',
         'product_id',
     ];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 }

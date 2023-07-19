@@ -92,7 +92,7 @@
                         <li class="{{ active_page('admin.vendors.index') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.vendors.index') }}">
                                 <i data-feather="circle"></i>
-                                <span class="menu-item">@lang('page.shops.all')</span>
+                                <span class="menu-item">@lang('page.vendors.all')</span>
                             </a>
                         </li>
                         {{-- New vendor menu item --}}
@@ -220,7 +220,7 @@
                         <li class="{{ active_page('admin.categories.index') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.categories.index') }}">
                                 <i data-feather="circle"></i>
-                                <span class="menu-item">@lang('page.groups.all')</span>
+                                <span class="menu-item">@lang('page.categories.all')</span>
                             </a>
                         </li>
                         {{-- New category menu item --}}
@@ -228,6 +228,54 @@
                             <a class="d-flex align-items-center" href="{{ route('admin.categories.create') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item">@lang('page.categories.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- Attributes menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="tag"></i>
+                        <span class="menu-title text-truncate">@lang('page.attributes.attributes')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All atributes menu item --}}
+                        <li class="{{ active_page('admin.attributes.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.attributes.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.attributes.all')</span>
+                            </a>
+                        </li>
+                        {{-- New atribute menu item --}}
+                        <li class="{{ active_page('admin.attributes.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.attributes.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.attributes.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- Attribute values menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="pocket"></i>
+                        <span class="menu-title text-truncate">@lang('page.attribute_values.attribute_values')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All atribute values menu item --}}
+                        <li class="{{ active_page('admin..attribute-values.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.attribute-values.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.attribute_values.all')</span>
+                            </a>
+                        </li>
+                        {{-- New atribute value item --}}
+                        <li class="{{ active_page('admin..attribute-values.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.attribute-values.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.attribute_values.new')</span>
                             </a>
                         </li>
                     </ul>

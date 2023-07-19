@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\SlugFromNameTrait;
@@ -62,11 +63,26 @@ class Vendor extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['logo', 'organisation.logo', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine country entity, magic attribute $this->entity.
@@ -75,8 +91,6 @@ class Vendor extends Model
      */
     protected function entity(): Attribute
     {
-        $this->load('logo');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.vendors.show', [$this]),

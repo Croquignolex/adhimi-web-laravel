@@ -40,7 +40,7 @@ class VendorController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Vendor::with(['logo', 'organisation.logo', 'creator.avatar']);
+        $query = Vendor::query();
 
         $vendors = ($q)
             ? $query->search($q)->orderBy('name')->get()
@@ -118,8 +118,6 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor): View
     {
-        $vendor->load('logo');
-
         return view('backoffice.admin.vendors.edit', compact('vendor'));
     }
 

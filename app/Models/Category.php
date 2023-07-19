@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\HasManyProductsTrait;
 use App\Traits\Models\MorphOneBannerTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\MorphManyLogsTrait;
 use App\Traits\Models\NameInitialsTrait;
 use App\Traits\Models\SlugFromNameTrait;
@@ -65,11 +66,26 @@ class Category extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['group.banner', 'creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
      */
     protected array $searchFields = ['name'];
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
+    }
 
     /**
      * Determine category entity, magic attribute $this->entity.
@@ -78,8 +94,6 @@ class Category extends Model
      */
     protected function entity(): Attribute
     {
-        $this->load('banner');
-
         return new Attribute(
             get: fn () => [
                 'url' => route('admin.categories.show', [$this]),

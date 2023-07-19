@@ -9,6 +9,7 @@ use App\Traits\Models\GeneralStatusBadgeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToCreatorTrait;
 use App\Traits\Models\MorphManyLogsTrait;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Models\EnableScopeTrait;
 use App\Traits\Models\SearchScopeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -59,6 +60,13 @@ class Coupon extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['creator.avatar'];
+
+    /**
      * The attributes that should be searchable.
      *
      * @var array<string>
@@ -77,6 +85,14 @@ class Coupon extends Model
         static::updating(function (Coupon $coupon) {
             $coupon->slug = $coupon->code;
         });
+    }
+
+    /**
+     * Scope a query to only include allowed model.
+     */
+    public function scopeAllow(Builder $query): void
+    {
+
     }
 
     /**

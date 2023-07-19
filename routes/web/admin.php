@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Backoffice\Admin\AttributeValueController;
 use App\Http\Controllers\Backoffice\Admin\OrganisationController;
+use App\Http\Controllers\Backoffice\Admin\AttributeController;
 use App\Http\Controllers\Backoffice\Admin\CustomerController;
 use App\Http\Controllers\Backoffice\Admin\CategoryController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
@@ -146,6 +148,34 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
             Route::post('{category}/status-toggle', 'statusToggle')->name('status.toggle');
             Route::get('{category}/add-product', 'showAddProductForm')->name('add.product');
             Route::post('{category}/add-product', 'addProduct');
+        });
+
+        /**
+         * @resource attributes
+         * @controller attributes
+         */
+        Route::resource('attributes', AttributeController::class)->except('destroy');
+        Route::controller(AttributeController::class)->prefix('attributes')->name('attributes.')->group(function () {
+            Route::get('{attribute}/logs', 'showLogs')->name('show.logs');
+            Route::get('{attribute}/products', 'showProducts')->name('show.products');
+            Route::post('{attribute}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{attribute}/add-attribute-value', 'showAddAttributeValueForm')->name('add.attribute-value');
+            Route::post('{attribute}/add-attribute-value', 'addAttributeValue');
+            Route::get('{attribute}/add-product', 'showAddProductForm')->name('add.product');
+            Route::post('{attribute}/add-product', 'addProduct');
+        });
+
+        /**
+         * @resource attribute_values
+         * @controller attribute_values
+         */
+        Route::resource('attribute-values', AttributeValueController::class)->except('destroy');
+        Route::controller(AttributeValueController::class)->prefix('attribute-values')->name('attribute-values.')->group(function () {
+            Route::get('{attribute_value}/logs', 'showLogs')->name('show.logs');
+            Route::get('{attribute_value}/products', 'showProducts')->name('show.products');
+            Route::post('{attribute_value}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{attribute_value}/add-product', 'showAddProductForm')->name('add.product');
+            Route::post('{attribute_value}/add-product', 'addProduct');
         });
 
         /**
