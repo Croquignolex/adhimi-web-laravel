@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('value');
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();
+
+            $table->unique(['attribute_id', 'name']);
         });
     }
 

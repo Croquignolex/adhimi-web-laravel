@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\OrganisationController;
+use App\Http\Controllers\Api\V1\AttributeController;
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\StateController;
 use App\Http\Controllers\Api\V1\GroupController;
@@ -32,6 +33,11 @@ Route::resource('states', StateController::class)->only('index');
  * @resource groups
  */
 Route::resource('groups', GroupController::class)->only('index');
+
+/**
+ * @resource attributes
+ */
+Route::resource('attributes', AttributeController::class)->only('index');
 
 /**
  * @resource shops

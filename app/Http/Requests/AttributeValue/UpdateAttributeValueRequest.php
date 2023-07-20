@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Attribute;
+namespace App\Http\Requests\AttributeValue;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreAddAttributeValueRequest extends FormRequest
+class UpdateAttributeValueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,10 @@ class StoreAddAttributeValueRequest extends FormRequest
             'name' => [
                 'required', 'string',
                 Rule::unique('attribute_values', 'name')
-                    ->where('attribute_id', $this->attribute->id)
+                    ->where('attribute_id', $this->input('attribute'))
+                    ->ignore($this->attributeValue)
             ],
+            'attribute' => "required|string|exists:attributes,id",
             'value' => "required|string",
             'description' => "nullable|string",
         ];

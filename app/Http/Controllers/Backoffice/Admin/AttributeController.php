@@ -114,7 +114,7 @@ class AttributeController extends Controller
     {
         $q = $request->query('q');
 
-        $attribute->load('creator.avatar')->loadCount(['attributedProducts', 'attributeValues']);
+        $attribute->load('creator')->loadCount(['attributedProducts', 'attributeValues']);
 
         $query = $attribute->attributedProducts()->allowed();
 

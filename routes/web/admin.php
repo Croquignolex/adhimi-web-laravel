@@ -172,7 +172,6 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::resource('attribute-values', AttributeValueController::class)->except('destroy');
         Route::controller(AttributeValueController::class)->prefix('attribute-values')->name('attribute-values.')->group(function () {
             Route::get('{attribute_value}/logs', 'showLogs')->name('show.logs');
-            Route::get('{attribute_value}/products', 'showProducts')->name('show.products');
             Route::post('{attribute_value}/status-toggle', 'statusToggle')->name('status.toggle');
             Route::get('{attribute_value}/add-product', 'showAddProductForm')->name('add.product');
             Route::post('{attribute_value}/add-product', 'addProduct');

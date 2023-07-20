@@ -49,6 +49,7 @@ return [
         'add_group' => 'Ajouter un groupe',
         'add_organisation' => 'Ajouter un magasin',
         'add_attribute_value' => 'Ajouter une valeur',
+        'add_attribute' => 'Ajouter un attribut',
     ],
 
     'role' => [

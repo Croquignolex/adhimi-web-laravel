@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
-use App\Http\Requests\Attribute\UpdateAttributeRequest;
-use App\Http\Requests\Attribute\StoreAttributeRequest;
+use App\Http\Requests\AttributeValue\UpdateAttributeValueRequest;
+use App\Http\Requests\AttributeValue\StoreAttributeValueRequest;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use App\Enums\GeneralStatusEnum;
+use App\Models\AttributeValue;
 use Illuminate\Http\Request;
-use App\Models\Attribute;
 use App\Events\LogEvent;
 
 class AttributeValueController extends Controller
@@ -35,13 +35,13 @@ class AttributeValueController extends Controller
     {
         $q = $request->query('q');
 
-        $query = Attribute::with('creator.avatar');
+        $query = AttributeValue::with(['attribute', 'creator'])->allowed();
 
-        $attributes = ($q)
+        $attributeValues = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.attributes.index', compact(['attributes', 'q']));
+        return view('backoffice.admin.attribute-values.index', compact(['attributeValues', 'q']));
     }
 
     /**
@@ -51,16 +51,16 @@ class AttributeValueController extends Controller
      */
     public function create(): View
     {
-        return view('backoffice.admin.attributes.create');
+        return view('backoffice.admin.attribute-values.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreAttributeRequest $request
+     * @param StoreAttributeValueRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreAttributeRequest $request): RedirectResponse
+    public function store(StoreAttributeValueRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -68,125 +68,106 @@ class AttributeValueController extends Controller
 
         $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
 
-        $attribute = $authUser->createdAttributes()->create([
+        $attributeValue = $authUser->createdAttributeValues()->create([
             'status' => $status,
-            'name' => $validated['name'], 
-            'description' => $validated['description'],
-        ]);
-
-        LogEvent::dispatchCreate($attribute, $request, __('general.attribute.created', ['name' => $attribute->name]));
-
-        return redirect(route('admin.attributes.show', [$attribute]));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param Attribute $attribute
-     * @return View
-     */
-    public function show(Request $request, Attribute $attribute): View
-    {
-        $q = $request->query('q');
-
-        $attribute->load(['creator.avatar', 'attributesValues.creator.avatar'])
-            ->loadCount(['products', 'attributesValues']);
-
-        $query = $attribute->attributesValues();
-
-        $attributeValues = ($q)
-            ? $query->search($q)->orderBy('name')->get()
-            : $query->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.attributes.show', compact(['attribute', 'attributeValues', 'q']));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Attribute $attribute
-     * @return View
-     */
-    public function edit(Attribute $attribute): View
-    {
-        return view('backoffice.admin.attributes.edit', compact('attribute'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateAttributeRequest $request
-     * @param Attribute $attribute
-     * @return RedirectResponse
-     */
-    public function update(UpdateAttributeRequest $request, Attribute $attribute): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $attribute->update([
             'name' => $validated['name'],
-            'description' => $validated['description']
+            'value' => $validated['value'],
+            'description' => $validated['description'],
+            'attribute_id' => $validated['attribute'],
         ]);
 
-        LogEvent::dispatchUpdate($attribute, $request, __('general.attribute.updated', ['name' => $attribute->name]));
+        LogEvent::dispatchCreate($attributeValue, $request, __('general.attribute-value.created', ['name' => $attributeValue->name]));
 
-        return redirect(route('admin.attributes.show', [$attribute]));
-    }
-
-    /**
-     * Toggle attribute status.
-     *
-     * @param Request $request
-     * @param Attribute $attribute
-     * @return RedirectResponse
-     */
-    public function statusToggle(Request $request, Attribute $attribute): RedirectResponse
-    {
-        $message = $attribute->status_toggle['message'];
-        $attribute->update(['status' => $attribute->status_toggle['next']]);
-
-        LogEvent::dispatchUpdate($attribute, $request, $message);
-
-        return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Attribute $attribute
-     * @return View
-     */
-    public function showLogs(Attribute $attribute): View
-    {
-        $attribute->load(['creator.avatar', 'logs.creator.avatar'])
-            ->loadCount(['products', 'attributesValues']);
-
-        $logs = $attribute->logs()->orderBy('created_at', 'desc')->paginate();
-
-        return view('backoffice.admin.attributes.show-logs', compact(['attribute', 'logs']));
+        return redirect(route('admin.attribute-values.show', [$attributeValue]));
     }
 
     /**
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Attribute $attribute
+     * @param AttributeValue $attributeValue
      * @return View
      */
-    public function showProducts(Request $request, Attribute $attribute): View
+    public function show(Request $request, AttributeValue $attributeValue): View
     {
         $q = $request->query('q');
 
-        $attribute->load(['creator.avatar', 'products.creator.avatar'])
-            ->loadCount(['products', 'attributesValues']);
+        $attributeValue->load(['attribute', 'creator'])->loadCount('attributedProducts');
 
-        $query = $attribute->products();
+        $query = $attributeValue->attributedProducts()->allowed();
 
         $products = ($q)
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.organisations.show-products', compact(['attribute', 'products', 'q']));
+        return view('backoffice.admin.attribute-values.show', compact(['attributeValue', 'products', 'q']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param AttributeValue $attributeValue
+     * @return View
+     */
+    public function showLogs(AttributeValue $attributeValue): View
+    {
+        $attributeValue->load(['attribute', 'creator'])->loadCount('attributedProducts');
+
+        $logs = $attributeValue->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
+
+        return view('backoffice.admin.attribute-values.show-logs', compact(['attributeValue', 'logs']));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param AttributeValue $attributeValue
+     * @return View
+     */
+    public function edit(AttributeValue $attributeValue): View
+    {
+        $attributeValue->load('attribute');
+
+        return view('backoffice.admin.attribute-values.edit', compact('attributeValue'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateAttributeValueRequest $request
+     * @param AttributeValue $attributeValue
+     * @return RedirectResponse
+     */
+    public function update(UpdateAttributeValueRequest $request, AttributeValue $attributeValue): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $attributeValue->update([
+            'name' => $validated['name'],
+            'value' => $validated['value'],
+            'description' => $validated['description'],
+            'attribute_id' => $validated['attribute'],
+        ]);
+
+        LogEvent::dispatchUpdate($attributeValue, $request, __('general.attribute-value.updated', ['name' => $attributeValue->name]));
+
+        return redirect(route('admin.attribute-values.show', [$attributeValue]));
+    }
+
+    /**
+     * Toggle attribute value status.
+     *
+     * @param Request $request
+     * @param AttributeValue $attributeValue
+     * @return RedirectResponse
+     */
+    public function statusToggle(Request $request, AttributeValue $attributeValue): RedirectResponse
+    {
+        $message = $attributeValue->status_toggle['message'];
+        $attributeValue->update(['status' => $attributeValue->status_toggle['next']]);
+
+        LogEvent::dispatchUpdate($attributeValue, $request, $message);
+
+        return back();
     }
 }
