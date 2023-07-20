@@ -66,7 +66,7 @@ class AttributeValue extends Model
      *
      * @var array<string>
      */
-    protected array $searchFields = ['name'];
+    protected array $searchFields = ['name', 'value'];
 
     /**
      * Scope a query to only include allowed model.

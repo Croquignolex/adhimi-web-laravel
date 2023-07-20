@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Attribute;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\AttributeTypeEnum;
 
 class StoreAttributeRequest extends FormRequest
 {
@@ -23,8 +24,11 @@ class StoreAttributeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $types = AttributeTypeEnum::stringify();
+
         return [
             'name' => "required|string|unique:attributes,name",
+            'type' => "required|in:$types",
             'description' => "nullable|string",
         ];
     }

@@ -27,6 +27,23 @@
                                                 'required' => true,
                                             ])
                                         </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="form-group">
+                                                @include('partials.input.label', [
+                                                   'label' => __('field.type'),
+                                                   'required' => true,
+                                                   'field' => 'type',
+                                               ])
+                                                <select class="select2 form-control" id="type" name="type">
+                                                    @foreach(\App\Enums\AttributeTypeEnum::values() as $type)
+                                                        <option value="{{ $type }}"
+                                                                {{ old('type') == $type ? 'selected' : '' }}>
+                                                            @lang('general.type.' . $type)
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             @include('partials.input.textarea')
                                         </div>
@@ -45,3 +62,11 @@
         </div>
     </div>
 @endsection
+
+@push('vendor.styles')
+    <link rel="stylesheet" type="text/css" href="{{ asset("app-assets/vendors/css/forms/select/select2.min.css") }}">
+@endpush
+
+@push('vendor.scripts')
+    <script src="{{ asset("app-assets/vendors/js/forms/select/select2.full.min.js") }}"></script>
+@endpush

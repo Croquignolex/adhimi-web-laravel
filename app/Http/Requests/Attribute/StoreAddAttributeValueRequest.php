@@ -27,12 +27,11 @@ class StoreAddAttributeValueRequest extends FormRequest
         return [
             'name' => [
                 'required', 'string',
-                Rule::unique('categories', 'name')
-                    ->where('group_id', $this->group->id)
+                Rule::unique('attribute_values', 'name')
+                    ->where('attribute_id', $this->attribute->id)
             ],
+            'value' => "nullable|string",
             'description' => "nullable|string",
-            'seo_title' => "nullable|string",
-            'seo_description' => "nullable|string",
         ];
     }
 }

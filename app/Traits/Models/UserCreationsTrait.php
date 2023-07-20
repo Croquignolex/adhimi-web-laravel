@@ -4,6 +4,7 @@ namespace App\Traits\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\InventoryHistory;
+use App\Models\AttributeValue;
 use App\Models\Organisation;
 use App\Models\Attribute;
 use App\Models\Category;
@@ -69,6 +70,16 @@ trait UserCreationsTrait
     public function createdAttributes(): HasMany
     {
         return $this->hasMany(Attribute::class, 'creator_id');
+    }
+
+    /**
+     * Get created attribute values associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdAttributeValues(): HasMany
+    {
+        return $this->hasMany(AttributeValue::class, 'creator_id');
     }
 
     /**

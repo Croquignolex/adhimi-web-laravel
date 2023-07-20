@@ -60,6 +60,12 @@ return [
         'super_admin' => 'Super admin',
     ],
 
+    'type' => [
+        'text' => "Texte",
+        'select' => "Sélection",
+        'color' => "Couleur",
+    ],
+
     'status' => [
         'enable' => "Actif",
         'active' => "Actif",
@@ -166,6 +172,11 @@ return [
     'attribute' => [
         'created' => 'Attribut :name créer',
         'updated' => 'Attribut :name mise à jour',
+    ],
+
+    'attribute-value' => [
+        'created' => "Valeur d'attribut :name créer",
+        'updated' => "Valeur d'attribut :name mise à jour",
     ],
 
     'state' => [

@@ -25,6 +25,7 @@ return new class extends Migration
             $this->addForeignKey(table: $table, foreignModelFqn: Attribute::class);
 
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('value');
             $table->string('status')->default(GeneralStatusEnum::StandBy->value);
             $table->text('description')->nullable();

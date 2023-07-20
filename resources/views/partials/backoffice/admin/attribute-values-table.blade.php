@@ -7,6 +7,7 @@
             <th>@lang('field.actions')</th>
             <th>@lang('field.creation')</th>
             <th>@lang('field.name') <i data-feather="search" class="text-secondary"></i>
+            <th>@lang('field.value') <i data-feather="search" class="text-secondary"></i>
             </th>
             <th>@lang('field.status')</th>
             @if($attribute)
@@ -62,8 +63,9 @@
                     @include('partials.backoffice.date-badge', ['model' => $attributeValue])
                 </td>
                 <td>{{ $attributeValue->name }}</td>
+                <td>{{ $attributeValue->value }}</td>
                 <td class="text-center">@include('partials.backoffice.status-badge', ['model' => $attributeValue])</td>
-                @if($group)
+                @if($attribute)
                     <td>@include('partials.backoffice.admin.entity-data', ['model' => $attributeValue->attribute])</td>
                 @endif
                 @if($creator)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
+use App\Http\Requests\Attribute\StoreAddAttributeValueRequest;
 use App\Http\Requests\Attribute\UpdateAttributeRequest;
 use App\Http\Requests\Attribute\StoreAttributeRequest;
 use Illuminate\Http\RedirectResponse;
@@ -71,6 +72,7 @@ class AttributeController extends Controller
         $attribute = $authUser->createdAttributes()->create([
             'status' => $status,
             'name' => $validated['name'], 
+            'type' => $validated['type'],
             'description' => $validated['description'],
         ]);
 
@@ -112,7 +114,7 @@ class AttributeController extends Controller
     {
         $q = $request->query('q');
 
-        $attribute->load('creator.avatar')->loadCount(['attributedProducts', 'attributesValues']);
+        $attribute->load('creator.avatar')->loadCount(['attributedProducts', 'attributeValues']);
 
         $query = $attribute->attributedProducts()->allowed();
 
@@ -120,7 +122,7 @@ class AttributeController extends Controller
             ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
-        return view('backoffice.admin.organisations.show-products', compact(['attribute', 'products', 'q']));
+        return view('backoffice.admin.attributes.show-products', compact(['attribute', 'products', 'q']));
     }
 
     /**
@@ -131,7 +133,7 @@ class AttributeController extends Controller
      */
     public function showLogs(Attribute $attribute): View
     {
-        $attribute->load('creator')->loadCount(['attributedProducts', 'attributesValues']);
+        $attribute->load('creator')->loadCount(['attributedProducts', 'attributeValues']);
 
         $logs = $attribute->logs()->allowed()->orderBy('created_at', 'desc')->paginate();
 
@@ -162,6 +164,7 @@ class AttributeController extends Controller
 
         $attribute->update([
             'name' => $validated['name'],
+            'type' => $validated['type'],
             'description' => $validated['description']
         ]);
 
@@ -185,5 +188,44 @@ class AttributeController extends Controller
         LogEvent::dispatchUpdate($attribute, $request, $message);
 
         return back();
+    }
+
+    /**
+     * Show the form for adding an attribute value.
+     *
+     * @param Attribute $attribute
+     * @return View
+     */
+    public function showAddAttributeValueForm(Attribute $attribute): View
+    {
+        return view('backoffice.admin.attributes.add-attribute-value', compact('attribute'));
+    }
+
+    /**
+     * Add an attribute value.
+     *
+     * @param StoreAddAttributeValueRequest $request
+     * @param Attribute $attribute
+     * @return RedirectResponse
+     */
+    public function addAttributeValue(StoreAddAttributeValueRequest $request, Attribute $attribute): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $authUser = Auth::user();
+
+        $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
+
+        $attributeValue = $attribute->attributeValues()->create([
+            'status' => $status,
+            'name' => $validated['name'],
+            'value' => $validated['value'],
+            'description' => $validated['description'],
+            'creator_id' => $authUser->id,
+        ]);
+
+        LogEvent::dispatchCreate($attributeValue, $request, __('general.attribute-value.created', ['name' => $attributeValue->name]));
+
+        return redirect(route('admin.attributes.show', [$attribute]));
     }
 }

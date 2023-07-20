@@ -8,7 +8,7 @@ enum AttributeTypeEnum: string
 {
     use EnumToolsTrait;
 
-    case Text = 'Text';
-    case Select = 'Select';
-    case Color = 'Color';
+    case Text = 'text';
+    case Select = 'select';
+    case Color = 'color';
 }

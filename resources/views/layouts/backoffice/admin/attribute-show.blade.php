@@ -42,6 +42,10 @@
                                             <td>{{ $attribute->name }}</td>
                                         </tr>
                                         <tr>
+                                            <th>@lang('field.type')</th>
+                                            <td>@lang('general.type.' . $attribute->type->value)</td>
+                                        </tr>
+                                        <tr>
                                             <th>@lang('field.status')</th>
                                             <td>@include('partials.backoffice.status-badge', ['model' => $attribute])</td>
                                         </tr>

@@ -8,5 +8,5 @@
         </a>
         @include('partials.input.search')
     </div>
-    @include('partials.backoffice.admin.attribute-values-table', ['attributeValues' => $attributeValues])
+    @include('partials.backoffice.admin.attribute-values-table', ['attributeValues' => $attributeValues, 'attribute' => false])
 @endsection

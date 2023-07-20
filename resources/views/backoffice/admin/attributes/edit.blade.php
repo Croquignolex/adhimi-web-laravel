@@ -13,6 +13,23 @@
                     'value' => $attribute->name,
                 ])
             </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    @include('partials.input.label', [
+                       'label' => __('field.type'),
+                       'required' => true,
+                       'field' => 'type',
+                   ])
+                    <select class="select2 form-control" id="type" name="type">
+                        @foreach(\App\Enums\AttributeTypeEnum::values() as $type)
+                            <option value="{{ $type }}"
+                                    {{ (old('type') ?? $attribute->type->value) == $type ? 'selected' : '' }}>
+                                @lang('general.type.' . $type)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             <div class="col-12">
                 @include('partials.input.textarea', ['value' => $attribute->description])
             </div>

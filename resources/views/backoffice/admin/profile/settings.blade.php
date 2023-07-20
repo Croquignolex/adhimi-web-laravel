@@ -26,7 +26,7 @@
                             <select class="select2 form-control" id="language" name="language">
                                 @foreach($languageService->availableLanguages(true) as $language)
                                     <option value="{{ $language['value'] }}"
-                                            {{ (old('language') ?? $user->setting->language) == $language['value'] ? 'selected' : '' }}>
+                                            {{ (old('language') ?? $user->setting->language->value) == $language['value'] ? 'selected' : '' }}>
                                         {{ $language['label'] }}
                                     </option>
                                 @endforeach
