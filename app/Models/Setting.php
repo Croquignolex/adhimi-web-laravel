@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Models\BelongsToUserTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\EnumToolsTrait;
+use App\Enums\LanguageEnum;
 
 class Setting extends Model
 {
@@ -43,7 +43,7 @@ class Setting extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'language' => EnumToolsTrait::class,
+        'language' => LanguageEnum::class,
 
         'enable_action_on_super_admin_notification' => 'boolean',
         'enable_action_on_admin_notification' => 'boolean',

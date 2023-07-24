@@ -10,6 +10,7 @@ use App\Http\Controllers\Backoffice\Admin\ProfileController;
 use App\Http\Controllers\Backoffice\Admin\VendorController;
 use App\Http\Controllers\Backoffice\Admin\CouponController;
 use App\Http\Controllers\Backoffice\Admin\RatingController;
+use App\Http\Controllers\Backoffice\Admin\MediaController;
 use App\Http\Controllers\Backoffice\Admin\BrandController;
 use App\Http\Controllers\Backoffice\Admin\StateController;
 use App\Http\Controllers\Backoffice\Admin\GroupController;
@@ -283,6 +284,15 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(CouponController::class)->prefix('coupons')->name('coupons.')->group(function () {
             Route::get('{coupon}/logs', 'showLogs')->name('show.logs');
             Route::post('{coupon}/status-toggle', 'statusToggle')->name('status.toggle');
+        });
+
+        /**
+         * @resource medias
+         * @controller medias
+         */
+        Route::resource('medias', MediaController::class)->only(['index', 'show', 'destroy']);
+        Route::controller(MediaController::class)->prefix('medias')->name('medias.')->group(function () {
+            Route::get('type/{media_type_enum}', 'indexMediaType')->name('index.type');
         });
     });
 });

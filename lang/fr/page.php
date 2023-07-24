@@ -159,4 +159,10 @@ return [
         'detail' => "Détail de l'avis",
     ],
 
+    'medias' => [
+        'medias' => 'Médias',
+        'all' => 'Tous les Médias',
+        'detail' => "Détail du média",
+    ],
+
 ];

@@ -25,11 +25,11 @@ trait LoginTrait
             return $this->sendFailedLoginResponse();
         }
 
-        $request->session()->put('language', $user->setting->language);
+        $request->session()->put('language', $user->setting->language->value);
 
         LogEvent::dispatchAuth($user, $request, __('page.login'));
 
-        ToastEvent::dispatchSuccess(__('general.login.welcome_name', ['name' => $user->first_name]));
+        ToastEvent::dispatchSuccess(__('general.login.welcome_name', ['name' => $user->name]));
 
         return null;
     }

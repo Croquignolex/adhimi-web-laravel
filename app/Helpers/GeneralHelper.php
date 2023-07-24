@@ -67,3 +67,16 @@ if(!function_exists('format_text'))
             : $text;
     }
 }
+
+if(!function_exists('random_color'))
+{
+    /**
+     * @param bool $hex
+     * @return string
+     */
+    function random_color(bool $hex = false): string
+    {
+        if($hex) return '#FFFFFF';
+        else return collect(['primary', 'info', 'warning', 'danger'])->random();
+    }
+}

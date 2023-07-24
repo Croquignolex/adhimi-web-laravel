@@ -76,6 +76,16 @@ return [
         'unknown' => "Inconnu",
     ],
 
+    'media' => [
+        'images' => "Images",
+        'flags' => "Drapeaux",
+        'avatars' => "Avatars",
+        'banners' => "Bannières",
+        'logos' => "Logos",
+        'videos' => "Videos",
+        'documents' => "Documents",
+    ],
+
     'login' => [
         'enter_your_credentials' => 'Entrez vos identifiants',
         'forgotten_password' => 'Mot de passe oublié',

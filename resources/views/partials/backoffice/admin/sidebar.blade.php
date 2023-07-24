@@ -372,6 +372,14 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- Media menu --}}
+                <li class="{{ active_page('admin.medias.index') }} nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('admin.medias.index') }}">
+                        <i data-feather="image"></i>
+                        <span class="menu-title text-truncate">@lang('page.medias.all')</span>
+                    </a>
+                </li>
             @endif
 
             <li class="navigation-header">
