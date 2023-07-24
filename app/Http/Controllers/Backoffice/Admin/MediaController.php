@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use App\Enums\MediaTypeEnum;
-use App\Models\Coupon;
+use App\Events\LogEvent;
 use App\Models\Media;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
@@ -36,26 +40,46 @@ class MediaController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Media $media
-     * @return View
+     * @return RedirectResponse
      */
-    public function show(Media $media): View
+    public function destroy(Request $request, Media $media): RedirectResponse
     {
-        return view('backoffice.admin.medias.show', compact('media'));
+        $entity = $media->mediatable;
+
+        $media->delete();
+
+        LogEvent::dispatchDelete($entity, $request, __('general.media.deleted'));
+
+        return back();
     }
-
-
 
     /**
      * Display the specified resource.
      *
-     * @param Coupon $coupon
-     * @return View
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function destroy(Coupon $coupon): View
+    public function clearGarbage(Request $request): RedirectResponse
     {
-        $coupon->load('creator');
+        $dbMedias = Media::withTrashed()->get();
 
-        return view('backoffice.admin.coupons.show', compact('coupon'));
+        foreach (MediaTypeEnum::values() as $media)
+        {
+            $files = Storage::disk('public')->files($media);
+
+            foreach ($files as $file)
+            {
+                $flag = true;
+                if($dbMedias->contains(fn (Media $media) => $media->name === $file)) $flag = false;
+
+                if($flag) Storage::disk('public')->delete($file);
+            }
+        }
+
+        LogEvent::dispatchOther(Auth::user(), $request, __('general.media.garbage_cleared'));
+
+        return back();
     }
 }

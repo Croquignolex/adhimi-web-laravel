@@ -28,6 +28,12 @@
                 <div class="text-secondary">@lang('field.description')</div>
                 <div class="mt-25 mb-1"> {{ $media->description }}</div>
             </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#delete-modal-{{ $media->id }}">
+                    <i data-feather="trash"></i>
+                    @lang('field.delete')
+                </button>
+            </div>
         </div>
     </div>
 @empty
@@ -43,3 +49,21 @@
 <div class="col-12">
     {{ $medias->links('partials.backoffice.pagination') }}
 </div>
+
+@foreach($medias as $media)
+    @component('components.modal', [
+        'color' => 'danger',
+        'id' => "delete-modal-" . $media->id,
+        'size' => 'modal-sm',
+        'title' => __('general.media.delete'),
+    ])
+        <p>@lang('general.media.delete_question')?</p>
+        <form action="{{ route('admin.medias.destroy', [$media]) }}" method="POST" class="text-right mt-50">
+            @csrf
+            @method('delete')
+            <button type="submit" class="btn btn-danger">
+                @lang('general.yes')
+            </button>
+        </form>
+    @endcomponent
+@endforeach

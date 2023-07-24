@@ -217,7 +217,7 @@ trait ProfileTrait
 
         $authUser->avatar()->delete();
 
-        LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_avatar_deleted'));
+        LogEvent::dispatchDelete($authUser, $request, __('general.profile.profile_avatar_deleted'));
 
         return back();
     }

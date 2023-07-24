@@ -14,6 +14,7 @@ return [
     'type' => 'Type',
     'value' => 'Valeur',
     'group' => 'Groupe',
+    'clear' => 'Nettoyer',
     'local' => 'En local',
     'online' => 'En ligne',
     'url' => 'Url public',

@@ -290,9 +290,10 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          * @resource medias
          * @controller medias
          */
-        Route::resource('medias', MediaController::class)->only(['index', 'show', 'destroy']);
+        Route::resource('medias', MediaController::class)->only(['index', 'destroy']);
         Route::controller(MediaController::class)->prefix('medias')->name('medias.')->group(function () {
             Route::get('type/{media_type_enum}', 'indexMediaType')->name('index.type');
+            Route::delete('clear/garbage', 'clearGarbage')->name('garbage');
         });
     });
 });

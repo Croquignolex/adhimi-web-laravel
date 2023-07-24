@@ -84,6 +84,12 @@ return [
         'logos' => "Logos",
         'videos' => "Videos",
         'documents' => "Documents",
+        'delete' => "Supprimer ce média",
+        'delete_question' => 'Voulez-vous vraiment supprimer ce média',
+        'deleted' => 'Média supprimé avec succès',
+        'clear_garbage' => 'Nettoyer les fichiers inutilisés',
+        'clear_garbage_question' => 'Voulez-vous vraiment nettoyer les fichiers inutilisés',
+        'garbage_cleared' => 'Fichiers inutilisés nettoyés avec succès',
     ],
 
     'login' => [
