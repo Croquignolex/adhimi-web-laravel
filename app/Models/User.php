@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use App\Traits\Models\MorphOneDefaultAddressTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Models\BelongsToOrganisationTrait;
@@ -48,8 +47,7 @@ class User extends Authenticatable
         MorphOneAvatarTrait,
         UserStatusBadgeTrait,
         BelongsToCreatorTrait,
-        BelongsToOrganisationTrait,
-        MorphOneDefaultAddressTrait;
+        BelongsToOrganisationTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -60,6 +58,7 @@ class User extends Authenticatable
         'name',
         'slug',
         'email',
+        'phone',
         'password',
         'status',
         'description',

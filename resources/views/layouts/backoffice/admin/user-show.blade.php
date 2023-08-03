@@ -50,6 +50,10 @@
                                             <td>{{ $user->email }}</td>
                                         </tr>
                                         <tr>
+                                            <th>@lang('field.phone')</th>
+                                            <td>{{ $user->phone }}</td>
+                                        </tr>
+                                        <tr>
                                             <th>@lang('field.role')</th>
                                             <td>@include('partials.backoffice.role-badge', ['model' => $user])</td>
                                         </tr>

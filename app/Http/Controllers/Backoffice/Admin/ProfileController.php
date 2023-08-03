@@ -36,18 +36,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show update address form
-     *
-     * @return View
-     */
-    public function showAddressForm(): View
-    {
-        $user = Auth::user()->load('defaultAddress.state.country');
-
-        return view('backoffice.admin.profile.address', compact('user'));
-    }
-
-    /**
      * Show update avatar form
      *
      * @return View

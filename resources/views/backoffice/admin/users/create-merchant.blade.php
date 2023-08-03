@@ -30,6 +30,13 @@
                                                'route' => route('api.organisations.index') . '?q=free',
                                             ])
                                         </div>
+                                        <div class="col-12 col-sm-6">
+                                            @include('partials.input.text', [
+                                                'label' => __('field.email'),
+                                                'field' => 'email',
+                                                'required' => true,
+                                            ])
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-sm-6">
@@ -41,9 +48,8 @@
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             @include('partials.input.text', [
-                                                'label' => __('field.email'),
-                                                'field' => 'email',
-                                                'required' => true,
+                                                'label' => __('field.phone'),
+                                                'field' => 'phone',
                                             ])
                                         </div>
                                         <div class="col-12">

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Backoffice\Admin;
 
+use App\Enums\GeneralStatusEnum;
+use App\Http\Requests\Brand\StoreBrandRequest;
+use App\Http\Requests\Customer\StoreCustomerRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Events\LogEvent;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -28,6 +32,47 @@ class CustomerController extends Controller
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.customers.index', compact(['customers', 'q']));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        return view('backoffice.admin.customers.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreCustomerRequest $request
+     * @return RedirectResponse
+     */
+    public function store(StoreCustomerRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $authUser = Auth::user();
+
+        $status = $authUser->is_admin ? GeneralStatusEnum::Enable : GeneralStatusEnum::StandBy;
+
+        $customer = $authUser->createdCustomers()->create([
+            'status' => $status,
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'profession' => $validated['profession'],
+            'phone' => $validated['phone'],
+            'gender' => $validated['gender'],
+            'birthdate' => $validated['birthdate'],
+            'description' => $validated['description'],
+        ]);
+
+        LogEvent::dispatchCreate($customer, $request, __('general.customer.created', ['name' => $customer->first_name]));
+
+        return redirect(route('admin.customers.show', [$customer]));
     }
 
     /**

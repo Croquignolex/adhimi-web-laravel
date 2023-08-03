@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('email')->unique();
+            $table->string('phone')->nullable();
             $table->string('password');
             $table->boolean('default_password')->default(true);
             $table->text('description')->nullable();

@@ -266,6 +266,7 @@ class ShopController extends Controller
         $manager = $shop->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'organisation_id' => $shop->organisation->id,
             'creator_id' => $authUser->id,
@@ -305,6 +306,7 @@ class ShopController extends Controller
         $seller = $shop->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'organisation_id' => $shop->organisation->id,
             'creator_id' => $authUser->id,

@@ -26,6 +26,7 @@ class StoreAddMerchantRequest extends FormRequest
         return [
             'name' => "required|string|unique:users,name",
             'email' => "required|email|unique:users,email",
+            'phone' => "nullable|string",
             'description' => "nullable|string",
         ];
     }

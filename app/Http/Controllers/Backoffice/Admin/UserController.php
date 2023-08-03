@@ -64,6 +64,7 @@ class UserController extends Controller
         $admin = $authUser->createdUsers()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
         ]);
 
@@ -106,6 +107,7 @@ class UserController extends Controller
         $merchant = $organisation->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'creator_id' => $authUser->id,
         ]);
@@ -150,6 +152,7 @@ class UserController extends Controller
         $manager = $organisation->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'shop_id' => $validated['shop'],
             'creator_id' => $authUser->id,
@@ -187,6 +190,7 @@ class UserController extends Controller
         $seller = $authUser->createdUsers()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'shop_id' => $validated['shop'],
             'organisation_id' => $validated['organisation'],

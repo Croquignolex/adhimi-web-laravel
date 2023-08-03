@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class StoreCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', Rule::unique('organisations', 'name')->ignore($this->organisation)],
-            'email' => "nullable|email",
-            'website' => "nullable|string",
-            'phone' => "nullable|string",
+            'name' => "required|string|unique:groups,name",
             'description' => "nullable|string",
             'seo_title' => "nullable|string",
             'seo_description' => "nullable|string",

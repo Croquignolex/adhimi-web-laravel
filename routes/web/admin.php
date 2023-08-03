@@ -6,6 +6,7 @@ use App\Http\Controllers\Backoffice\Admin\AttributeController;
 use App\Http\Controllers\Backoffice\Admin\CustomerController;
 use App\Http\Controllers\Backoffice\Admin\CategoryController;
 use App\Http\Controllers\Backoffice\Admin\CountryController;
+use App\Http\Controllers\Backoffice\Admin\ProductController;
 use App\Http\Controllers\Backoffice\Admin\ProfileController;
 use App\Http\Controllers\Backoffice\Admin\VendorController;
 use App\Http\Controllers\Backoffice\Admin\CouponController;
@@ -82,7 +83,7 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
          * @resource customers
          * @controller customers
          */
-        Route::resource('customers', CustomerController::class)->only(['index', 'show']);
+        Route::resource('customers', CustomerController::class)->only(['index', 'create', 'store', 'show']);
         Route::controller(CustomerController::class)->prefix('customers')->name('customers.')->group(function () {
             Route::get('{customer}/logs', 'showLogs')->name('show.logs');
             Route::get('{customer}/ratings', 'showRatings')->name('show.ratings');
@@ -99,6 +100,18 @@ Route::middleware('redirect:auth')->prefix('admin')->name('admin.')->group(funct
         Route::controller(RatingController::class)->prefix('ratings')->name('ratings.')->group(function () {
             Route::get('{rating}/logs', 'showLogs')->name('show.logs');
             Route::post('{rating}/status-toggle', 'statusToggle')->name('status.toggle');
+        });
+
+        /**
+         * @resource products
+         * @controller products
+         */
+        Route::resource('products', ProductController::class)->except('destroy');
+        Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function () {
+            Route::get('{product}/logs', 'showLogs')->name('show.logs');
+            Route::post('{product}/status-toggle', 'statusToggle')->name('status.toggle');
+            Route::get('{product}/add-inventory', 'showAddInventoryForm')->name('add.inventory');
+            Route::post('{product}/add-inventory', 'addInventory');
         });
     });
 

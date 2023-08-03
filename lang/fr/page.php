@@ -149,6 +149,7 @@ return [
 
     'customers' => [
         'customers' => 'Clients',
+        'new' => 'Nouveau client',
         'all' => 'Tous les clients',
         'detail' => 'Détail du client',
     ],

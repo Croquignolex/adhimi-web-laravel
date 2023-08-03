@@ -32,6 +32,7 @@ trait ProfileTrait
 
         $authUser->update([
             'name' => $validated['name'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
         ]);
 
@@ -113,53 +114,6 @@ trait ProfileTrait
         ]);
 
         LogEvent::dispatchOther($authUser, $request, __('general.profile.settings_updated'));
-
-        return back();
-    }
-
-    /**
-     * Update profile default address
-     *
-     * @param UpdateAddressRequest $request
-     * @return RedirectResponse
-     */
-    public function defaultAddressUpdate(UpdateAddressRequest $request): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        $authUser = Auth::user();
-
-        $address = $authUser->defaultAddress;
-
-        if($address)
-        {
-            $address->update([
-                'street_address' => $validated['street_address'],
-                'street_address_plus' => $validated['street_address_plus'],
-                'zipcode' => $validated['zipcode'],
-                'phone_number_one' => $validated['phone_number_one'],
-                'phone_number_two' => $validated['phone_number_two'],
-                'description' => $validated['description'],
-                'state_id' => $validated['state'],
-            ]);
-
-            LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_default_address_updated'));
-        }
-        else
-        {
-            $authUser->defaultAddress()->create([
-                'street_address' => $validated['street_address'],
-                'street_address_plus' => $validated['street_address_plus'],
-                'zipcode' => $validated['zipcode'],
-                'phone_number_one' => $validated['phone_number_one'],
-                'phone_number_two' => $validated['phone_number_two'],
-                'description' => $validated['description'],
-                'state_id' => $validated['state'],
-                'creator_id' => $authUser->id,
-            ]);
-
-            LogEvent::dispatchOther($authUser, $request, __('general.profile.profile_default_address_created'));
-        }
 
         return back();
     }

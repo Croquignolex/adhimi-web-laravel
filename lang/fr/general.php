@@ -156,6 +156,10 @@ return [
         'delete_flag' => 'Supprimer le drapeau du pays',
     ],
 
+    'customer' => [
+        'created' => 'Client :name créer',
+    ],
+
     'brand' => [
         'created' => 'Marque :name créer',
         'updated' => 'Marque :name mise à jour',
@@ -236,9 +240,10 @@ return [
         'designed_by' => 'Design par',
     ],
 
-    'sex' => [
+    'gender' => [
         'male' => 'Masculin',
         'female' => 'Féminin',
+        'unknown' => 'Inconnu',
     ],
 
 ];

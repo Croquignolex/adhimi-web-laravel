@@ -148,12 +148,28 @@
                 </ul>
             </li>
 
-            {{-- Customer menu --}}
-            <li class="{{ active_page('admin.customers.index') }} nav-item">
-                <a class="d-flex align-items-center" href="{{ route('admin.customers.index') }}">
+            {{-- Customers menu --}}
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="javascript:void(0);">
                     <i data-feather="users"></i>
-                    <span class="menu-title text-truncate">@lang('page.customers.all')</span>
+                    <span class="menu-title text-truncate">@lang('page.customers.customers')</span>
                 </a>
+                <ul class="menu-content">
+                    {{-- All customer menu item --}}
+                    <li class="{{ active_page('admin.customers.index') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.customers.index') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.customers.all')</span>
+                        </a>
+                    </li>
+                    {{-- New custome menu item --}}
+                    <li class="{{ active_page('admin.customers.create') }}">
+                        <a class="d-flex align-items-center" href="{{ route('admin.customers.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item">@lang('page.customers.new')</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             @if(auth()->user()->hasRole([\App\Enums\UserRoleEnum::SuperAdmin->value, \App\Enums\UserRoleEnum::Admin->value, \App\Enums\UserRoleEnum::Merchant->value, \App\Enums\UserRoleEnum::ShopManager->value]))
@@ -240,14 +256,14 @@
                         <span class="menu-title text-truncate">@lang('page.attributes.attributes')</span>
                     </a>
                     <ul class="menu-content">
-                        {{-- All atributes menu item --}}
+                        {{-- All attributes menu item --}}
                         <li class="{{ active_page('admin.attributes.index') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.attributes.index') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item">@lang('page.attributes.all')</span>
                             </a>
                         </li>
-                        {{-- New atribute menu item --}}
+                        {{-- New attribute menu item --}}
                         <li class="{{ active_page('admin.attributes.create') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.attributes.create') }}">
                                 <i data-feather="circle"></i>
@@ -264,18 +280,42 @@
                         <span class="menu-title text-truncate">@lang('page.attribute_values.attribute_values')</span>
                     </a>
                     <ul class="menu-content">
-                        {{-- All atribute values menu item --}}
-                        <li class="{{ active_page('admin..attribute-values.index') }}">
+                        {{-- All attribute values menu item --}}
+                        <li class="{{ active_page('admin.attribute-values.index') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.attribute-values.index') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item">@lang('page.attribute_values.all')</span>
                             </a>
                         </li>
-                        {{-- New atribute value item --}}
-                        <li class="{{ active_page('admin..attribute-values.create') }}">
+                        {{-- New attribute value item --}}
+                        <li class="{{ active_page('admin.attribute-values.create') }}">
                             <a class="d-flex align-items-center" href="{{ route('admin.attribute-values.create') }}">
                                 <i data-feather="circle"></i>
                                 <span class="menu-item">@lang('page.attribute_values.new')</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- Products menu --}}
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="javascript:void(0);">
+                        <i data-feather="shopping-cart"></i>
+                        <span class="menu-title text-truncate">@lang('page.products.products')</span>
+                    </a>
+                    <ul class="menu-content">
+                        {{-- All products values menu item --}}
+                        <li class="{{ active_page('admin.products.index') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.products.index') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.products.all')</span>
+                            </a>
+                        </li>
+                        {{-- New product value item --}}
+                        <li class="{{ active_page('admin.products.create') }}">
+                            <a class="d-flex align-items-center" href="{{ route('admin.products.create') }}">
+                                <i data-feather="circle"></i>
+                                <span class="menu-item">@lang('page.products.new')</span>
                             </a>
                         </li>
                     </ul>

@@ -2,6 +2,7 @@
 
 namespace App\Traits\Models;
 
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\InventoryHistory;
 use App\Models\AttributeValue;
@@ -110,6 +111,16 @@ trait UserCreationsTrait
     public function createdCountries(): HasMany
     {
         return $this->hasMany(Country::class, 'creator_id');
+    }
+
+    /**
+     * Get created customers associated with the user.
+     *
+     * @return HasMany
+     */
+    public function createdCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'creator_id');
     }
 
     /**

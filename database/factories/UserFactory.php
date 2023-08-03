@@ -21,6 +21,7 @@ class UserFactory extends Factory
             'name' => $this->faker->firstName(),
             'slug' => $this->faker->unique()->slug(),
             'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->phoneNumber(),
             'description' => $this->faker->text(),
             'default_password' => $this->faker->boolean
         ];

@@ -32,6 +32,14 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            @include('partials.input.label', ['label' => __('field.email'), 'field' => 'email'])
+                            <input type="text" class="form-control" value="{{ $user->email }}" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6">
                         @include('partials.input.text', [
                             'value' => $user->name,
                             'label' => __('field.name'),
@@ -40,10 +48,11 @@
                         ])
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="form-group">
-                            @include('partials.input.label', ['label' => __('field.email'), 'field' => 'email'])
-                            <input type="text" class="form-control" value="{{ $user->email }}" disabled />
-                        </div>
+                        @include('partials.input.text', [
+                            'value' => $user->phone,
+                            'label' => __('field.phone'),
+                            'field' => 'phone',
+                        ])
                     </div>
                     <div class="col-12">
                         @include('partials.input.textarea', ['value' => $user->description])

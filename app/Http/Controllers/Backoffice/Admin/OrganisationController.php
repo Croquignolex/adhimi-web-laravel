@@ -139,7 +139,7 @@ class OrganisationController extends Controller
         $query = $organisation->users()->allowed();
 
         $users = ($q)
-            ? $query->search($q)->orderBy('first_name')->get()
+            ? $query->search($q)->orderBy('name')->get()
             : $query->orderBy('created_at', 'desc')->paginate();
 
         return view('backoffice.admin.organisations.show-users', compact(['organisation', 'users', 'q']));
@@ -385,6 +385,7 @@ class OrganisationController extends Controller
         $merchant = $organisation->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'creator_id' => $authUser->id,
         ]);
@@ -433,6 +434,7 @@ class OrganisationController extends Controller
         $manager = $organisation->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'shop_id' => $validated['shop'],
             'creator_id' => $authUser->id,
@@ -472,6 +474,7 @@ class OrganisationController extends Controller
         $seller = $organisation->users()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'description' => $validated['description'],
             'shop_id' => $validated['shop'],
             'creator_id' => $authUser->id,
